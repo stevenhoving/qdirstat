@@ -675,6 +675,8 @@ void DirInfo::dropSortCache( bool recursive )
 		_dotEntry->dropSortCache( recursive );
 	}
     }
+
+    _lastSortCol = UndefinedCol;
 }
 
 
