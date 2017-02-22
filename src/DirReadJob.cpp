@@ -466,6 +466,8 @@ DirReadJobQueue::~DirReadJobQueue()
 
 void DirReadJobQueue::enqueue( DirReadJob * job )
 {
+    static int count = 0;
+
     if ( job )
     {
 	_queue.append( job );
@@ -475,8 +477,11 @@ void DirReadJobQueue::enqueue( DirReadJob * job )
 	{
 	    // logDebug() << "First job queued" << endl;
 	    emit startingReading();
-	    _timer.start( 0 );
+            _timer.start( 0 );
 	}
+
+        if ( ++count == 500 )
+            _timer.start( 200 );
     }
 }
 
