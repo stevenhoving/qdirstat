@@ -37,7 +37,7 @@
      <x>0</x>
      <y>0</y>
      <width>1157</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -90,7 +90,7 @@
    </widget>
    <widget class="QMenu" name="menuTreemap">
     <property name="title">
-     <string>Tree&amp;map</string>
+     <string>&amp;Treemap</string>
     </property>
     <addaction name="actionShowTreemap"/>
     <addaction name="actionTreemapAsSidePanel"/>
@@ -159,6 +159,30 @@
    <addaction name="actionResetTreemapZoom"/>
    <addaction name="separator"/>
    <addaction name="actionMoveToTrash"/>
+  </widget>
+  <widget class="QDockWidget" name="fileTypeStatsDock">
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>File T&amp;ype Statistics</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="fileTypesDockContent_3"/>
+  </widget>
+  <widget class="QDockWidget" name="locateFilesDock">
+   <property name="allowedAreas">
+    <set>Qt::BottomDockWidgetArea|Qt::TopDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>&amp;Locate Files with Type</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="locateFilesDockContent"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -595,7 +619,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Treeemap as side panel</string>
+    <string>&amp;Treeemap as side panel</string>
    </property>
    <property name="toolTip">
     <string>Show the Treeemap beside the directory tree, otherwise it will be shown beneath.</string>
