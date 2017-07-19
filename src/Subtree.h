@@ -1,9 +1,9 @@
 /*
  *   File name: Subtree.h
- *   Summary:	Support classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Support classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -158,9 +158,9 @@ namespace QDirStat
 
         bool      _useRootFallback;
 
-    };	// class Subtree
+    };    // class Subtree
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
 
 #endif // ifndef Subtree_h

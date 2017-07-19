@@ -1,9 +1,9 @@
 /*
  *   File name: MainWindow.h
- *   Summary:	QDirStat main window
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat main window
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -296,18 +296,18 @@ protected:
 
 private:
 
-    Ui::MainWindow		* _ui;
-    QDirStat::DirTreeModel	* _dirTreeModel;
-    QDirStat::SelectionModel	* _selectionModel;
+    Ui::MainWindow        * _ui;
+    QDirStat::DirTreeModel    * _dirTreeModel;
+    QDirStat::SelectionModel    * _selectionModel;
     QDirStat::CleanupCollection * _cleanupCollection;
-    QDirStat::MimeCategorizer	* _mimeCategorizer;
-    QDirStat::ConfigDialog	* _configDialog;
+    QDirStat::MimeCategorizer    * _mimeCategorizer;
+    QDirStat::ConfigDialog    * _configDialog;
     QPointer<FileTypeStatsWindow> _fileTypeStatsWindow;
-    QElapsedTimer		  _stopWatch;
-    bool			  _modified;
-    bool			  _verboseSelection;
-    int				  _statusBarTimeout; // millisec
-    QSignalMapper	       * _treeLevelMapper;
+    QElapsedTimer          _stopWatch;
+    bool              _modified;
+    bool              _verboseSelection;
+    int                  _statusBarTimeout; // millisec
+    QSignalMapper           * _treeLevelMapper;
 };
 
 #endif // MainWindow_H

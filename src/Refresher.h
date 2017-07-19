@@ -1,9 +1,9 @@
 /*
  *   File name: Refresher.h
- *   Summary:	Helper class to refresh a number of subtrees
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Helper class to refresh a number of subtrees
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -34,42 +34,42 @@ namespace QDirStat
      **/
     class Refresher: public QObject
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Create a Refresher that will refresh all subtrees in 'items' it its
-	 * refresh() slot.
-	 *
-	 * All items are assumed to belong to the same DirTree.
-	 **/
-	Refresher( const FileInfoSet items, QObject * parent );
+    /**
+     * Create a Refresher that will refresh all subtrees in 'items' it its
+     * refresh() slot.
+     *
+     * All items are assumed to belong to the same DirTree.
+     **/
+    Refresher( const FileInfoSet items, QObject * parent );
 
-	/**
-	 * Return a FileInfoSet of all parents of all items of 'children'.
-	 * If a parent is a dot entry, use the true parent, i.e. the dot
-	 * entry's parent.
-	 **/
-	static FileInfoSet parents( const FileInfoSet children );
+    /**
+     * Return a FileInfoSet of all parents of all items of 'children'.
+     * If a parent is a dot entry, use the true parent, i.e. the dot
+     * entry's parent.
+     **/
+    static FileInfoSet parents( const FileInfoSet children );
 
     public slots:
 
-	/**
-	 * Refresh all subtrees in the internal FileInfoSet.
-	 * After this is done, this object will delete itself.
-	 **/
-	void refresh();
+    /**
+     * Refresh all subtrees in the internal FileInfoSet.
+     * After this is done, this object will delete itself.
+     **/
+    void refresh();
 
     protected:
-	/**
-	 * Convert the items to string for logging.
-	 **/
-	QString itemsToString() const;
+    /**
+     * Convert the items to string for logging.
+     **/
+    QString itemsToString() const;
 
-	FileInfoSet _items;
+    FileInfoSet _items;
         DirTree *   _tree;
     };
-}	// namespace QDirStat
+}    // namespace QDirStat
 
-#endif	// Refresher_h
+#endif    // Refresher_h

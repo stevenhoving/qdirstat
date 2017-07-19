@@ -1,9 +1,9 @@
 /*
  *   File name: FileTypeStats.h
- *   Summary:	Statistics classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Statistics classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -25,12 +25,12 @@ namespace QDirStat
     class MimeCategorizer;
     class MimeCategory;
 
-    typedef QMap<QString, FileSize>		StringFileSizeMap;
-    typedef QMap<QString, int>			StringIntMap;
-    typedef QMap<MimeCategory *, FileSize>	CategoryFileSizeMap;
-    typedef QMap<MimeCategory *, int>		CategoryIntMap;
+    typedef QMap<QString, FileSize>        StringFileSizeMap;
+    typedef QMap<QString, int>            StringIntMap;
+    typedef QMap<MimeCategory *, FileSize>    CategoryFileSizeMap;
+    typedef QMap<MimeCategory *, int>        CategoryIntMap;
 
-    typedef StringFileSizeMap::const_iterator	StringFileSizeMapIterator;
+    typedef StringFileSizeMap::const_iterator    StringFileSizeMapIterator;
     typedef CategoryFileSizeMap::const_iterator CategoryFileSizeMapIterator;
 
 
@@ -41,153 +41,153 @@ namespace QDirStat
      **/
     class FileTypeStats: public QObject
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Constructor.
-	 **/
-	FileTypeStats( QObject * parent = 0 );
+    /**
+     * Constructor.
+     **/
+    FileTypeStats( QObject * parent = 0 );
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~FileTypeStats();
+    /**
+     * Destructor.
+     **/
+    virtual ~FileTypeStats();
 
     public slots:
 
         /**
          * Calculate the statistics from a new subtree.
          **/
-	void calc( FileInfo * subtree );
+    void calc( FileInfo * subtree );
 
-	/**
-	 * Clear all data.
-	 **/
-	void clear();
+    /**
+     * Clear all data.
+     **/
+    void clear();
 
     signals:
 
-	/**
-	 * Emitted when the calculation is finished. This is useful when the
-	 * calc() slot is connected to some outside signal to recalculate the
-	 * contents. calc() itself is synchronous, i.e. it only returns when
-	 * the calculation is finished.
-	 **/
-	void calcFinished() const;
+    /**
+     * Emitted when the calculation is finished. This is useful when the
+     * calc() slot is connected to some outside signal to recalculate the
+     * contents. calc() itself is synchronous, i.e. it only returns when
+     * the calculation is finished.
+     **/
+    void calcFinished() const;
 
     public:
 
-	/**
-	 * Return the number of files in the tree with the specified suffix.
-	 **/
-	int suffixCount( const QString & suffix ) const;
+    /**
+     * Return the number of files in the tree with the specified suffix.
+     **/
+    int suffixCount( const QString & suffix ) const;
 
-	/**
-	 * Return the total file size of files in the tree with the specified
-	 * suffix.
-	 **/
-	FileSize suffixSum( const QString & suffix ) const;
+    /**
+     * Return the total file size of files in the tree with the specified
+     * suffix.
+     **/
+    FileSize suffixSum( const QString & suffix ) const;
 
-	/**
-	 * Return the number of files in the tree with the specified category.
-	 **/
-	int categoryCount( MimeCategory * category ) const;
+    /**
+     * Return the number of files in the tree with the specified category.
+     **/
+    int categoryCount( MimeCategory * category ) const;
 
-	/**
-	 * Return the total file size of files in the tree with the specified
-	 * category.
-	 **/
-	FileSize categorySum( MimeCategory * category ) const;
+    /**
+     * Return the total file size of files in the tree with the specified
+     * category.
+     **/
+    FileSize categorySum( MimeCategory * category ) const;
 
-	/**
-	 * Return the category for the specified suffix or 0 if there is none.
-	 **/
-	MimeCategory * category( const QString & suffix ) const;
+    /**
+     * Return the category for the specified suffix or 0 if there is none.
+     **/
+    MimeCategory * category( const QString & suffix ) const;
 
-	/**
-	 * Return the special category for "other", i.e. unclassified files.
-	 **/
-	MimeCategory * otherCategory() const { return _otherCategory; }
+    /**
+     * Return the special category for "other", i.e. unclassified files.
+     **/
+    MimeCategory * otherCategory() const { return _otherCategory; }
 
-	/**
-	 * Return the total size of the tree.
-	 **/
-	FileSize totalSize() const { return _totalSize; }
+    /**
+     * Return the total size of the tree.
+     **/
+    FileSize totalSize() const { return _totalSize; }
 
-	/**
-	 * Return the percentage of 'size' of the tree total size.
-	 **/
-	double percentage( FileSize size ) const;
+    /**
+     * Return the percentage of 'size' of the tree total size.
+     **/
+    double percentage( FileSize size ) const;
 
-	//
-	// Iterators
-	//
+    //
+    // Iterators
+    //
 
-	StringFileSizeMapIterator suffixSumBegin() const
-	    { return _suffixSum.constBegin(); }
+    StringFileSizeMapIterator suffixSumBegin() const
+        { return _suffixSum.constBegin(); }
 
-	StringFileSizeMapIterator suffixSumEnd() const
-	    { return _suffixSum.constEnd(); }
+    StringFileSizeMapIterator suffixSumEnd() const
+        { return _suffixSum.constEnd(); }
 
-	CategoryFileSizeMapIterator categorySumBegin() const
-	    { return _categorySum.constBegin(); }
+    CategoryFileSizeMapIterator categorySumBegin() const
+        { return _categorySum.constBegin(); }
 
-	CategoryFileSizeMapIterator categorySumEnd() const
-	    { return _categorySum.constEnd(); }
+    CategoryFileSizeMapIterator categorySumEnd() const
+        { return _categorySum.constEnd(); }
 
     protected:
 
-	/**
-	 * Collect information from the associated widget tree:
-	 *
-	 * Recursively go through the tree and collect sizes for each file type
-	 * (filename extension).
-	 **/
-	void collect( FileInfo * dir );
+    /**
+     * Collect information from the associated widget tree:
+     *
+     * Recursively go through the tree and collect sizes for each file type
+     * (filename extension).
+     **/
+    void collect( FileInfo * dir );
 
-	/**
-	 * Remove useless content from the maps. On a Linux system, there tend
-	 * to be a lot of files that have a '.' in the name, but it's not a
-	 * meaningful suffix but a general-purpose separator for dates, SHAs,
-	 * version numbers or whatever. All that stuff accumulates in the maps,
-	 * and it's typically just a single file with that non-suffix. This
-	 * function tries a best effort to get rid of that stuff.
-	 **/
-	void removeCruft();
+    /**
+     * Remove useless content from the maps. On a Linux system, there tend
+     * to be a lot of files that have a '.' in the name, but it's not a
+     * meaningful suffix but a general-purpose separator for dates, SHAs,
+     * version numbers or whatever. All that stuff accumulates in the maps,
+     * and it's typically just a single file with that non-suffix. This
+     * function tries a best effort to get rid of that stuff.
+     **/
+    void removeCruft();
 
-	/**
-	 * Remove empty suffix entries from the internal maps.
-	 **/
-	void removeEmpty();
+    /**
+     * Remove empty suffix entries from the internal maps.
+     **/
+    void removeEmpty();
 
-	/**
-	 * Check if a suffix is cruft, i.e. a nonstandard suffix that is not
-	 * useful for display.
-	 *
-	 * Notice that this is a highly heuristical algorithm that might give
-	 * false positives.
-	 **/
-	bool isCruft( const QString & suffix ) const;
+    /**
+     * Check if a suffix is cruft, i.e. a nonstandard suffix that is not
+     * useful for display.
+     *
+     * Notice that this is a highly heuristical algorithm that might give
+     * false positives.
+     **/
+    bool isCruft( const QString & suffix ) const;
 
-	/**
-	 * Check if the sums add up and how much is unaccounted for.
-	 **/
-	void sanityCheck();
+    /**
+     * Check if the sums add up and how much is unaccounted for.
+     **/
+    void sanityCheck();
 
 
-	//
-	// Data members
-	//
+    //
+    // Data members
+    //
 
-	MimeCategory *		_otherCategory;
-	MimeCategorizer *	_mimeCategorizer;
+    MimeCategory *        _otherCategory;
+    MimeCategorizer *    _mimeCategorizer;
 
-	StringFileSizeMap	_suffixSum;
-	StringIntMap		_suffixCount;
-	CategoryFileSizeMap	_categorySum;
-	CategoryIntMap		_categoryCount;
+    StringFileSizeMap    _suffixSum;
+    StringIntMap        _suffixCount;
+    CategoryFileSizeMap    _categorySum;
+    CategoryIntMap        _categoryCount;
 
         FileSize                _totalSize;
     };

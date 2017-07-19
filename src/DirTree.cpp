@@ -1,9 +1,9 @@
 /*
  *   File name: DirTree.cpp
- *   Summary:	Support classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Support classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -27,15 +27,15 @@ DirTree::DirTree()
     _root = new DirInfo( this );
     CHECK_NEW( _root );
 
-    connect( & _jobQueue, SIGNAL( finished()	 ),
-	     this,	  SLOT	( slotFinished() ) );
+    connect( & _jobQueue, SIGNAL( finished()     ),
+         this,      SLOT    ( slotFinished() ) );
 }
 
 
 DirTree::~DirTree()
 {
     if ( _root )
-	delete _root;
+    delete _root;
 }
 
 
@@ -43,9 +43,9 @@ void DirTree::setRoot( DirInfo *newRoot )
 {
     if ( _root )
     {
-	emit deletingChild( _root );
-	delete _root;
-	emit childDeleted();
+    emit deletingChild( _root );
+    delete _root;
+    emit childDeleted();
     }
 
     _root = newRoot;
@@ -78,8 +78,8 @@ void DirTree::clear()
 
     if ( _root )
     {
-	emit clearing();
-	_root->clear();
+    emit clearing();
+    _root->clear();
     }
 
     _isBusy = false;
@@ -92,13 +92,13 @@ void DirTree::startReading( const QString & rawUrl )
     QFileInfo fileInfo( rawUrl );
     QString url = fileInfo.absoluteFilePath();
     // logDebug() << "rawUrl: \"" << rawUrl << "\"" << endl;
-    logInfo() << "   url: \"" << url	 << "\"" << endl;
+    logInfo() << "   url: \"" << url     << "\"" << endl;
     const MountPoint * mountPoint = MountPoints::findNearestMountPoint( url );
     _device = mountPoint ? mountPoint->device() : "";
     logInfo() << "device: " << _device << endl;
 
     if ( _root->hasChildren() )
-	clear();
+    clear();
 
     _isBusy = true;
     emit startingReading();
@@ -108,26 +108,26 @@ void DirTree::startReading( const QString & rawUrl )
 
     if ( item )
     {
-	childAddedNotify( item );
+    childAddedNotify( item );
 
-	if ( item->isDirInfo() )
-	{
-	    addJob( new LocalDirReadJob( this, item->toDirInfo() ) );
-	    emit readJobFinished( _root );
-	}
-	else
-	{
-	    _isBusy = false;
-	    emit readJobFinished( _root );
-	    emit finished();
-	}
-    }
-    else	// stat() failed
+    if ( item->isDirInfo() )
     {
-	logWarning() << "stat(" << url << ") failed" << endl;
-	_isBusy = false;
-	emit finished();
-	emit finalizeLocal( 0 );
+        addJob( new LocalDirReadJob( this, item->toDirInfo() ) );
+        emit readJobFinished( _root );
+    }
+    else
+    {
+        _isBusy = false;
+        emit readJobFinished( _root );
+        emit finished();
+    }
+    }
+    else    // stat() failed
+    {
+    logWarning() << "stat(" << url << ") failed" << endl;
+    _isBusy = false;
+    emit finished();
+    emit finalizeLocal( 0 );
     }
 }
 
@@ -141,13 +141,13 @@ void DirTree::refresh( const FileInfoSet & refreshSet )
         // Need to check the magic number here again because a previous
         // iteration step might have made the item invalid already
 
-	if ( item && item->checkMagicNumber() )
-	{
-	    if( item->isDirInfo() )
-		refresh( item->toDirInfo() );
-	    else if ( item->parent() )
-		refresh( item->parent() );
-	}
+    if ( item && item->checkMagicNumber() )
+    {
+        if( item->isDirInfo() )
+        refresh( item->toDirInfo() );
+        else if ( item->parent() )
+        refresh( item->parent() );
+    }
     }
 }
 
@@ -155,23 +155,23 @@ void DirTree::refresh( const FileInfoSet & refreshSet )
 void DirTree::refresh( DirInfo * subtree )
 {
     if ( ! _root )
-	return;
+    return;
 
     if ( ! subtree->checkMagicNumber() )
     {
-	// Not using CHECK_MAGIC() here which would throw an exception since
-	// this might easily happen after cleanup actions with multi selection
-	// if one selected item is in the subtree of another, and that parent
-	// was already refreshed.
+    // Not using CHECK_MAGIC() here which would throw an exception since
+    // this might easily happen after cleanup actions with multi selection
+    // if one selected item is in the subtree of another, and that parent
+    // was already refreshed.
 
-	logWarning() << "Item is no longer valid - not refreshing subtree" << endl;
-	return;
+    logWarning() << "Item is no longer valid - not refreshing subtree" << endl;
+    return;
     }
 
     if ( subtree->isDotEntry() )
-	subtree = subtree->parent();
+    subtree = subtree->parent();
 
-    if ( ! subtree || ! subtree->parent() )	// Refresh all (from first toplevel)
+    if ( ! subtree || ! subtree->parent() )    // Refresh all (from first toplevel)
     {
         try
         {
@@ -182,24 +182,24 @@ void DirTree::refresh( DirInfo * subtree )
             CAUGHT( ex );
         }
     }
-    else	// Refresh subtree
+    else    // Refresh subtree
     {
-	// logDebug() << "Refreshing subtree " << subtree << endl;
+    // logDebug() << "Refreshing subtree " << subtree << endl;
 
-	if ( subtree->hasChildren() )
-	{
-	    emit clearingSubtree( subtree );
-	    subtree->clear();
-	    emit subtreeCleared( subtree );
-	}
+    if ( subtree->hasChildren() )
+    {
+        emit clearingSubtree( subtree );
+        subtree->clear();
+        emit subtreeCleared( subtree );
+    }
 
-	subtree->reset();
-	subtree->setExcluded( false );
+    subtree->reset();
+    subtree->setExcluded( false );
 
-	_isBusy = true;
-	subtree->setReadState( DirReading );
-	emit startingReading();
-	addJob( new LocalDirReadJob( this, subtree ) );
+    _isBusy = true;
+    subtree->setReadState( DirReading );
+    emit startingReading();
+    addJob( new LocalDirReadJob( this, subtree ) );
     }
 }
 
@@ -207,7 +207,7 @@ void DirTree::refresh( DirInfo * subtree )
 void DirTree::abortReading()
 {
     if ( _jobQueue.isEmpty() )
-	return;
+    return;
 
     _jobQueue.abort();
 
@@ -228,7 +228,7 @@ void DirTree::childAddedNotify( FileInfo * newChild )
     emit childAdded( newChild );
 
     if ( newChild->dotEntry() )
-	emit childAdded( newChild->dotEntry() );
+    emit childAdded( newChild->dotEntry() );
 }
 
 
@@ -238,7 +238,7 @@ void DirTree::deletingChildNotify( FileInfo * deletedChild )
     emit deletingChild( deletedChild );
 
     if ( deletedChild == _root )
-	_root = 0;
+    _root = 0;
 }
 
 
@@ -258,51 +258,51 @@ void DirTree::deleteSubtree( FileInfo *subtree )
 
     if ( parent )
     {
-	if ( parent->isDotEntry() && ! parent->hasChildren() )
-	    // This was the last child of a dot entry
-	{
-	    // Get rid of that now empty and useless dot entry
+    if ( parent->isDotEntry() && ! parent->hasChildren() )
+        // This was the last child of a dot entry
+    {
+        // Get rid of that now empty and useless dot entry
 
-	    if ( parent->parent() )
-	    {
-		if ( parent->parent()->isFinished() )
-		{
-		    // logDebug() << "Removing empty dot entry " << parent << endl;
+        if ( parent->parent() )
+        {
+        if ( parent->parent()->isFinished() )
+        {
+            // logDebug() << "Removing empty dot entry " << parent << endl;
 
-		    deletingChildNotify( parent );
-		    parent->parent()->setDotEntry( 0 );
+            deletingChildNotify( parent );
+            parent->parent()->setDotEntry( 0 );
 
-		    delete parent;
+            delete parent;
                     parent = 0;
-		}
-	    }
-	    else	// no parent - this should never happen (?)
-	    {
-		logError() << "Internal error: Killing dot entry without parent " << parent << endl;
+        }
+        }
+        else    // no parent - this should never happen (?)
+        {
+        logError() << "Internal error: Killing dot entry without parent " << parent << endl;
 
-		// Better leave that dot entry alone - we shouldn't have come
-		// here in the first place. Who knows what will happen if this
-		// thing is deleted now?!
-		//
-		// Intentionally NOT calling:
-		//     delete parent;
-	    }
-	}
+        // Better leave that dot entry alone - we shouldn't have come
+        // here in the first place. Who knows what will happen if this
+        // thing is deleted now?!
+        //
+        // Intentionally NOT calling:
+        //     delete parent;
+        }
+    }
     }
 
     if ( parent )
     {
-	// Give the parent of the child to be deleted a chance to unlink the
-	// child from its children list and take care of internal summary
-	// fields
-	parent->deletingChild( subtree );
+    // Give the parent of the child to be deleted a chance to unlink the
+    // child from its children list and take care of internal summary
+    // fields
+    parent->deletingChild( subtree );
     }
 
     delete subtree;
 
     if ( subtree == _root )
     {
-	_root = 0;
+    _root = 0;
     }
 
     emit childDeleted();

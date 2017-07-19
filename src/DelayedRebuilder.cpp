@@ -1,9 +1,9 @@
 /*
  *   File name: DelayedRebuilder.cpp
- *   Summary:	Utility class to handle delayed rebuilding of widgets
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Utility class to handle delayed rebuilding of widgets
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 

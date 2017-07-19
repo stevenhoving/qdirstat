@@ -1,9 +1,9 @@
 /*
  *   File name: BucketsTableModel.h
- *   Summary:	Data model for buckets table
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Data model for buckets table
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -60,32 +60,32 @@ namespace QDirStat
         //
 
         /**
-	 * Return the number of rows (direct tree children) for 'parent'.
-	 **/
-	virtual int rowCount   ( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
+     * Return the number of rows (direct tree children) for 'parent'.
+     **/
+    virtual int rowCount   ( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
 
-	/**
-	 * Return the number of columns for 'parent'.
-	 **/
-	virtual int columnCount( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
+    /**
+     * Return the number of columns for 'parent'.
+     **/
+    virtual int columnCount( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
 
-	/**
-	 * Return data to be displayed for the specified model index and role.
-	 **/
-	virtual QVariant data( const QModelIndex & index, int role ) const Q_DECL_OVERRIDE;
+    /**
+     * Return data to be displayed for the specified model index and role.
+     **/
+    virtual QVariant data( const QModelIndex & index, int role ) const Q_DECL_OVERRIDE;
 
-	/**
-	 * Return header data for the specified section.
-	 **/
-	virtual QVariant headerData( int	     section,
-				     Qt::Orientation orientation,
-				     int	     role ) const Q_DECL_OVERRIDE;
+    /**
+     * Return header data for the specified section.
+     **/
+    virtual QVariant headerData( int         section,
+                     Qt::Orientation orientation,
+                     int         role ) const Q_DECL_OVERRIDE;
 
-	/**
-	 * Return item flags for the specified model index. This specifies if
-	 * the item can be selected, edited etc.
-	 **/
-	virtual Qt::ItemFlags flags( const QModelIndex &index ) const Q_DECL_OVERRIDE;
+    /**
+     * Return item flags for the specified model index. This specifies if
+     * the item can be selected, edited etc.
+     **/
+    virtual Qt::ItemFlags flags( const QModelIndex &index ) const Q_DECL_OVERRIDE;
 
 
     protected:

@@ -1,9 +1,9 @@
 /*
  *   File name: HeaderTweaker.cpp
- *   Summary:	Helper class for DirTreeView
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Helper class for DirTreeView
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -37,10 +37,10 @@ HeaderTweaker::HeaderTweaker( QHeaderView * header, DirTreeView * parent ):
     createActions();
 
     connect( _header, SIGNAL( sectionCountChanged( int, int ) ),
-	     this,    SLOT  ( initHeader()		      ) );
+         this,    SLOT  ( initHeader()              ) );
 
     connect( _header, SIGNAL( customContextMenuRequested( const QPoint & ) ),
-	     this,    SLOT  ( contextMenu		( const QPoint & ) ) );
+         this,    SLOT  ( contextMenu        ( const QPoint & ) ) );
 }
 
 
@@ -76,8 +76,8 @@ void HeaderTweaker::createActions()
     _actionAutoSizeCurrentCol = new QAction( tr( "A&uto Size" ), this );
     _actionAutoSizeCurrentCol->setCheckable( true );
 
-    connect( _actionAutoSizeCurrentCol, SIGNAL( toggled		  ( bool ) ),
-	     this,			SLOT  ( autoSizeCurrentCol()	   ) );
+    connect( _actionAutoSizeCurrentCol, SIGNAL( toggled          ( bool ) ),
+         this,            SLOT  ( autoSizeCurrentCol()       ) );
 
     _actionAllColumnsAutoSize = new QAction( tr( "&Auto Size" ), this );
     CONNECT_ACTION( _actionAllColumnsAutoSize, this, setAllColumnsAutoSize() );
@@ -95,8 +95,8 @@ void HeaderTweaker::updateActions( int section )
     _actionHideCurrentCol->setEnabled( section != 0 );
 
     {
-	SignalBlocker sigBlocker( _actionAutoSizeCurrentCol );
-	_actionAutoSizeCurrentCol->setChecked( autoSizeCol( section ) );
+    SignalBlocker sigBlocker( _actionAutoSizeCurrentCol );
+    _actionAutoSizeCurrentCol->setChecked( autoSizeCol( section ) );
     }
 }
 
@@ -132,27 +132,27 @@ QMenu * HeaderTweaker::createHiddenColMenu( QWidget * parent )
 
     for ( int section = 0; section < _header->count(); ++section )
     {
-	if ( _header->isSectionHidden( section ) )
-	{
-	    ++actionCount;
-	    QString text = tr( "Show Column \"%1\"" ).arg( this->colName( section ) );
-	    QAction * showAction = new QAction( text, hiddenColMenu );
-	    CHECK_NEW( showAction );
+    if ( _header->isSectionHidden( section ) )
+    {
+        ++actionCount;
+        QString text = tr( "Show Column \"%1\"" ).arg( this->colName( section ) );
+        QAction * showAction = new QAction( text, hiddenColMenu );
+        CHECK_NEW( showAction );
 
-	    showAction->setData( section );
-	    hiddenColMenu->addAction( showAction );
+        showAction->setData( section );
+        hiddenColMenu->addAction( showAction );
 
-	    connect( showAction, SIGNAL( triggered() ),
-		     this,	 SLOT  ( showHiddenCol()   ) );
-	}
+        connect( showAction, SIGNAL( triggered() ),
+             this,     SLOT  ( showHiddenCol()   ) );
+    }
     }
 
     if ( actionCount == 0 )
-	hiddenColMenu->setEnabled( false );
+    hiddenColMenu->setEnabled( false );
     else if ( actionCount > 1 )
     {
-	hiddenColMenu->addSeparator();
-	hiddenColMenu->addAction( _actionShowAllHiddenColumns );
+    hiddenColMenu->addSeparator();
+    hiddenColMenu->addAction( _actionShowAllHiddenColumns );
     }
 
     return hiddenColMenu;
@@ -163,10 +163,10 @@ QString HeaderTweaker::colName( int section ) const
 {
     DataColumn col = DataColumns::instance()->reverseMappedCol( static_cast<DataColumn>( section ) );
     QString name = _treeView->model()->headerData( col,
-						   Qt::Horizontal,
-						   Qt::DisplayRole ).toString();
+                           Qt::Horizontal,
+                           Qt::DisplayRole ).toString();
     if ( col == UndefinedCol )
-	logError() << "No column at section " << section << endl;
+    logError() << "No column at section " << section << endl;
 
     return name;
 }
@@ -182,8 +182,8 @@ void HeaderTweaker::hideCurrentCol()
 {
     if ( _currentSection >= 0 )
     {
-	logDebug() << "Hiding column \"" << colName( _currentSection ) << "\"" << endl;
-	_header->setSectionHidden( _currentSection, true );
+    logDebug() << "Hiding column \"" << colName( _currentSection ) << "\"" << endl;
+    _header->setSectionHidden( _currentSection, true );
     }
 
     _currentSection = -1;
@@ -194,13 +194,13 @@ void HeaderTweaker::autoSizeCurrentCol()
 {
     if ( _currentSection >= 0 )
     {
-	setResizeMode( _currentSection,
-		       _actionAutoSizeCurrentCol->isChecked() ?
-		       QHeaderView::ResizeToContents :
-		       QHeaderView::Interactive );
+    setResizeMode( _currentSection,
+               _actionAutoSizeCurrentCol->isChecked() ?
+               QHeaderView::ResizeToContents :
+               QHeaderView::Interactive );
     }
     else
-	logWarning() << "No current section" << endl;
+    logWarning() << "No current section" << endl;
 
     _currentSection = -1;
 }
@@ -209,12 +209,12 @@ void HeaderTweaker::autoSizeCurrentCol()
 void HeaderTweaker::setAllColumnsAutoSize( bool autoSize )
 {
     QHeaderView::ResizeMode resizeMode = autoSize ?
-	QHeaderView::ResizeToContents :
-	QHeaderView::Interactive;
+    QHeaderView::ResizeToContents :
+    QHeaderView::Interactive;
 
     for ( int section = 0; section < _header->count(); ++section )
     {
-	setResizeMode( section, resizeMode );
+    setResizeMode( section, resizeMode );
     }
 }
 
@@ -231,26 +231,26 @@ void HeaderTweaker::showHiddenCol()
 
     if ( ! action )
     {
-	logError() << "Wrong sender type: "
-		   << sender()->metaObject()->className() << endl;
-	return;
+    logError() << "Wrong sender type: "
+           << sender()->metaObject()->className() << endl;
+    return;
     }
 
     if ( action->data().isValid() )
     {
-	int section = action->data().toInt();
+    int section = action->data().toInt();
 
-	if ( section >= 0 && section < _header->count() )
-	{
-	    logDebug() << "Showing column \"" << colName( section ) << "\"" << endl;
-	    _header->setSectionHidden( section, false );
-	}
-	else
-	    logError() << "Section index out of range: " << section << endl;
+    if ( section >= 0 && section < _header->count() )
+    {
+        logDebug() << "Showing column \"" << colName( section ) << "\"" << endl;
+        _header->setSectionHidden( section, false );
+    }
+    else
+        logError() << "Section index out of range: " << section << endl;
     }
     else
     {
-	logError() << "No data() set for this QAction" << endl;
+    logError() << "No data() set for this QAction" << endl;
     }
 }
 
@@ -259,11 +259,11 @@ void HeaderTweaker::showAllHiddenColumns()
 {
     for ( int section = 0; section < _header->count(); ++section )
     {
-	if ( _header->isSectionHidden( section ) )
-	{
-	    logDebug() << "Showing column \"" << colName( section ) << "\"" << endl;
-	    _header->setSectionHidden( section, false );
-	}
+    if ( _header->isSectionHidden( section ) )
+    {
+        logDebug() << "Showing column \"" << colName( section ) << "\"" << endl;
+        _header->setSectionHidden( section, false );
+    }
     }
 }
 
@@ -279,7 +279,7 @@ void HeaderTweaker::resetToDefaults()
 
     for ( int section = 0; section < _header->count(); ++section )
     {
-	_header->moveSection( _header->visualIndex( section ), section );
+    _header->moveSection( _header->visualIndex( section ), section );
     }
 }
 
@@ -290,13 +290,13 @@ void HeaderTweaker::setColumnOrder( const DataColumnList & colOrderList)
 
     foreach ( DataColumn col, colOrderList )
     {
-	if ( visualIndex < _header->count() )
-	{
-	    // logDebug() << "Moving " << col << " to position " << visualIndex << endl;
-	    _header->moveSection( _header->visualIndex( col ), visualIndex++ );
-	}
-	else
-	    logWarning() << "More columns than header sections" << endl;
+    if ( visualIndex < _header->count() )
+    {
+        // logDebug() << "Moving " << col << " to position " << visualIndex << endl;
+        _header->moveSection( _header->visualIndex( col ), visualIndex++ );
+    }
+    else
+        logWarning() << "More columns than header sections" << endl;
     }
 }
 
@@ -320,13 +320,13 @@ void HeaderTweaker::readSettings()
 
     if ( colOrderList.isEmpty() )
     {
-	// logDebug() << "Falling back to default column order" << endl;
-	colOrderList = DataColumns::instance()->defaultColumns();
+    // logDebug() << "Falling back to default column order" << endl;
+    colOrderList = DataColumns::instance()->defaultColumns();
     }
     else
     {
-	colOrderList = DataColumns::fixup( colOrderList );
-	addMissingColumns( colOrderList );
+    colOrderList = DataColumns::fixup( colOrderList );
+    addMissingColumns( colOrderList );
     }
 
     setColumnOrder( colOrderList);
@@ -336,11 +336,11 @@ void HeaderTweaker::readSettings()
 
     if ( visibleColList.isEmpty() )
     {
-	// logDebug() << "Falling back to all columns visible" << endl;
-	visibleColList = colOrderList;
+    // logDebug() << "Falling back to all columns visible" << endl;
+    visibleColList = colOrderList;
     }
     else
-	visibleColList = DataColumns::fixup( visibleColList );
+    visibleColList = DataColumns::fixup( visibleColList );
 
     //
     // Set all columns to hidden that are not in visibleColList
@@ -348,13 +348,13 @@ void HeaderTweaker::readSettings()
 
     for ( int section = 0; section < _header->count(); ++section )
     {
-	DataColumn col = static_cast<DataColumn>( section );
+    DataColumn col = static_cast<DataColumn>( section );
 
-	if ( ! visibleColList.contains( col ) )
-	{
-	    logDebug() << "Hiding " << col << endl;
-	    _header->setSectionHidden( section, true );
-	}
+    if ( ! visibleColList.contains( col ) )
+    {
+        logDebug() << "Hiding " << col << endl;
+        _header->setSectionHidden( section, true );
+    }
     }
 
     //
@@ -363,21 +363,21 @@ void HeaderTweaker::readSettings()
 
     for ( int section = 0; section < _header->count(); ++section )
     {
-	DataColumn col	 = static_cast<DataColumn>( section );
-	QString colName	 = DataColumns::toString( col );
-	QString widthKey = QString( "Width_%1" ).arg( colName );
+    DataColumn col     = static_cast<DataColumn>( section );
+    QString colName     = DataColumns::toString( col );
+    QString widthKey = QString( "Width_%1" ).arg( colName );
 
-	int width = settings.value( widthKey, -1 ).toInt();
+    int width = settings.value( widthKey, -1 ).toInt();
 
-	if ( width > 0 )
-	{
-	    setResizeMode( section, QHeaderView::Interactive );
-	    _header->resizeSection( section, width );
-	}
-	else
-	{
-	    setResizeMode( section, QHeaderView::ResizeToContents );
-	}
+    if ( width > 0 )
+    {
+        setResizeMode( section, QHeaderView::Interactive );
+        _header->resizeSection( section, width );
+    }
+    else
+    {
+        setResizeMode( section, QHeaderView::ResizeToContents );
+    }
     }
 
     settings.endGroup();
@@ -394,32 +394,32 @@ void HeaderTweaker::writeSettings()
 
     for ( int visualIndex = 0; visualIndex < _header->count(); ++visualIndex )
     {
-	//
-	// Collect column order and visibility for all columns
-	//
+    //
+    // Collect column order and visibility for all columns
+    //
 
-	int logicalIndex = _header->logicalIndex( visualIndex );
-	DataColumn col	 = static_cast<DataColumn>( logicalIndex );
-	QString colName	 = DataColumns::toString( col );
+    int logicalIndex = _header->logicalIndex( visualIndex );
+    DataColumn col     = static_cast<DataColumn>( logicalIndex );
+    QString colName     = DataColumns::toString( col );
 
-	colOrderList << colName;
+    colOrderList << colName;
 
-	if ( ! _header->isSectionHidden( logicalIndex ) )
-	    visibleColList << colName;
+    if ( ! _header->isSectionHidden( logicalIndex ) )
+        visibleColList << colName;
 
-	//
-	// Write column width for all columns that don't have auto size
-	//
+    //
+    // Write column width for all columns that don't have auto size
+    //
 
-	QString widthKey = QString( "Width_%1" ).arg( colName );
+    QString widthKey = QString( "Width_%1" ).arg( colName );
 
-	if ( autoSizeCol( logicalIndex ) )
-	    settings.setValue( widthKey, "auto" );
-	else
-	    settings.setValue( widthKey, _header->sectionSize( logicalIndex ) );
+    if ( autoSizeCol( logicalIndex ) )
+        settings.setValue( widthKey, "auto" );
+    else
+        settings.setValue( widthKey, _header->sectionSize( logicalIndex ) );
     }
 
-    settings.setValue( "ColumnOrder",	 colOrderList );
+    settings.setValue( "ColumnOrder",     colOrderList );
     settings.setValue( "VisibleColumns", visibleColList );
 
     settings.endGroup();
@@ -430,8 +430,8 @@ void HeaderTweaker::addMissingColumns( DataColumnList & colList )
 {
     foreach ( const DataColumn col, DataColumns::instance()->defaultColumns() )
     {
-	if ( ! colList.contains( col ) )
-	     colList << col;
+    if ( ! colList.contains( col ) )
+         colList << col;
     }
 }
 

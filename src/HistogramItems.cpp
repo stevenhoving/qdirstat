@@ -1,9 +1,9 @@
 /*
  *   File name: HistogramViewItems.cpp
- *   Summary:	QGraphicsItems for file size histogram for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QGraphicsItems for file size histogram for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #include <QGraphicsRectItem>
@@ -19,9 +19,9 @@ using namespace QDirStat;
 
 
 HistogramBar::HistogramBar( HistogramView * parent,
-			    int		    number,
-			    const QRectF &  rect,
-			    qreal	    fillHeight ):
+                int            number,
+                const QRectF &  rect,
+                qreal        fillHeight ):
     QGraphicsRectItem( rect ),
     _parentView( parent ),
     _number( number )
@@ -48,10 +48,10 @@ HistogramBar::HistogramBar( HistogramView * parent,
     _endVal   = _parentView->bucketEnd  ( _number );
 
     QString tooltip = QObject::tr( "Bucket #%1:\n%2 Files\n%3 .. %4" )
-	.arg( _number + 1 )
-	.arg( _parentView->bucket( _number ) )
-	.arg( formatSize( _startVal ) )
-	.arg( formatSize( _endVal ) );
+    .arg( _number + 1 )
+    .arg( _parentView->bucket( _number ) )
+    .arg( formatSize( _startVal ) )
+    .arg( formatSize( _endVal ) );
 
     setToolTip( tooltip );
     filledRect->setToolTip( tooltip );
@@ -65,9 +65,9 @@ void HistogramBar::mousePressEvent( QGraphicsSceneMouseEvent * event )
 {
     switch ( event->button() )
     {
-	case Qt::LeftButton:
-	    {
-		QGraphicsRectItem::mousePressEvent( event );
+    case Qt::LeftButton:
+        {
+        QGraphicsRectItem::mousePressEvent( event );
 
 #if 0
                 // FIXME: This does not work. Why?
@@ -76,17 +76,17 @@ void HistogramBar::mousePressEvent( QGraphicsSceneMouseEvent * event )
                 QToolTip::showText( QPoint( pos.x(), pos.y() ), toolTip(), _parentView );
 #endif
 
-		logDebug() << "Histogram bar #" << _number
-			   << ": " << _parentView->bucket( _number ) << " items;"
-			   << " range: " << formatSize( _startVal )
-			   << " .. " << formatSize( _endVal )
-			   << endl;
-	    }
-	    break;
+        logDebug() << "Histogram bar #" << _number
+               << ": " << _parentView->bucket( _number ) << " items;"
+               << " range: " << formatSize( _startVal )
+               << " .. " << formatSize( _endVal )
+               << endl;
+        }
+        break;
 
-	default:
-	    QGraphicsRectItem::mousePressEvent( event );
-	    break;
+    default:
+        QGraphicsRectItem::mousePressEvent( event );
+        break;
     }
 }
 
@@ -94,10 +94,10 @@ void HistogramBar::mousePressEvent( QGraphicsSceneMouseEvent * event )
 
 
 PercentileMarker::PercentileMarker( HistogramView * parent,
-				    int		    percentileIndex,
-				    const QString & name,
-				    const QLineF &  zeroLine,
-				    const QPen &    pen ):
+                    int            percentileIndex,
+                    const QString & name,
+                    const QLineF &  zeroLine,
+                    const QPen &    pen ):
     QGraphicsLineItem( translatedLine( zeroLine, percentileIndex, parent ) ),
     _parentView( parent ),
     _name( name ),
@@ -105,16 +105,16 @@ PercentileMarker::PercentileMarker( HistogramView * parent,
 {
     if ( _name.isEmpty() )
     {
-	_name = QObject::tr( "Percentile P%1" ).arg( _percentileIndex );
-	setZValue( HistogramView::MarkerLayer );
+    _name = QObject::tr( "Percentile P%1" ).arg( _percentileIndex );
+    setZValue( HistogramView::MarkerLayer );
     }
     else
     {
-	setZValue( HistogramView::SpecialMarkerLayer );
+    setZValue( HistogramView::SpecialMarkerLayer );
     }
 
     setToolTip( _name + "\n" +
-		formatSize( _parentView->percentile( percentileIndex ) ) );
+        formatSize( _parentView->percentile( percentileIndex ) ) );
 
     setPen( pen );
     // setFlags( ItemIsSelectable );
@@ -122,12 +122,12 @@ PercentileMarker::PercentileMarker( HistogramView * parent,
 }
 
 
-QLineF PercentileMarker::translatedLine( const QLineF &	 zeroLine,
-					 int		 percentileIndex,
-					 HistogramView * parent ) const
+QLineF PercentileMarker::translatedLine( const QLineF &     zeroLine,
+                     int         percentileIndex,
+                     HistogramView * parent ) const
 {
     qreal value = parent->percentile( percentileIndex );
-    qreal x	= parent->scaleValue( value );
+    qreal x    = parent->scaleValue( value );
 
     return zeroLine.translated( x, 0 );
 }
@@ -143,17 +143,17 @@ void PercentileMarker::mousePressEvent( QGraphicsSceneMouseEvent * event )
 {
     switch ( event->button() )
     {
-	case Qt::LeftButton:
-	    QGraphicsLineItem::mousePressEvent( event );
-	    logDebug() << "Percentile marker #" << _percentileIndex
-		       << ": " << _name
-		       << ": " << formatSize( _parentView->percentile( _percentileIndex ) )
-		       << endl;
-	    break;
+    case Qt::LeftButton:
+        QGraphicsLineItem::mousePressEvent( event );
+        logDebug() << "Percentile marker #" << _percentileIndex
+               << ": " << _name
+               << ": " << formatSize( _parentView->percentile( _percentileIndex ) )
+               << endl;
+        break;
 
-	default:
-	    QGraphicsLineItem::mousePressEvent( event );
-	    break;
+    default:
+        QGraphicsLineItem::mousePressEvent( event );
+        break;
     }
 }
 

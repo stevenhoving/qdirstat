@@ -1,15 +1,15 @@
 /*
  *   File name: main.cpp
- *   Summary:	QDirStat main program
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat main program
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
-#include <unistd.h>	// getuid()
-#include <sys/types.h>	// uid_t
-#include <iostream>	// cerr
+#include <unistd.h>    // getuid()
+#include <sys/types.h>    // uid_t
+#include <iostream>    // cerr
 
 #include <QApplication>
 #include "MainWindow.h"
@@ -26,12 +26,12 @@ static bool fatal = false;
 void usage( const QStringList & argList )
 {
     cerr << "\n"
-	 << "Usage: \n"
-	 << "\n"
-	 << "  " << progName << " [--slow-update|-s] [<directory-name>]\n"
-	 << "  " << progName << " --cache|-c <cache-file-name>\n"
-	 << "  " << progName << " --help|-h\n"
-	 << std::endl;
+     << "Usage: \n"
+     << "\n"
+     << "  " << progName << " [--slow-update|-s] [<directory-name>]\n"
+     << "  " << progName << " --cache|-c <cache-file-name>\n"
+     << "  " << progName << " --help|-h\n"
+     << std::endl;
 
     logError() << "FATAL: Bad command line args: " << argList.join( " " ) << endl;
     // Simply exit(1) here results in a segfault (?).
@@ -58,21 +58,21 @@ void logVersion()
  * additional parameter) from the command line and remove it from 'argList'.
  **/
 bool commandLineSwitch( const QString & longName,
-			const QString & shortName,
-			QStringList   & argList )
+            const QString & shortName,
+            QStringList   & argList )
 {
     if ( argList.contains( longName  ) ||
-	 argList.contains( shortName )	 )
+     argList.contains( shortName )     )
     {
-	argList.removeAll( longName  );
-	argList.removeAll( shortName );
+    argList.removeAll( longName  );
+    argList.removeAll( shortName );
         logDebug() << "Found " << longName << endl;
-	return true;
+    return true;
     }
     else
     {
         // logDebug() << "No " << longName << endl;
-	return false;
+    return false;
     }
 }
 
@@ -94,37 +94,37 @@ int main( int argc, char *argv[] )
     mainWin.show();
 
     if ( commandLineSwitch( "--slow-update", "-s", argList ) )
-	mainWin.dirTreeModel()->setSlowUpdate();
+    mainWin.dirTreeModel()->setSlowUpdate();
 
     if ( argList.isEmpty() )
-	mainWin.askOpenUrl();
+    mainWin.askOpenUrl();
     else
     {
-	QString arg = argList.first();
+    QString arg = argList.first();
 
-	if ( arg == "--cache" || arg == "-c" )
-	{
-	    if ( argList.size() == 2 )
-	    {
-		QString cacheFileName = argList.at(1);
-		logDebug() << "Reading cache file " << cacheFileName << endl;
-		mainWin.readCache( cacheFileName );
-	    }
-	    else
-		usage( argList );
-	}
-	else if ( arg == "--help" || arg == "-h" )
-	    usage( argList );
-	else if ( arg.startsWith( "-" ) || argList.size() > 1 )
-	    usage( argList );
-	else if ( ! arg.isEmpty() )
-	{
-	    mainWin.openUrl( arg );
-	}
+    if ( arg == "--cache" || arg == "-c" )
+    {
+        if ( argList.size() == 2 )
+        {
+        QString cacheFileName = argList.at(1);
+        logDebug() << "Reading cache file " << cacheFileName << endl;
+        mainWin.readCache( cacheFileName );
+        }
+        else
+        usage( argList );
+    }
+    else if ( arg == "--help" || arg == "-h" )
+        usage( argList );
+    else if ( arg.startsWith( "-" ) || argList.size() > 1 )
+        usage( argList );
+    else if ( ! arg.isEmpty() )
+    {
+        mainWin.openUrl( arg );
+    }
     }
 
     if ( ! fatal )
-	app.exec();
+    app.exec();
 
     return fatal ? 1 : 0;
 }

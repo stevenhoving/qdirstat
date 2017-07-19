@@ -1,9 +1,9 @@
 /*
  *   File name: FileInfoSet.cpp
- *   Summary:	Support classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Support classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -21,10 +21,10 @@ bool FileInfoSet::containsAncestorOf( FileInfo * item ) const
 {
     while ( item )
     {
-	item = item->parent();
+    item = item->parent();
 
-	if ( contains( item ) )
-	    return true;
+    if ( contains( item ) )
+        return true;
     }
 
     return false;
@@ -37,11 +37,11 @@ FileInfoSet FileInfoSet::normalized() const
 
     foreach ( FileInfo * item, *this )
     {
-	if ( ! containsAncestorOf( item ) )
-	    normalized << item;
+    if ( ! containsAncestorOf( item ) )
+        normalized << item;
 #if 0
-	else
-	    logDebug() << "Removing " << item << " with ancestors in the set" << endl;
+    else
+        logDebug() << "Removing " << item << " with ancestors in the set" << endl;
 #endif
     }
 
@@ -73,9 +73,9 @@ FileInfoSet FileInfoSet::invalidRemoved() const
 FileInfo * FileInfoSet::first() const
 {
     if ( isEmpty() )
-	return 0;
+    return 0;
     else
-	return *begin();
+    return *begin();
 }
 
 
@@ -83,8 +83,8 @@ bool FileInfoSet::containsDotEntry() const
 {
     foreach ( FileInfo * item, *this )
     {
-	if ( item  && item->isDotEntry() )
-	    return true;
+    if ( item  && item->isDotEntry() )
+        return true;
     }
 
     return false;
@@ -95,8 +95,8 @@ bool FileInfoSet::containsDir() const
 {
     foreach ( FileInfo * item, *this )
     {
-	if ( item  && item->isDir() )
-	    return true;
+    if ( item  && item->isDir() )
+        return true;
     }
 
     return false;
@@ -107,8 +107,8 @@ bool FileInfoSet::containsFile() const
 {
     foreach ( FileInfo * item, *this )
     {
-	if ( item  && item->isFile() )
-	    return true;
+    if ( item  && item->isFile() )
+        return true;
     }
 
     return false;
@@ -119,8 +119,8 @@ bool FileInfoSet::containsSpecial() const
 {
     foreach ( FileInfo * item, *this )
     {
-	if ( item  && item->isSpecial() )
-	    return true;
+    if ( item  && item->isSpecial() )
+        return true;
     }
 
     return false;
@@ -131,8 +131,8 @@ bool FileInfoSet::containsBusyItem() const
 {
     foreach ( FileInfo * item, *this )
     {
-	if ( item  && item->isBusy() )
-	    return true;
+    if ( item  && item->isBusy() )
+        return true;
     }
 
     return false;
@@ -142,7 +142,7 @@ bool FileInfoSet::containsBusyItem() const
 bool FileInfoSet::treeIsBusy() const
 {
     if ( isEmpty() )
-	return false;
+    return false;
 
     return first()->tree()->isBusy();
 }
@@ -154,8 +154,8 @@ FileSize FileInfoSet::totalSize() const
 
     foreach ( FileInfo * item, *this )
     {
-	if ( item )
-	    sum += item->totalSize();
+    if ( item )
+        sum += item->totalSize();
     }
 
     return sum;

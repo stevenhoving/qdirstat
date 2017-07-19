@@ -1,10 +1,10 @@
 /*
  *   File name: Process.h
- *   Summary:	Qt4/5 compatibility layer for QProcess
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Qt4/5 compatibility layer for QProcess
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Authors:	 Michael Matz <matz@suse.de>
- *		 Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Authors:     Michael Matz <matz@suse.de>
+ *         Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef Process_h
@@ -23,32 +23,32 @@ namespace QDirStat
      **/
     class Process: public QProcess
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
-	explicit Process( QObject *parent = 0 );
+    explicit Process( QObject *parent = 0 );
 
 #if (QT_VERSION < QT_VERSION_CHECK( 5, 1, 0))
 
-	void start();
+    void start();
 
-	const QStringList & arguments() { return _arglist; }
-	const QString	  & program()	{ return _prog; }
+    const QStringList & arguments() { return _arglist; }
+    const QString      & program()    { return _prog; }
 
-	void setProgram( const QString & prog )
-	    { _prog = prog; }
+    void setProgram( const QString & prog )
+        { _prog = prog; }
 
-	void setArguments( const QStringList & args )
-	    { _arglist = args; }
+    void setArguments( const QStringList & args )
+        { _arglist = args; }
 
     private:
 
-	QString	    _prog;
-	QStringList _arglist;
+    QString        _prog;
+    QStringList _arglist;
 
-#endif	// Qt < 5.1.0
+#endif    // Qt < 5.1.0
 
-    };	// class Process
-}	// namespace QDirStat
+    };    // class Process
+}    // namespace QDirStat
 
-#endif	// Process_h
+#endif    // Process_h

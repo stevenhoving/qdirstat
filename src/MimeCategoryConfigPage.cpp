@@ -1,14 +1,14 @@
 /*
  *   File name: MimeCategoryConfigPage.h
- *   Summary:	QDirStat configuration dialog classes
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat configuration dialog classes
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
-#include <time.h>	// time()
-#include <stdlib.h>	// random(), srandom()
+#include <time.h>    // time()
+#include <stdlib.h>    // random(), srandom()
 #include <QMessageBox>
 #include <QColorDialog>
 
@@ -45,14 +45,14 @@ MimeCategoryConfigPage::MimeCategoryConfigPage( QWidget * parent ):
     _ui->treemapView->setFixedColor( Qt::white );
     populateTreemapView();
 
-    connect( _ui->nameLineEdit,	 SIGNAL( textChanged ( QString ) ),
-	     this,		 SLOT  ( nameChanged( QString ) ) );
+    connect( _ui->nameLineEdit,     SIGNAL( textChanged ( QString ) ),
+         this,         SLOT  ( nameChanged( QString ) ) );
 
     connect( _ui->colorLineEdit, SIGNAL( textChanged ( QString ) ),
-	     this,		 SLOT  ( colorChanged( QString ) ) );
+         this,         SLOT  ( colorChanged( QString ) ) );
 
-    connect( _ui->colorButton,	 SIGNAL( clicked()   ),
-	     this,		 SLOT  ( pickColor() ) );
+    connect( _ui->colorButton,     SIGNAL( clicked()   ),
+         this,         SLOT  ( pickColor() ) );
 }
 
 
@@ -63,7 +63,7 @@ MimeCategoryConfigPage::~MimeCategoryConfigPage()
     _ui->treemapView->setDirTree(0);
 
     if ( _dirTree )
-	delete _dirTree;
+    delete _dirTree;
 }
 
 
@@ -100,15 +100,15 @@ void MimeCategoryConfigPage::fillListWidget()
 
     foreach ( MimeCategory * category, _categorizer->categories() )
     {
-	QListWidgetItem * item = new ListEditorItem( category->name(), category );
-	CHECK_NEW( item );
-	listWidget()->addItem( item );
+    QListWidgetItem * item = new ListEditorItem( category->name(), category );
+    CHECK_NEW( item );
+    listWidget()->addItem( item );
     }
 
     QListWidgetItem * firstItem = listWidget()->item(0);
 
     if ( firstItem )
-	listWidget()->setCurrentItem( firstItem );
+    listWidget()->setCurrentItem( firstItem );
 }
 
 
@@ -118,9 +118,9 @@ void MimeCategoryConfigPage::nameChanged( const QString & newName )
 
     if ( currentItem )
     {
-	MimeCategory * category = CATEGORY_CAST( value( currentItem ) );
-	category->setName( newName );
-	currentItem->setText( newName );
+    MimeCategory * category = CATEGORY_CAST( value( currentItem ) );
+    category->setName( newName );
+    currentItem->setText( newName );
     }
 }
 
@@ -131,15 +131,15 @@ void MimeCategoryConfigPage::colorChanged( const QString & newColor )
 
     if ( currentItem )
     {
-	QColor color( newColor );
+    QColor color( newColor );
 
-	if ( color.isValid() )
-	{
-	    MimeCategory * category = CATEGORY_CAST( value( currentItem ) );
-	    category->setColor( color );
-	    _ui->treemapView->setFixedColor( color );
-	    _ui->treemapView->rebuildTreemap();
-	}
+    if ( color.isValid() )
+    {
+        MimeCategory * category = CATEGORY_CAST( value( currentItem ) );
+        category->setColor( color );
+        _ui->treemapView->setFixedColor( color );
+        _ui->treemapView->rebuildTreemap();
+    }
     }
 }
 
@@ -150,19 +150,19 @@ void MimeCategoryConfigPage::pickColor()
 
     if ( currentItem )
     {
-	MimeCategory * category = CATEGORY_CAST( value( currentItem ) );
-	QColor color = category->color();
-	color = QColorDialog::getColor( color,
-					window(), // parent
-					tr( "Category Color" ) );
+    MimeCategory * category = CATEGORY_CAST( value( currentItem ) );
+    QColor color = category->color();
+    color = QColorDialog::getColor( color,
+                    window(), // parent
+                    tr( "Category Color" ) );
 
-	if ( color.isValid() )
-	{
-	    category->setColor( color );
-	    _ui->colorLineEdit->setText( color.name() );
-	    _ui->treemapView->setFixedColor( color );
-	    _ui->treemapView->rebuildTreemap();
-	}
+    if ( color.isValid() )
+    {
+        category->setColor( color );
+        _ui->colorLineEdit->setText( color.name() );
+        _ui->treemapView->setFixedColor( color );
+        _ui->treemapView->rebuildTreemap();
+    }
     }
 }
 
@@ -173,7 +173,7 @@ void MimeCategoryConfigPage::save( void * value )
     // logDebug() << category << endl;
 
     if ( ! category || updatesLocked() )
-	return;
+    return;
 
     category->clear();
     QString patterns = _ui->caseInsensitivePatternsTextEdit->toPlainText();
@@ -190,18 +190,18 @@ void MimeCategoryConfigPage::load( void * value )
     // logDebug() << category << endl;
 
     if ( ! category || updatesLocked() )
-	return;
+    return;
 
     _ui->nameLineEdit->setText( category->name() );
     QColor color = category->color();
     _ui->colorLineEdit->setText( color.isValid() ?
-				 category->color().name() : "" );
+                 category->color().name() : "" );
 
     setPatternList( _ui->caseInsensitivePatternsTextEdit,
-		    category->humanReadablePatternList( Qt::CaseInsensitive ) );
+            category->humanReadablePatternList( Qt::CaseInsensitive ) );
 
     setPatternList( _ui->caseSensitivePatternsTextEdit,
-		    category->humanReadablePatternList( Qt::CaseSensitive ) );
+            category->humanReadablePatternList( Qt::CaseSensitive ) );
 
     _ui->treemapView->setFixedColor( color.isValid() ? color : Qt::red );
     _ui->treemapView->rebuildTreemap();
@@ -209,12 +209,12 @@ void MimeCategoryConfigPage::load( void * value )
 
 
 void MimeCategoryConfigPage::setPatternList( QPlainTextEdit    * textEdit,
-					     const QStringList & patternList )
+                         const QStringList & patternList )
 {
     QString text = patternList.join( "\n" );
 
     if ( ! text.isEmpty() )
-	text += "\n";	   // Let the user begin writing on a new line
+    text += "\n";       // Let the user begin writing on a new line
 
     textEdit->setPlainText( text );
 }
@@ -267,10 +267,10 @@ void MimeCategoryConfigPage::populateTreemapView()
 
     // Create a very basic directory structure:
     //
-    //	 demo
-    //	   dir1
-    //	   dir2
-    //	     dir21
+    //     demo
+    //       dir1
+    //       dir2
+    //         dir21
 
     DirInfo * topDir = new DirInfo( _dirTree, root, "demo", mode, dirSize, mtime );
     CHECK_NEW( topDir );
@@ -294,33 +294,33 @@ void MimeCategoryConfigPage::populateTreemapView()
     dirs << topDir << dir1 << dir2 << dir21;
 
     srandom( (unsigned) time(0) ); // Seed random number generator
-    int	     fileCount = random() % 30 + 12;
-    FileSize maxSize   = 100*1024*1024;	// 100 MB
+    int         fileCount = random() % 30 + 12;
+    FileSize maxSize   = 100*1024*1024;    // 100 MB
 
 
     // Generate a random number of files with random sizes
 
     for ( int i=0; i < fileCount; i++ )
     {
-	// Pick a random directory as parent
+    // Pick a random directory as parent
 
-	int dirNo = random() % dirs.size();
-	DirInfo * parent = dirs.at( dirNo );
+    int dirNo = random() % dirs.size();
+    DirInfo * parent = dirs.at( dirNo );
 
-	// Select a random file size
-	FileSize fileSize = random() % maxSize;
+    // Select a random file size
+    FileSize fileSize = random() % maxSize;
 
-	// Create a FileInfo item and add it to the parent
-	FileInfo * file = new FileInfo( _dirTree, parent,
-					QString( "File_%1" ).arg( i ),
-					mode, fileSize, mtime );
-	CHECK_NEW( file );
-	parent->insertChild( file );
+    // Create a FileInfo item and add it to the parent
+    FileInfo * file = new FileInfo( _dirTree, parent,
+                    QString( "File_%1" ).arg( i ),
+                    mode, fileSize, mtime );
+    CHECK_NEW( file );
+    parent->insertChild( file );
     }
 
     logDebug() << "Demo tree: " << fileCount << " files with "
-	       << formatSize( topDir->totalSize() ) << " total"
-	       << endl;
+           << formatSize( topDir->totalSize() ) << " total"
+           << endl;
 
     _ui->treemapView->setDirTree( _dirTree );
 }

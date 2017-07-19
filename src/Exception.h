@@ -1,9 +1,9 @@
 /*
  *   File name: Exception.h
- *   Summary:	Exception classes for QDirstat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Exception classes for QDirstat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -35,7 +35,7 @@ public:
      * Destructor.
      */
     virtual ~Exception() throw()
-	{}
+    {}
 
     /**
      * Return a text description of what was wrong.
@@ -75,14 +75,14 @@ public:
      * This is used in the THROW and RETHROW macros.
      */
     void setSrcLocation( const QString &srcFile,
-			 int		srcLine,
-			 const QString &srcFunction ) const;
+             int        srcLine,
+             const QString &srcFunction ) const;
 
 protected:
     QString _what;
 
     mutable QString _srcFile;
-    mutable int	    _srcLine;
+    mutable int        _srcLine;
     mutable QString _srcFunction;
 };
 
@@ -95,11 +95,11 @@ class NullPointerException: public Exception
 {
 public:
     NullPointerException():
-	Exception( "Null pointer" )
-	{}
+    Exception( "Null pointer" )
+    {}
 
     virtual ~NullPointerException() throw()
-	{}
+    {}
 };
 
 
@@ -111,11 +111,11 @@ class OutOfMemoryException: public Exception
 {
 public:
     OutOfMemoryException():
-	Exception( "Null pointer" )
-	{}
+    Exception( "Null pointer" )
+    {}
 
     virtual ~OutOfMemoryException() throw()
-	{}
+    {}
 };
 
 
@@ -123,12 +123,12 @@ class FileException: public Exception
 {
 public:
     FileException( const QString &filename, const QString &msg ):
-	Exception( msg ),
-	_filename( filename )
-	{}
+    Exception( msg ),
+    _filename( filename )
+    {}
 
     virtual ~FileException() throw()
-	{}
+    {}
 
     QString filename() const { return _filename; }
 
@@ -141,14 +141,14 @@ class SysCallFailedException: public Exception
 {
 public:
     SysCallFailedException( const QString & sysCall,
-			    const QString & resourceName ):
-	Exception( errMsg( sysCall, resourceName ) ),
-	_sysCall( sysCall ),
-	_resourceName( resourceName )
-	{}
+                const QString & resourceName ):
+    Exception( errMsg( sysCall, resourceName ) ),
+    _sysCall( sysCall ),
+    _resourceName( resourceName )
+    {}
 
     virtual ~SysCallFailedException() throw()
-	{}
+    {}
 
     /**
      * Return the resource for which this syscall failed. This is typically a
@@ -160,7 +160,7 @@ public:
 
 protected:
     QString errMsg( const QString & sysCall,
-		    const QString & resourceName ) const;
+            const QString & resourceName ) const;
 
 private:
 
@@ -173,11 +173,11 @@ class DynamicCastException: public Exception
 {
 public:
     DynamicCastException( const QString &expectedType ):
-	Exception( "dynamic_cast failed; expected: " + expectedType )
-	{}
+    Exception( "dynamic_cast failed; expected: " + expectedType )
+    {}
 
     virtual ~DynamicCastException() throw()
-	{}
+    {}
 };
 
 
@@ -185,12 +185,12 @@ class BadMagicNumberException: public Exception
 {
 public:
     BadMagicNumberException( void * badPointer ):
-	Exception( QString( "Magic number check failed for address 0x%1" )
-		   .arg( (qulonglong) badPointer, 0, 16 ) )
-	{}
+    Exception( QString( "Magic number check failed for address 0x%1" )
+           .arg( (qulonglong) badPointer, 0, 16 ) )
+    {}
 
     virtual ~BadMagicNumberException() throw()
-	{}
+    {}
 };
 
 
@@ -224,22 +224,22 @@ public:
     /**
      * Return the offending index value.
      **/
-    int invalidIndex() const	{ return _invalidIndex; }
+    int invalidIndex() const    { return _invalidIndex; }
 
     /**
      * Return the valid minimum index.
      **/
-    int validMin() const	{ return _validMin; }
+    int validMin() const    { return _validMin; }
 
     /**
      * Return the valid maximum index.
      **/
-    int validMax() const	{ return _validMax; }
+    int validMax() const    { return _validMax; }
 
 protected:
-    QString errMsg( int	invalidIndex,
-                    int	validMin,
-                    int	validMax,
+    QString errMsg( int    invalidIndex,
+                    int    validMin,
+                    int    validMax,
                     const QString & msg = "" ) const;
 
 private:
@@ -275,15 +275,15 @@ private:
  *
  *     try
  *     {
- *	   ...do something...
- *	   THROW( Exception( "Catastrophic failure" ) );
- *	   ...
+ *       ...do something...
+ *       THROW( Exception( "Catastrophic failure" ) );
+ *       ...
  *     }
  *     catch( const Exception &exception )
  *     {
- *	   CAUGHT( exception );
- *	   ...clean up to prevent memory leaks etc. ...
- *	   RETHROW( exception ); // equivalent of   throw   without args
+ *       CAUGHT( exception );
+ *       ...clean up to prevent memory leaks etc. ...
+ *       RETHROW( exception ); // equivalent of   throw   without args
  *     }
  *
  * This will leave 3 lines for that exception in the log file: One for
@@ -309,13 +309,13 @@ private:
  * The do..while() loop is used because it syntactically allows to put a
  * semicolon (without nasty side effects) after the macro when it is used.
  */
-#define CHECK_NEW( PTR )			\
-    do						\
-    {						\
-	if ( ! (PTR) )				\
-	{					\
-	    THROW( OutOfMemoryException() );	\
-	}					\
+#define CHECK_NEW( PTR )            \
+    do                        \
+    {                        \
+    if ( ! (PTR) )                \
+    {                    \
+        THROW( OutOfMemoryException() );    \
+    }                    \
     } while( 0 )
 
 
@@ -323,44 +323,44 @@ private:
 /**
  * Check a pointer and throw an exception if it returned 0.
  */
-#define CHECK_PTR( PTR )			\
-    do						\
-    {						\
-	if ( ! (PTR) )				\
-	{					\
-	    THROW( NullPointerException() );	\
-	}					\
+#define CHECK_PTR( PTR )            \
+    do                        \
+    {                        \
+    if ( ! (PTR) )                \
+    {                    \
+        THROW( NullPointerException() );    \
+    }                    \
     } while( 0 )
 
 
 /**
  * Check the result of a dynamic_cast and throw an exception if it returned 0.
  */
-#define CHECK_DYNAMIC_CAST( PTR, EXPECTED_TYPE )		\
-    do								\
-    {								\
-	if ( ! (PTR) )						\
-	{							\
-	    THROW( DynamicCastException( EXPECTED_TYPE) );	\
-	}							\
+#define CHECK_DYNAMIC_CAST( PTR, EXPECTED_TYPE )        \
+    do                                \
+    {                                \
+    if ( ! (PTR) )                        \
+    {                            \
+        THROW( DynamicCastException( EXPECTED_TYPE) );    \
+    }                            \
     } while( 0 )
 
 
 /**
  * Check the magic number of an object and throw an exception if it returned false.
  */
-#define CHECK_MAGIC( PTR )					\
-    do								\
-    {								\
-	if ( ! (PTR) )						\
-	{							\
-	    THROW( NullPointerException() );			\
-	}							\
+#define CHECK_MAGIC( PTR )                    \
+    do                                \
+    {                                \
+    if ( ! (PTR) )                        \
+    {                            \
+        THROW( NullPointerException() );            \
+    }                            \
                                                                 \
-	if ( ! PTR->checkMagicNumber() )			\
-	{							\
-	    THROW( BadMagicNumberException( PTR ) );		\
-	}							\
+    if ( ! PTR->checkMagicNumber() )            \
+    {                            \
+        THROW( BadMagicNumberException( PTR ) );        \
+    }                            \
     } while( 0 )
 
 
@@ -370,18 +370,18 @@ private:
  *
  * Throws InvalidWidgetException if out of range.
  **/
-#define CHECK_INDEX_MSG( INDEX, VALID_MIN, VALID_MAX, MSG )	\
-    do								\
-    {								\
-	if ( (INDEX) < (VALID_MIN) ||				\
-	     (INDEX) > (VALID_MAX) )				\
-	{							\
-	    THROW( IndexOutOfRangeException( (INDEX), (VALID_MIN), (VALID_MAX), (MSG) ) ); \
-	}							\
+#define CHECK_INDEX_MSG( INDEX, VALID_MIN, VALID_MAX, MSG )    \
+    do                                \
+    {                                \
+    if ( (INDEX) < (VALID_MIN) ||                \
+         (INDEX) > (VALID_MAX) )                \
+    {                            \
+        THROW( IndexOutOfRangeException( (INDEX), (VALID_MIN), (VALID_MAX), (MSG) ) ); \
+    }                            \
     } while( 0 )
 
 
-#define CHECK_INDEX( INDEX, VALID_MIN, VALID_MAX )		\
+#define CHECK_INDEX( INDEX, VALID_MIN, VALID_MAX )        \
     CHECK_INDEX_MSG( (INDEX), (VALID_MIN), (VALID_MAX), "")
 
 
@@ -390,53 +390,53 @@ private:
 //
 
 template<class EX_t>
-void _throw_helper( const EX_t	  &exception,
-		    Logger *	   logger,
-		    const QString &srcFile,
-		    int		   srcLine,
-		    const QString &srcFunction )
+void _throw_helper( const EX_t      &exception,
+            Logger *       logger,
+            const QString &srcFile,
+            int           srcLine,
+            const QString &srcFunction )
 {
     exception.setSrcLocation( srcFile, srcLine, srcFunction );
 
     Logger::log( logger, srcFile, srcLine, srcFunction, LogSeverityWarning )
-	<< "THROW "
-	<< exception.className() << ": "
-	<< exception.what()
-	<< endl;
+    << "THROW "
+    << exception.className() << ": "
+    << exception.what()
+    << endl;
 
     throw( exception );
 }
 
 
 template<class EX_t>
-void _caught_helper( const EX_t	   &exception,
-		    Logger *	   logger,
-		     const QString &srcFile,
-		     int	    srcLine,
-		     const QString &srcFunction )
+void _caught_helper( const EX_t       &exception,
+            Logger *       logger,
+             const QString &srcFile,
+             int        srcLine,
+             const QString &srcFunction )
 {
     Logger::log( logger, srcFile, srcLine, srcFunction, LogSeverityWarning )
-	<< "CAUGHT "
-	<< exception.className() << ": "
-	<< exception.what()
-	<< endl;
+    << "CAUGHT "
+    << exception.className() << ": "
+    << exception.what()
+    << endl;
 }
 
 
 template<class EX_t>
 void _rethrow_helper( const EX_t    &exception,
-		      Logger *	     logger,
-		      const QString &srcFile,
-		      int	     srcLine,
-		      const QString &srcFunction )
+              Logger *         logger,
+              const QString &srcFile,
+              int         srcLine,
+              const QString &srcFunction )
 {
     exception.setSrcLocation( srcFile, srcLine, srcFunction );
 
     Logger::log( logger, srcFile, srcLine, srcFunction, LogSeverityWarning )
-	<< "RETHROW "
-	<< exception.className() << ": "
-	<< exception.what()
-	<< endl;
+    << "RETHROW "
+    << exception.className() << ": "
+    << exception.what()
+    << endl;
 
     throw;
 }

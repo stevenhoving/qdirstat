@@ -1,9 +1,9 @@
 /*
  *   File name: ActionManager.h
- *   Summary:	Common access to QActions defined in a .ui file
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Common access to QActions defined in a .ui file
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -23,8 +23,8 @@ ActionManager * ActionManager::instance()
 {
     if ( ! _instance )
     {
-	_instance = new ActionManager();
-	CHECK_NEW( _instance );
+    _instance = new ActionManager();
+    CHECK_NEW( _instance );
     }
 
     return _instance;
@@ -43,13 +43,13 @@ QAction * ActionManager::action( const QString & actionName )
 {
     foreach ( QPointer<QObject> tree, _widgetTrees )
     {
-	if ( tree ) // might be destroyed in the meantime
-	{
-	    QAction * action = tree->findChild<QAction *>( actionName );
+    if ( tree ) // might be destroyed in the meantime
+    {
+        QAction * action = tree->findChild<QAction *>( actionName );
 
-	    if ( action )
-		return action;
-	}
+        if ( action )
+        return action;
+    }
     }
 
     logError() << "No action with name " << actionName << " found" << endl;
@@ -64,17 +64,17 @@ bool ActionManager::addActions( QMenu * menu, const QStringList & actionNames )
 
     foreach ( const QString & actionName, actionNames )
     {
-	if ( actionName.startsWith( "---" ) )
-	    menu->addSeparator();
-	else
-	{
-	    QAction * act = action( actionName );
+    if ( actionName.startsWith( "---" ) )
+        menu->addSeparator();
+    else
+    {
+        QAction * act = action( actionName );
 
-	    if ( act )
-		menu->addAction( act );
-	    else
-		foundAll = false;
-	}
+        if ( act )
+        menu->addAction( act );
+        else
+        foundAll = false;
+    }
     }
 
     return foundAll;

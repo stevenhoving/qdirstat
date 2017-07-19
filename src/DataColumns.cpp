@@ -1,9 +1,9 @@
 /*
  *   File name: DataColumns.cpp
- *   Summary:	Data column mapping
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Data column mapping
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -23,8 +23,8 @@ DataColumns * DataColumns::instance()
 {
     if ( ! _instance )
     {
-	_instance = new DataColumns();
-	CHECK_NEW( _instance );
+    _instance = new DataColumns();
+    CHECK_NEW( _instance );
     }
 
     return _instance;
@@ -58,14 +58,14 @@ const DataColumnList DataColumns::defaultColumns() const
     DataColumnList columns;
 
     columns << NameCol
-	    << PercentBarCol
-	    << PercentNumCol
-	    << TotalSizeCol
-	    << OwnSizeCol
-	    << TotalItemsCol
-	    << TotalFilesCol
-	    << TotalSubDirsCol
-	    << LatestMTimeCol;
+        << PercentBarCol
+        << PercentNumCol
+        << TotalSizeCol
+        << OwnSizeCol
+        << TotalItemsCol
+        << TotalFilesCol
+        << TotalSubDirsCol
+        << LatestMTimeCol;
 
     return columns;
 }
@@ -81,9 +81,9 @@ void DataColumns::readSettings()
     _columns = fromStringList( strColList );
 
     if ( _columns.isEmpty() )
-	_columns = defaultColumns();
+    _columns = defaultColumns();
     else
-	_columns = fixup( _columns );
+    _columns = fixup( _columns );
 }
 
 
@@ -107,8 +107,8 @@ DataColumn DataColumns::mappedCol( DataColumn viewCol ) const
 {
     if ( viewCol < 0 || viewCol >= colCount() )
     {
-	logError() << "Invalid view column no.: " << viewCol << endl;
-	return UndefinedCol;
+    logError() << "Invalid view column no.: " << viewCol << endl;
+    return UndefinedCol;
     }
 
     return _columns.at( viewCol );
@@ -118,7 +118,7 @@ DataColumn DataColumns::mappedCol( DataColumn viewCol ) const
 DataColumn DataColumns::reverseMappedCol( DataColumn modelCol ) const
 {
     if ( modelCol < 0 || modelCol >= colCount() )
-	return UndefinedCol;
+    return UndefinedCol;
 
     return static_cast<DataColumn>( _columns.indexOf( modelCol ) );
 }
@@ -128,20 +128,20 @@ QString DataColumns::toString( DataColumn col )
 {
     switch ( col )
     {
-	case NameCol:		return "NameCol";
-	case PercentBarCol:	return "PercentBarCol";
-	case PercentNumCol:	return "PercentNumCol";
-	case TotalSizeCol:	return "TotalSizeCol";
-	case OwnSizeCol:	return "OwnSizeCol";
-	case TotalItemsCol:	return "TotalItemsCol";
-	case TotalFilesCol:	return "TotalFilesCol";
-	case TotalSubDirsCol:	return "TotalSubDirsCol";
-	case LatestMTimeCol:	return "LatestMTimeCol";
-	case ReadJobsCol:	return "ReadJobsCol";
-	case UndefinedCol:	return "UndefinedCol";
+    case NameCol:        return "NameCol";
+    case PercentBarCol:    return "PercentBarCol";
+    case PercentNumCol:    return "PercentNumCol";
+    case TotalSizeCol:    return "TotalSizeCol";
+    case OwnSizeCol:    return "OwnSizeCol";
+    case TotalItemsCol:    return "TotalItemsCol";
+    case TotalFilesCol:    return "TotalFilesCol";
+    case TotalSubDirsCol:    return "TotalSubDirsCol";
+    case LatestMTimeCol:    return "LatestMTimeCol";
+    case ReadJobsCol:    return "ReadJobsCol";
+    case UndefinedCol:    return "UndefinedCol";
 
-	    // Intentionally omitting 'default' so the compiler
-	    // can catch unhandled enum values
+        // Intentionally omitting 'default' so the compiler
+        // can catch unhandled enum values
     }
 
     logError() << "Unknown DataColumn " << col << endl;
@@ -153,10 +153,10 @@ DataColumn DataColumns::fromString( const QString & str )
 {
     for ( int i = DataColumnBegin; i <= DataColumnEnd; ++i )
     {
-	DataColumn col = static_cast<DataColumn>( i );
+    DataColumn col = static_cast<DataColumn>( i );
 
-	if ( str == toString( col ) )
-	    return col;
+    if ( str == toString( col ) )
+        return col;
     }
 
     logError() << "Undefined DataColumn \"" << str << "\"" << endl;
@@ -170,7 +170,7 @@ QStringList DataColumns::toStringList( const DataColumnList & colList )
 
     foreach ( DataColumn col, colList )
     {
-	strList << toString( col );
+    strList << toString( col );
     }
 
     return strList;
@@ -183,10 +183,10 @@ DataColumnList DataColumns::fromStringList( const QStringList & strList )
 
     foreach ( const QString & str, strList )
     {
-	DataColumn col = fromString( str );
+    DataColumn col = fromString( str );
 
-	if ( col != UndefinedCol )
-	    colList << col;
+    if ( col != UndefinedCol )
+        colList << col;
     }
 
     return colList;
@@ -199,10 +199,10 @@ DataColumnList DataColumns::fixup( const DataColumnList & colList )
 
     if ( fixedList.first() != NameCol )
     {
-	logError() << "NameCol is required to be first!" << endl;
-	fixedList.removeAll( NameCol );
-	fixedList.prepend( NameCol );
-	logError() << "Fixed column list: " << toStringList( fixedList ) << endl;
+    logError() << "NameCol is required to be first!" << endl;
+    fixedList.removeAll( NameCol );
+    fixedList.prepend( NameCol );
+    logError() << "Fixed column list: " << toStringList( fixedList ) << endl;
     }
 
     return fixedList;

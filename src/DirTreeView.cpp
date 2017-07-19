@@ -1,9 +1,9 @@
 /*
  *   File name: DirTreeView.cpp
- *   Summary:	Tree view widget for directory tree
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Tree view widget for directory tree
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -41,7 +41,7 @@ DirTreeView::DirTreeView( QWidget * parent ):
     CHECK_NEW( _headerTweaker );
 
     connect( this , SIGNAL( customContextMenuRequested( const QPoint & ) ),
-	     this,  SLOT  ( contextMenu		      ( const QPoint & ) ) );
+         this,  SLOT  ( contextMenu              ( const QPoint & ) ) );
 }
 
 
@@ -53,7 +53,7 @@ DirTreeView::~DirTreeView()
 
 
 void DirTreeView::currentChanged( const QModelIndex & current,
-				  const QModelIndex & oldCurrent )
+                  const QModelIndex & oldCurrent )
 {
     // logDebug() << "Setting new current to " << current << endl;
     QTreeView::currentChanged( current, oldCurrent );
@@ -67,31 +67,31 @@ void DirTreeView::contextMenu( const QPoint & pos )
 
     if ( ! index.isValid() )
     {
-	// logDebug() << "No item at this position" << endl;
-	return;
+    // logDebug() << "No item at this position" << endl;
+    return;
     }
 
     QMenu menu;
     QStringList actions;
     actions << "actionGoUp"
-	    << "actionCopyUrlToClipboard"
-	    << "---"
-	    << "actionRefreshSelected"
-	    << "actionReadExcludedDirectory"
-	    << "actionContinueReadingAtMountPoint"
-	    << "---"
+        << "actionCopyUrlToClipboard"
+        << "---"
+        << "actionRefreshSelected"
+        << "actionReadExcludedDirectory"
+        << "actionContinueReadingAtMountPoint"
+        << "---"
             << "actionFileSizeStats"
             << "actionFileTypeStats"
-	    << "---"
-	    << "actionMoveToTrash"
-	;
+        << "---"
+        << "actionMoveToTrash"
+    ;
 
     ActionManager::instance()->addActions( &menu, actions );
 
     if ( _cleanupCollection && ! _cleanupCollection->isEmpty() )
     {
-	menu.addSeparator();
-	_cleanupCollection->addToMenu( &menu );
+    menu.addSeparator();
+    _cleanupCollection->addToMenu( &menu );
     }
 
     menu.exec( mapToGlobal( pos ) );
@@ -103,20 +103,20 @@ QModelIndexList DirTreeView::expandedIndexes() const
     QModelIndexList expandedList;
 
     if ( ! model() )
-	return QModelIndexList();
+    return QModelIndexList();
 
     DirTreeModel * dirTreeModel = dynamic_cast<DirTreeModel *>( model() );
 
     if ( ! dirTreeModel )
     {
-	logError() << "Wrong model type to get this information" << endl;
-	return QModelIndexList();
+    logError() << "Wrong model type to get this information" << endl;
+    return QModelIndexList();
     }
 
     foreach ( const QModelIndex & index, dirTreeModel->persistentIndexList() )
     {
-	if ( isExpanded( index ) )
-	    expandedList << index;
+    if ( isExpanded( index ) )
+        expandedList << index;
     }
 
     return expandedList;
@@ -133,17 +133,17 @@ void DirTreeView::closeAllExcept( const QModelIndex & branch )
 
     while ( index.isValid() )
     {
-	// logDebug() << "Not closing " << index << endl;
-	branchesToClose.removeAll( index );
-	index = index.parent();
+    // logDebug() << "Not closing " << index << endl;
+    branchesToClose.removeAll( index );
+    index = index.parent();
     }
 
     // Close all items in branchesToClose
 
     foreach ( index, branchesToClose )
     {
-	// logDebug() << "Closing " << index << endl;
-	collapse( index );
+    // logDebug() << "Closing " << index << endl;
+    collapse( index );
     }
 
     scrollTo( currentIndex() );

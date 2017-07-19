@@ -1,9 +1,9 @@
 /*
  *   File name: MimeCategorizer.h
- *   Summary:	Support classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Support classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef MimeCategorizer_h
@@ -28,114 +28,114 @@ namespace QDirStat
      **/
     class MimeCategorizer: public QObject
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
-	/**
-	 * Constructor.
-	 **/
-	MimeCategorizer( QObject * parent = 0 );
+    /**
+     * Constructor.
+     **/
+    MimeCategorizer( QObject * parent = 0 );
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~MimeCategorizer();
+    /**
+     * Destructor.
+     **/
+    virtual ~MimeCategorizer();
 
-	/**
-	 * Return the MimeCategory for a FileInfo item or 0 if it doesn't fit
-	 * into any of the available categories.
-	 **/
-	MimeCategory * category( FileInfo * item );
+    /**
+     * Return the MimeCategory for a FileInfo item or 0 if it doesn't fit
+     * into any of the available categories.
+     **/
+    MimeCategory * category( FileInfo * item );
 
-	/**
-	 * Return the MimeCategory for a filename or 0 if it doesn't fit into
-	 * any of the available categories.
+    /**
+     * Return the MimeCategory for a filename or 0 if it doesn't fit into
+     * any of the available categories.
          *
          * If 'suffix_ret' is non-null, it returns the suffix used if the
          * category was found by a suffix rule. If the category was not found
          * or if a regexp (rather than a suffix rule) matched, this returns an
          * empty string.
-	 **/
-	MimeCategory * category( const QString & filename, QString * suffix_ret = 0 );
+     **/
+    MimeCategory * category( const QString & filename, QString * suffix_ret = 0 );
 
-	/**
-	 * Add a MimeCategory.
-	 **/
-	void add( MimeCategory * category );
+    /**
+     * Add a MimeCategory.
+     **/
+    void add( MimeCategory * category );
 
-	/**
-	 * Remove and delete a MimeCategory.
-	 **/
-	void remove( MimeCategory * category );
+    /**
+     * Remove and delete a MimeCategory.
+     **/
+    void remove( MimeCategory * category );
 
-	/**
-	 * Return the number of MimeCategories.
-	 **/
-	int size() const { return _categories.size(); }
+    /**
+     * Return the number of MimeCategories.
+     **/
+    int size() const { return _categories.size(); }
 
-	/**
-	 * Return the MimeCategories list.
-	 **/
-	const MimeCategoryList & categories() const { return _categories; }
+    /**
+     * Return the MimeCategories list.
+     **/
+    const MimeCategoryList & categories() const { return _categories; }
 
-	/**
-	 * Clear all categories.
-	 **/
-	void clear();
+    /**
+     * Clear all categories.
+     **/
+    void clear();
 
 
     public slots:
 
-	/**
-	 * Read the MimeCategory parameter from the settings.
-	 **/
-	void readSettings();
+    /**
+     * Read the MimeCategory parameter from the settings.
+     **/
+    void readSettings();
 
-	/**
-	 * Write the MimeCategory parameter to the settings.
-	 **/
-	void writeSettings();
+    /**
+     * Write the MimeCategory parameter to the settings.
+     **/
+    void writeSettings();
 
     protected:
 
-	/**
-	 * Build the internal maps and clear the _mapsDirty flag.
-	 **/
-	void buildMaps();
+    /**
+     * Build the internal maps and clear the _mapsDirty flag.
+     **/
+    void buildMaps();
 
-	/**
-	 * Add all suffixes in 'suffixList' as key to 'suffixMap' with value
-	 * 'category'.
-	 *
-	 * This provides a really fast map lookup for each suffix.
-	 **/
-	void addSuffixes( QMap<QString, MimeCategory *> & suffixMap,
-			  MimeCategory			* category,
-			  const QStringList		& suffixList  );
+    /**
+     * Add all suffixes in 'suffixList' as key to 'suffixMap' with value
+     * 'category'.
+     *
+     * This provides a really fast map lookup for each suffix.
+     **/
+    void addSuffixes( QMap<QString, MimeCategory *> & suffixMap,
+              MimeCategory            * category,
+              const QStringList        & suffixList  );
 
-	/**
-	 * Iterate over all categories and try all patterns until the first
-	 * match. Return the matched category or 0 if none matched.
-	 **/
-	MimeCategory * matchPatterns( const QString & filename ) const;
+    /**
+     * Iterate over all categories and try all patterns until the first
+     * match. Return the matched category or 0 if none matched.
+     **/
+    MimeCategory * matchPatterns( const QString & filename ) const;
 
-	/**
-	 * Add default categories in case none were read from the settings.
-	 **/
-	void addDefaultCategories();
+    /**
+     * Add default categories in case none were read from the settings.
+     **/
+    void addDefaultCategories();
 
-	//
-	// Data members
-	//
+    //
+    // Data members
+    //
 
-	bool		 _mapsDirty;
-	MimeCategoryList _categories;
+    bool         _mapsDirty;
+    MimeCategoryList _categories;
 
-	QMap<QString, MimeCategory *> _caseInsensitiveSuffixMap;
-	QMap<QString, MimeCategory *> _caseSensitiveSuffixMap;
+    QMap<QString, MimeCategory *> _caseInsensitiveSuffixMap;
+    QMap<QString, MimeCategory *> _caseSensitiveSuffixMap;
 
-    };	// class MimeCategorizer
+    };    // class MimeCategorizer
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
-#endif	// MimeCategorizer_h
+#endif    // MimeCategorizer_h

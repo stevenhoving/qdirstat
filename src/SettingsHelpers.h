@@ -1,9 +1,9 @@
 /*
  *   File name: SettingsHelpers.h
- *   Summary:	Helper functions for QSettings for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Helper functions for QSettings for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef SettingsHelpers_h
@@ -22,38 +22,38 @@ namespace QDirStat
      * Read a color in RGB format (#RRGGBB) from the settings.
      **/
     QColor readColorEntry( const QSettings & settings,
-			   const char	   * entryName,
-			   const QColor	   & fallback );
+               const char       * entryName,
+               const QColor       & fallback );
 
     /**
      * Write a color in RGB format (#RRGGBB) to the settings.
      **/
     void writeColorEntry( QSettings    & settings,
-			  const char   * entryName,
-			  const QColor & color );
+              const char   * entryName,
+              const QColor & color );
 
     /**
      * Read a list of colors in RGB format (#RRGGBB, #RRGGBB, ...) from the
      * settings.
      **/
-    QList<QColor> readColorListEntry( const QSettings	  & settings,
-				      const char	  * entryName,
-				      const QList<QColor> & fallback );
+    QList<QColor> readColorListEntry( const QSettings      & settings,
+                      const char      * entryName,
+                      const QList<QColor> & fallback );
 
     /**
      * Write a list of colors in RGB format (#RRGGBB, #RRGGBB, ...) to the
      * settings.
      **/
-    void writeColorListEntry( QSettings		  & settings,
-			      const char	  * entryName,
-			      const QList<QColor> & colors );
+    void writeColorListEntry( QSettings          & settings,
+                  const char      * entryName,
+                  const QList<QColor> & colors );
 
     /**
      * Read a font in string format  from the settings.
      * Example: "DejaVu Sans Mono,10,-1,5,50,0,0,0,0,0"
      **/
     QFont readFontEntry( const QSettings & settings,
-                         const char	 * entryName,
+                         const char     * entryName,
                          const QFont     & fallback );
 
     /**
@@ -70,18 +70,18 @@ namespace QDirStat
      * 'enumMapping' maps each valid enum value to the corresponding string.
      **/
     int readEnumEntry( const QSettings & settings,
-		       const char      * entryName,
-		       int		 fallback,
-		       const QMap<int, QString> & enumMapping );
+               const char      * entryName,
+               int         fallback,
+               const QMap<int, QString> & enumMapping );
 
     /**
      * Write an enum value in string format to the settings.
      * 'enumMapping' maps each valid enum value to the corresponding string.
      **/
     void writeEnumEntry( QSettings  & settings,
-			 const char * entryName,
-			 int	      enumValue,
-			 const QMap<int, QString> & enumMapping );
+             const char * entryName,
+             int          enumValue,
+             const QMap<int, QString> & enumMapping );
 
     /**
      * Return the enum mapping for QRegExp::PatternSyntax.
@@ -101,6 +101,6 @@ namespace QDirStat
     void writeWindowSettings( QWidget *       widget,
                               const QString & settingsGroup );
     
-}	// namespace QDirStat
+}    // namespace QDirStat
 
-#endif	// SettingsHelpers_h
+#endif    // SettingsHelpers_h

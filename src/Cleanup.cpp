@@ -1,9 +1,9 @@
 /*
  *   File name: Cleanup.cpp
- *   Summary:	QDirStat classes to reclaim disk space
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat classes to reclaim disk space
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -22,27 +22,27 @@
 #include "Exception.h"
 
 
-#define SIMULATE_COMMAND	1
-#define WAIT_TIMEOUT_MILLISEC	30000
+#define SIMULATE_COMMAND    1
+#define WAIT_TIMEOUT_MILLISEC    30000
 
 using namespace QDirStat;
 
 
 Cleanup::Cleanup( QString   command,
-		  QString   title,
-		  QObject * parent ):
+          QString   title,
+          QObject * parent ):
     QAction( title, parent ),
     _command( command ),
     _title( title )
 {
-    _active		   = true;
-    _worksForDir	   = true;
-    _worksForFile	   = true;
-    _worksForDotEntry	   = false;
-    _recurse		   = false;
-    _askForConfirmation	   = false;
-    _refreshPolicy	   = RefreshThis;
-    _outputWindowPolicy	   = ShowAfterTimeout;
+    _active           = true;
+    _worksForDir       = true;
+    _worksForFile       = true;
+    _worksForDotEntry       = false;
+    _recurse           = false;
+    _askForConfirmation       = false;
+    _refreshPolicy       = RefreshThis;
+    _outputWindowPolicy       = ShowAfterTimeout;
     _outputWindowTimeout   = 500;
     _outputWindowAutoClose = false;
 
@@ -67,10 +67,10 @@ void Cleanup::setIcon( const QString & iconName )
 bool Cleanup::worksFor( FileInfo *item ) const
 {
     if ( ! _active || ! item )
-	return false;
+    return false;
 
-    if	( item->isDotEntry() )	return worksForDotEntry();
-    if	( item->isDir() )	return worksForDir();
+    if    ( item->isDotEntry() )    return worksForDotEntry();
+    if    ( item->isDir() )    return worksForDir();
 
     return worksForFile();
 }
@@ -80,33 +80,33 @@ void Cleanup::execute( FileInfo *item, OutputWindow * outputWindow )
 {
     if ( worksFor( item ) )
     {
-	DirTree * tree = item->tree();
+    DirTree * tree = item->tree();
 
-	executeRecursive( item, outputWindow );
+    executeRecursive( item, outputWindow );
 
-	switch ( _refreshPolicy )
-	{
-	    case NoRefresh:
-		// Do nothing (by definition).
-		break;
+    switch ( _refreshPolicy )
+    {
+        case NoRefresh:
+        // Do nothing (by definition).
+        break;
 
-	    case RefreshThis:
-	    case RefreshParent:
-		// Done from CleanupCollection::execute() via a Refresher
-		// object that is triggered by the
-		// OutputWindow::lastProcessFinished() signal.
-		//
-		// Nothing left to do here.
-		break;
+        case RefreshThis:
+        case RefreshParent:
+        // Done from CleanupCollection::execute() via a Refresher
+        // object that is triggered by the
+        // OutputWindow::lastProcessFinished() signal.
+        //
+        // Nothing left to do here.
+        break;
 
-	    case AssumeDeleted:
+        case AssumeDeleted:
 
-		// Assume the cleanup action has deleted the item.
-		// Modify the DirTree accordingly.
+        // Assume the cleanup action has deleted the item.
+        // Modify the DirTree accordingly.
 
-		tree->deleteSubtree( item );
-		break;
-	}
+        tree->deleteSubtree( item );
+        break;
+    }
     }
 }
 
@@ -115,33 +115,33 @@ void Cleanup::executeRecursive( FileInfo *item, OutputWindow * outputWindow )
 {
     if ( worksFor( item ) )
     {
-	if ( _recurse )
-	{
-	    // Recurse into all subdirectories.
+    if ( _recurse )
+    {
+        // Recurse into all subdirectories.
 
-	    FileInfo * subdir = item->firstChild();
+        FileInfo * subdir = item->firstChild();
 
-	    while ( subdir )
-	    {
-		if ( subdir->isDir() )
-		{
-		    /**
-		     * Recursively execute in this subdirectory, but only if it
-		     * really is a directory: File children might have been
-		     * reparented to the directory (normally, they reside in
-		     * the dot entry) if there are no real subdirectories on
-		     * this directory level.
-		     **/
-		    executeRecursive( subdir, outputWindow );
-		}
-		subdir = subdir->next();
-	    }
-	}
+        while ( subdir )
+        {
+        if ( subdir->isDir() )
+        {
+            /**
+             * Recursively execute in this subdirectory, but only if it
+             * really is a directory: File children might have been
+             * reparented to the directory (normally, they reside in
+             * the dot entry) if there are no real subdirectories on
+             * this directory level.
+             **/
+            executeRecursive( subdir, outputWindow );
+        }
+        subdir = subdir->next();
+        }
+    }
 
 
-	// Perform cleanup for this directory.
+    // Perform cleanup for this directory.
 
-	runCommand( item, _command, outputWindow );
+    runCommand( item, _command, outputWindow );
     }
 }
 
@@ -152,7 +152,7 @@ const QString Cleanup::itemDir( const FileInfo *item ) const
 
     if ( ! item->isDir() && ! item->isDotEntry() )
     {
-	dir.replace ( QRegExp ( "/[^/]*$" ), "" );
+    dir.replace ( QRegExp ( "/[^/]*$" ), "" );
     }
 
     return dir;
@@ -166,7 +166,7 @@ QString Cleanup::cleanTitle() const
     QString title = _title;
 
     if ( title.isEmpty() )
-	title = _command;
+    title = _command;
 
     // Get rid of any "&" characters in the text that denote keyboard
     // shortcuts in menus.
@@ -177,21 +177,21 @@ QString Cleanup::cleanTitle() const
 
 
 QString Cleanup::expandVariables( const FileInfo * item,
-				  const QString	 & unexpanded ) const
+                  const QString     & unexpanded ) const
 {
     QString expanded = expandDesktopSpecificApps( unexpanded );
     QString dirName = "";
 
     if ( item->isDir() )
-	dirName = item->url();
+    dirName = item->url();
     else if ( item->parent() )
-	dirName = item->parent()->url();
+    dirName = item->parent()->url();
 
     expanded.replace( "%p", quoted( escaped( item->url()  ) ) );
     expanded.replace( "%n", quoted( escaped( item->name() ) ) );
 
     if ( ! dirName.isEmpty() )
-	expanded.replace( "%d", quoted( escaped( dirName ) ) );
+    expanded.replace( "%d", quoted( escaped( dirName ) ) );
 
     // logDebug() << "Expanded: \"" << expanded << "\"" << endl;
     return expanded;
@@ -235,28 +235,28 @@ QString Cleanup::chooseShell( OutputWindow * outputWindow ) const
 
     if ( ! shell.isEmpty() )
     {
-	logDebug() << "Using custom shell " << shell << endl;
+    logDebug() << "Using custom shell " << shell << endl;
 
-	if ( ! isExecutable( shell ) )
-	{
-	    errMsg = tr( "ERROR: Shell %1 is not executable" ).arg( shell );
-	    shell = defaultShell();
+    if ( ! isExecutable( shell ) )
+    {
+        errMsg = tr( "ERROR: Shell %1 is not executable" ).arg( shell );
+        shell = defaultShell();
 
-	    if ( ! shell.isEmpty() )
-		errMsg += "\n" + tr( "Using fallback %1" ).arg( shell );
-	}
+        if ( ! shell.isEmpty() )
+        errMsg += "\n" + tr( "Using fallback %1" ).arg( shell );
+    }
     }
 
     if ( shell.isEmpty() )
     {
-	shell = defaultShell();
-	logDebug() << "No custom shell configured - using " << shell << endl;
+    shell = defaultShell();
+    logDebug() << "No custom shell configured - using " << shell << endl;
     }
 
     if ( ! errMsg.isEmpty() )
     {
-	outputWindow->show(); // Show error regardless of user settings
-	outputWindow->addStderr( errMsg );
+    outputWindow->show(); // Show error regardless of user settings
+    outputWindow->addStderr( errMsg );
     }
 
     return shell;
@@ -264,17 +264,17 @@ QString Cleanup::chooseShell( OutputWindow * outputWindow ) const
 
 
 void Cleanup::runCommand( const FileInfo * item,
-			  const QString	 & command,
-			  OutputWindow	 * outputWindow ) const
+              const QString     & command,
+              OutputWindow     * outputWindow ) const
 {
     QString shell = chooseShell( outputWindow );
 
     if ( shell.isEmpty() )
     {
-	outputWindow->show(); // Regardless of user settings
-	outputWindow->addStderr( tr( "No usable shell - aborting cleanup action" ) );
-	logError() << "ERROR: No usable shell" << endl;
-	return;
+    outputWindow->show(); // Regardless of user settings
+    outputWindow->addStderr( tr( "No usable shell - aborting cleanup action" ) );
+    logError() << "ERROR: No usable shell" << endl;
+    return;
     }
 
     QString cleanupCommand( expandVariables( item, command ));
@@ -297,7 +297,7 @@ QMap<int, QString> Cleanup::refreshPolicyMapping()
 {
     QMap<int, QString> mapping;
 
-    mapping[ NoRefresh	   ] = "NoRefresh";
+    mapping[ NoRefresh       ] = "NoRefresh";
     mapping[ RefreshThis   ] = "RefreshThis";
     mapping[ RefreshParent ] = "RefreshParent";
     mapping[ AssumeDeleted ] = "AssumeDeleted";
@@ -310,10 +310,10 @@ QMap<int, QString> Cleanup::outputWindowPolicyMapping()
 {
     QMap<int, QString> mapping;
 
-    mapping[ ShowAlways	       ] = "ShowAlways";
+    mapping[ ShowAlways           ] = "ShowAlways";
     mapping[ ShowIfErrorOutput ] = "ShowIfErrorOutput";
     mapping[ ShowAfterTimeout  ] = "ShowAfterTimeout";
-    mapping[ ShowNever	       ] = "ShowNever";
+    mapping[ ShowNever           ] = "ShowNever";
 
     return mapping;
 }
@@ -322,7 +322,7 @@ QMap<int, QString> Cleanup::outputWindowPolicyMapping()
 bool Cleanup::isExecutable( const QString & programName )
 {
     if ( programName.isEmpty() )
-	return false;
+    return false;
 
     QFileInfo fileInfo( programName );
     return fileInfo.isExecutable();
@@ -336,15 +336,15 @@ QString Cleanup::loginShell()
 
     if ( ! cached )
     {
-	cached = true;
-	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-	shell = env.value( "SHELL", "" );
+    cached = true;
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    shell = env.value( "SHELL", "" );
 
-	if ( ! isExecutable( shell ) )
-	{
-	    logError() << "ERROR: Shell \"" << shell << "\" is not executable" << endl;
-	    shell = "";
-	}
+    if ( ! isExecutable( shell ) )
+    {
+        logError() << "ERROR: Shell \"" << shell << "\" is not executable" << endl;
+        shell = "";
+    }
     }
 
     return shell;
@@ -358,26 +358,26 @@ const QStringList & Cleanup::defaultShells()
 
     if ( ! cached )
     {
-	cached = true;
-	QStringList candidates;
-	candidates << loginShell() << "/bin/bash" << "/bin/sh";
+    cached = true;
+    QStringList candidates;
+    candidates << loginShell() << "/bin/bash" << "/bin/sh";
 
-	foreach ( const QString & shell, candidates )
-	{
-	    if ( isExecutable( shell ) )
-		 shells << shell;
-	    else if ( ! shell.isEmpty() )
-	    {
-		logWarning() << "Shell " << shell << " is not executable" << endl;
-	    }
-	}
+    foreach ( const QString & shell, candidates )
+    {
+        if ( isExecutable( shell ) )
+         shells << shell;
+        else if ( ! shell.isEmpty() )
+        {
+        logWarning() << "Shell " << shell << " is not executable" << endl;
+        }
+    }
 
-	if ( ! shells.isEmpty() )
-	    logDebug() << "Default shell: " << shells.first() << endl;
+    if ( ! shells.isEmpty() )
+        logDebug() << "Default shell: " << shells.first() << endl;
     }
 
     if ( shells.isEmpty() )
-	logError() << "ERROR: No usable shell" << endl;
+    logError() << "ERROR: No usable shell" << endl;
 
     return shells;
 }
@@ -395,78 +395,78 @@ const QMap<QString, QString> & Cleanup::desktopSpecificApps()
 
     if ( apps.isEmpty() )
     {
-	QString desktop = QString::fromUtf8( qgetenv( "QDIRSTAT_DESKTOP" ) );
+    QString desktop = QString::fromUtf8( qgetenv( "QDIRSTAT_DESKTOP" ) );
 
-	if ( desktop.isEmpty() )
-	     desktop = QString::fromUtf8( qgetenv( "XDG_CURRENT_DESKTOP" ) );
-	else
-	{
-	    logDebug() << "Overriding $XDG_CURRENT_DESKTOP with $QDIRSTAT_DESKTOP (\""
-		       << desktop << "\")" << endl;
-	}
+    if ( desktop.isEmpty() )
+         desktop = QString::fromUtf8( qgetenv( "XDG_CURRENT_DESKTOP" ) );
+    else
+    {
+        logDebug() << "Overriding $XDG_CURRENT_DESKTOP with $QDIRSTAT_DESKTOP (\""
+               << desktop << "\")" << endl;
+    }
 
-	if ( desktop.isEmpty() )
-	{
-	    logWarning() << "$XDG_CURRENT_DESKTOP is not set - using fallback apps" << endl;
-	    apps = fallbackApps();
-	}
-	else
-	{
-	    logInfo() << "Detected desktop \"" << desktop << "\"" << endl;
-	    desktop = desktop.toLower();
+    if ( desktop.isEmpty() )
+    {
+        logWarning() << "$XDG_CURRENT_DESKTOP is not set - using fallback apps" << endl;
+        apps = fallbackApps();
+    }
+    else
+    {
+        logInfo() << "Detected desktop \"" << desktop << "\"" << endl;
+        desktop = desktop.toLower();
 
-	    if ( desktop == "kde" )
-	    {
-		// KDE konsole misbehaves in every way possible:
-		//
-		// It cannot be started in the background from a cleanup action,
-		// it will terminate when QDirStat terminates,
-		// and it doesn't give a shit about its current working directory.
-		//
-		// After having wasted four hours to get that thing to cooperate,
-		// I simply don't care any more: The other terminals will get
-		// the & added here rather than in the cleanup command line
-		// where it would be appropriate. All this just because KDE
-		// konsole doesn't comply with any standards whatsoever.
+        if ( desktop == "kde" )
+        {
+        // KDE konsole misbehaves in every way possible:
+        //
+        // It cannot be started in the background from a cleanup action,
+        // it will terminate when QDirStat terminates,
+        // and it doesn't give a shit about its current working directory.
+        //
+        // After having wasted four hours to get that thing to cooperate,
+        // I simply don't care any more: The other terminals will get
+        // the & added here rather than in the cleanup command line
+        // where it would be appropriate. All this just because KDE
+        // konsole doesn't comply with any standards whatsoever.
 
-		apps[ "%terminal"    ] = "konsole --workdir %d";
-		apps[ "%filemanager" ] = "konqueror --profile filemanagement";
-	    }
-	    else if ( desktop == "gnome" ||
-		      desktop == "unity"   )
-	    {
-		apps[ "%terminal"    ] = "gnome-terminal &";
-		apps[ "%filemanager" ] = "nautilus";
-	    }
-	    else if ( desktop == "xfce" )
-	    {
-		apps[ "%terminal"    ] = "xfce4-terminal &";
-		apps[ "%filemanager" ] = "thunar";
-	    }
-	    else if ( desktop == "lxde" )
-	    {
-		apps[ "%terminal"    ] = "lxterminal &";
-		apps[ "%filemanager" ] = "pcmanfm";
-	    }
-	    else if ( desktop == "enlightenment" )
-	    {
-		apps[ "%terminal"    ] = "eterm &";
-		apps[ "%filemanager" ] = "xdg-open";
-	    }
+        apps[ "%terminal"    ] = "konsole --workdir %d";
+        apps[ "%filemanager" ] = "konqueror --profile filemanagement";
+        }
+        else if ( desktop == "gnome" ||
+              desktop == "unity"   )
+        {
+        apps[ "%terminal"    ] = "gnome-terminal &";
+        apps[ "%filemanager" ] = "nautilus";
+        }
+        else if ( desktop == "xfce" )
+        {
+        apps[ "%terminal"    ] = "xfce4-terminal &";
+        apps[ "%filemanager" ] = "thunar";
+        }
+        else if ( desktop == "lxde" )
+        {
+        apps[ "%terminal"    ] = "lxterminal &";
+        apps[ "%filemanager" ] = "pcmanfm";
+        }
+        else if ( desktop == "enlightenment" )
+        {
+        apps[ "%terminal"    ] = "eterm &";
+        apps[ "%filemanager" ] = "xdg-open";
+        }
 
-	    if ( apps.isEmpty() )
-	    {
-		logWarning() << "No mapping available for this desktop - using fallback apps" << endl;
-		apps = fallbackApps();
-	    }
-	}
+        if ( apps.isEmpty() )
+        {
+        logWarning() << "No mapping available for this desktop - using fallback apps" << endl;
+        apps = fallbackApps();
+        }
+    }
 
-	for ( QMap<QString, QString>::const_iterator it = apps.constBegin();
-	      it != apps.constEnd();
-	      ++it )
-	{
-	    logInfo() << it.key() << " => \"" << it.value() << "\"" << endl;
-	}
+    for ( QMap<QString, QString>::const_iterator it = apps.constBegin();
+          it != apps.constEnd();
+          ++it )
+    {
+        logInfo() << it.key() << " => \"" << it.value() << "\"" << endl;
+    }
     }
 
     return apps;
@@ -480,11 +480,11 @@ const QMap<QString, QString> & Cleanup::fallbackApps()
     if ( apps.isEmpty() )
     {
 #ifdef Q_OS_MAC
-	apps[ "%terminal"    ] = "open -a Terminal.app .";
-	apps[ "%filemanager" ] = "open";
+    apps[ "%terminal"    ] = "open -a Terminal.app .";
+    apps[ "%filemanager" ] = "open";
 #else
-	apps[ "%terminal"    ] = "xterm";
-	apps[ "%filemanager" ] = "xdg-open";
+    apps[ "%terminal"    ] = "xterm";
+    apps[ "%filemanager" ] = "xdg-open";
 #endif
     }
 
@@ -498,10 +498,10 @@ QString Cleanup::expandDesktopSpecificApps( const QString & unexpanded ) const
     const QMap<QString, QString> & apps = desktopSpecificApps();
 
     for ( QMap<QString, QString>::const_iterator it = apps.constBegin();
-	  it != apps.constEnd();
-	  ++it )
+      it != apps.constEnd();
+      ++it )
     {
-	expanded.replace( it.key(), it.value() );
+    expanded.replace( it.key(), it.value() );
     }
 
     return expanded;

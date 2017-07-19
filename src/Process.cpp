@@ -1,10 +1,10 @@
 /*
  *   File name: Process.cpp
- *   Summary:	Qt4/5 compatibility layer for QProcess
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Qt4/5 compatibility layer for QProcess
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Authors:	 Michael Matz <matz@suse.de>
- *		 Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Authors:     Michael Matz <matz@suse.de>
+ *         Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -27,4 +27,4 @@ void Process::start()
     QProcess::start( _prog, _arglist );
 }
 
-#endif	// Qt < 5.1.0
+#endif    // Qt < 5.1.0

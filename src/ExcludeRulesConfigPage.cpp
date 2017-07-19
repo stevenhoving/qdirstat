@@ -1,9 +1,9 @@
 /*
  *   File name: ExcludeRulesConfigPage.h
- *   Summary:	QDirStat configuration dialog classes
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat configuration dialog classes
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -28,15 +28,15 @@ ExcludeRulesConfigPage::ExcludeRulesConfigPage( QWidget * parent ):
     _ui->setupUi( this );
     setListWidget( _ui->listWidget );
 
-    setMoveUpButton	 ( _ui->moveUpButton	   );
-    setMoveDownButton	 ( _ui->moveDownButton	   );
-    setMoveToTopButton	 ( _ui->moveToTopButton	   );
+    setMoveUpButton     ( _ui->moveUpButton       );
+    setMoveDownButton     ( _ui->moveDownButton       );
+    setMoveToTopButton     ( _ui->moveToTopButton       );
     setMoveToBottomButton( _ui->moveToBottomButton );
-    setAddButton	 ( _ui->addButton	   );
-    setRemoveButton	 ( _ui->removeButton	   );
+    setAddButton     ( _ui->addButton       );
+    setRemoveButton     ( _ui->removeButton       );
 
-    connect( _ui->patternLineEdit, SIGNAL( textChanged	 ( QString ) ),
-	     this,		   SLOT	 ( patternChanged( QString ) ) );
+    connect( _ui->patternLineEdit, SIGNAL( textChanged     ( QString ) ),
+         this,           SLOT     ( patternChanged( QString ) ) );
 }
 
 
@@ -77,18 +77,18 @@ void ExcludeRulesConfigPage::fillListWidget()
     listWidget()->clear();
 
     for ( ExcludeRuleListIterator it = ExcludeRules::instance()->begin();
-	  it != ExcludeRules::instance()->end();
-	  ++it )
+      it != ExcludeRules::instance()->end();
+      ++it )
     {
-	QListWidgetItem * item = new ListEditorItem( (*it)->regexp().pattern(), (*it) );
-	CHECK_NEW( item );
-	listWidget()->addItem( item );
+    QListWidgetItem * item = new ListEditorItem( (*it)->regexp().pattern(), (*it) );
+    CHECK_NEW( item );
+    listWidget()->addItem( item );
     }
 
     QListWidgetItem * firstItem = listWidget()->item(0);
 
     if ( firstItem )
-	listWidget()->setCurrentItem( firstItem );
+    listWidget()->setCurrentItem( firstItem );
 }
 
 
@@ -98,11 +98,11 @@ void ExcludeRulesConfigPage::patternChanged( const QString & newPattern )
 
     if ( currentItem )
     {
-	ExcludeRule * excludeRule = EXCLUDE_RULE_CAST( value( currentItem ) );
-	QRegExp regexp = excludeRule->regexp();
-	regexp.setPattern( newPattern );
-	excludeRule->setRegexp( regexp );
-	currentItem->setText( excludeRule->regexp().pattern() );
+    ExcludeRule * excludeRule = EXCLUDE_RULE_CAST( value( currentItem ) );
+    QRegExp regexp = excludeRule->regexp();
+    regexp.setPattern( newPattern );
+    excludeRule->setRegexp( regexp );
+    currentItem->setText( excludeRule->regexp().pattern() );
     }
 }
 
@@ -113,16 +113,16 @@ void ExcludeRulesConfigPage::save( void * value )
     // logDebug() << excludeRule << endl;
 
     if ( ! excludeRule || updatesLocked() )
-	return;
+    return;
 
     QRegExp regexp;
 
     if ( _ui->regexpRadioButton->isChecked() )
-	regexp.setPatternSyntax( QRegExp::RegExp );
+    regexp.setPatternSyntax( QRegExp::RegExp );
     else if ( _ui->wildcardsRadioButton->isChecked() )
-	regexp.setPatternSyntax( QRegExp::Wildcard );
+    regexp.setPatternSyntax( QRegExp::Wildcard );
     else if ( _ui->fixedStringRadioButton->isChecked() )
-	regexp.setPatternSyntax( QRegExp::FixedString );
+    regexp.setPatternSyntax( QRegExp::FixedString );
 
     regexp.setPattern( _ui->patternLineEdit->text() );
 
@@ -137,27 +137,27 @@ void ExcludeRulesConfigPage::load( void * value )
     // logDebug() << excludeRule << endl;
 
     if ( ! excludeRule || updatesLocked() )
-	return;
+    return;
 
     _ui->patternLineEdit->setText( excludeRule->regexp().pattern() );
 
     switch ( excludeRule->regexp().patternSyntax() )
     {
-	case QRegExp::RegExp:	   _ui->regexpRadioButton->setChecked( true );
-	    break;
-	case QRegExp::Wildcard:	   _ui->wildcardsRadioButton->setChecked( true );
-	    break;
-	case QRegExp::FixedString: _ui->fixedStringRadioButton->setChecked( true );
-	    break;
+    case QRegExp::RegExp:       _ui->regexpRadioButton->setChecked( true );
+        break;
+    case QRegExp::Wildcard:       _ui->wildcardsRadioButton->setChecked( true );
+        break;
+    case QRegExp::FixedString: _ui->fixedStringRadioButton->setChecked( true );
+        break;
 
-	default:
-	    break;
+    default:
+        break;
     }
 
     if ( excludeRule->useFullPath() )
-	_ui->fullPathRadioButton->setChecked( true );
+    _ui->fullPathRadioButton->setChecked( true );
     else
-	_ui->dirNameWithoutPathRadioButton->setChecked( true );
+    _ui->dirNameWithoutPathRadioButton->setChecked( true );
 }
 
 
@@ -201,7 +201,7 @@ void ExcludeRulesConfigPage::moveValue( void * value, const char * operation )
     ExcludeRule * excludeRule = EXCLUDE_RULE_CAST( value );
 
     QMetaObject::invokeMethod( ExcludeRules::instance(),
-			       operation,
-			       Qt::DirectConnection,
-			       Q_ARG( ExcludeRule *, excludeRule ) );
+                   operation,
+                   Qt::DirectConnection,
+                   Q_ARG( ExcludeRule *, excludeRule ) );
 }

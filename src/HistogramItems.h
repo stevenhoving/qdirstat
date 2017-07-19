@@ -1,9 +1,9 @@
 /*
  *   File name: HistogramView.h
- *   Summary:	View widget for histogram rendering for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    View widget for histogram rendering for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -29,32 +29,32 @@ namespace QDirStat
     class HistogramBar: public QGraphicsRectItem
     {
     public:
-	/**
-	 * Constructor. 'number' is the number of the bar (0 being the
-	 * leftmost) in the histogram.
-	 **/
-	HistogramBar( HistogramView * parent,
-		      int	      number,
-		      const QRectF &  rect,
-		      qreal	      fillHeight );
+    /**
+     * Constructor. 'number' is the number of the bar (0 being the
+     * leftmost) in the histogram.
+     **/
+    HistogramBar( HistogramView * parent,
+              int          number,
+              const QRectF &  rect,
+              qreal          fillHeight );
 
-	/**
-	 * Return the number of this bar.
-	 **/
-	int number() const { return _number; }
+    /**
+     * Return the number of this bar.
+     **/
+    int number() const { return _number; }
 
     protected:
-	/**
-	 * Mouse press event
-	 *
-	 * Reimplemented from QGraphicsItem.
-	 **/
-	virtual void mousePressEvent( QGraphicsSceneMouseEvent * event ) Q_DECL_OVERRIDE;
+    /**
+     * Mouse press event
+     *
+     * Reimplemented from QGraphicsItem.
+     **/
+    virtual void mousePressEvent( QGraphicsSceneMouseEvent * event ) Q_DECL_OVERRIDE;
 
-	HistogramView * _parentView;
-	int		_number;
-	qreal		_startVal;
-	qreal		_endVal;
+    HistogramView * _parentView;
+    int        _number;
+    qreal        _startVal;
+    qreal        _endVal;
     };
 
 
@@ -64,48 +64,48 @@ namespace QDirStat
     class PercentileMarker: public QGraphicsLineItem
     {
     public:
-	PercentileMarker( HistogramView * parent,
-			  int		  percentileIndex,
-			  const QString & name,
-			  const QLineF &  zeroLine,
-			  const QPen &	  pen );
+    PercentileMarker( HistogramView * parent,
+              int          percentileIndex,
+              const QString & name,
+              const QLineF &  zeroLine,
+              const QPen &      pen );
 
-	/**
-	 * Return the name of this marker; something like "P1", "Min", "Max",
-	 * "Median", "Q1", "Q3".
-	 **/
-	QString name() const { return _name; }
+    /**
+     * Return the name of this marker; something like "P1", "Min", "Max",
+     * "Median", "Q1", "Q3".
+     **/
+    QString name() const { return _name; }
 
-	/**
-	 * Return the percentile index (0..100) for this marker.
-	 **/
-	int percentileIndex() const { return _percentileIndex; }
+    /**
+     * Return the percentile index (0..100) for this marker.
+     **/
+    int percentileIndex() const { return _percentileIndex; }
 
-	/**
-	 * Return the percentile value for this marker.
-	 **/
-	qreal value() const;
+    /**
+     * Return the percentile value for this marker.
+     **/
+    qreal value() const;
 
     protected:
 
-	QLineF translatedLine( const QLineF &  zeroLine,
-			       int	       percentileIndex,
-			       HistogramView * parent ) const;
+    QLineF translatedLine( const QLineF &  zeroLine,
+                   int           percentileIndex,
+                   HistogramView * parent ) const;
 
-	/**
-	 * Mouse press event
-	 *
-	 * Reimplemented from QGraphicsItem.
-	 **/
-	virtual void mousePressEvent( QGraphicsSceneMouseEvent * event ) Q_DECL_OVERRIDE;
+    /**
+     * Mouse press event
+     *
+     * Reimplemented from QGraphicsItem.
+     **/
+    virtual void mousePressEvent( QGraphicsSceneMouseEvent * event ) Q_DECL_OVERRIDE;
 
-	HistogramView * _parentView;
-	QString		_name;
-	int		_percentileIndex;
+    HistogramView * _parentView;
+    QString        _name;
+    int        _percentileIndex;
     };
 
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
 
 #endif // ifndef HistogramItems_h

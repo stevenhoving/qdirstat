@@ -1,9 +1,9 @@
 /*
  *   File name: ActionManager.h
- *   Summary:	Common access to QActions defined in a .ui file
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Common access to QActions defined in a .ui file
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -29,53 +29,53 @@ namespace QDirStat
     class ActionManager
     {
     public:
-	/**
-	 * Return the singleton instance of this class.
-	 **/
-	static ActionManager * instance();
+    /**
+     * Return the singleton instance of this class.
+     **/
+    static ActionManager * instance();
 
-	/**
-	 * Add a widget tree. This does not transfer ownership of that widget
-	 * tree. The ActionManager will keep the pointer of this tree (with a
-	 * guarded pointer so it doesn't matter if it is destroyed) to search
-	 * for QActions when requested.
-	 **/
-	void addWidgetTree( QObject * tree );
+    /**
+     * Add a widget tree. This does not transfer ownership of that widget
+     * tree. The ActionManager will keep the pointer of this tree (with a
+     * guarded pointer so it doesn't matter if it is destroyed) to search
+     * for QActions when requested.
+     **/
+    void addWidgetTree( QObject * tree );
 
-	/**
-	 * Search the known widget trees for the first QAction with the Qt
-	 * object name 'actionName'. Return 0 if there is no such QAction.
-	 **/
-	QAction * action( const QString & actionName );
+    /**
+     * Search the known widget trees for the first QAction with the Qt
+     * object name 'actionName'. Return 0 if there is no such QAction.
+     **/
+    QAction * action( const QString & actionName );
 
-	/**
-	 * Add all the actions in 'actionNames' to a menu. Return 'true' if
-	 * success, 'false' if any of the actions were not found.
-	 *
-	 * If an action name in actionNames starts with "---", a separator is
-	 * added to the menu instead of an action.
-	 **/
-	bool addActions( QMenu * menu, const QStringList & actionNames );
+    /**
+     * Add all the actions in 'actionNames' to a menu. Return 'true' if
+     * success, 'false' if any of the actions were not found.
+     *
+     * If an action name in actionNames starts with "---", a separator is
+     * added to the menu instead of an action.
+     **/
+    bool addActions( QMenu * menu, const QStringList & actionNames );
 
 
     protected:
-	/**
-	 * Constructor. Protected because this is a singleton class.
-	 * Use instance() instead.
-	 **/
-	ActionManager() {}
+    /**
+     * Constructor. Protected because this is a singleton class.
+     * Use instance() instead.
+     **/
+    ActionManager() {}
 
 
-	//
-	// Data members
-	//
+    //
+    // Data members
+    //
 
-	static ActionManager *	   _instance;
-	QList<QPointer<QObject> >  _widgetTrees;
+    static ActionManager *       _instance;
+    QList<QPointer<QObject> >  _widgetTrees;
 
-    };	// class ActionManager
+    };    // class ActionManager
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
 
-#endif	// ActionManager_h
+#endif    // ActionManager_h

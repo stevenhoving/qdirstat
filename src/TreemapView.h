@@ -1,9 +1,9 @@
 /*
  *   File name: TreemapView.h
- *   Summary:	View widget for treemap rendering for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    View widget for treemap rendering for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -17,17 +17,17 @@
 #include "FileInfo.h"
 
 
-#define MinAmbientLight		   0
-#define MaxAmbientLight		   200
-#define DefaultAmbientLight	   40
+#define MinAmbientLight           0
+#define MaxAmbientLight           200
+#define DefaultAmbientLight       40
 
-#define MinHeightScalePercent	   10
-#define MaxHeightScalePercent	   200
+#define MinHeightScalePercent       10
+#define MaxHeightScalePercent       200
 #define DefaultHeightScalePercent  100
 #define DefaultHeightScaleFactor   ( DefaultHeightScalePercent / 100.0 )
 
-#define DefaultMinTileSize	   3
-#define CushionHeight		   1.0
+#define DefaultMinTileSize       3
+#define CushionHeight           1.0
 
 
 class QMouseEvent;
@@ -50,186 +50,186 @@ namespace QDirStat
     /**
      * View widget that displays a DirTree as a treemap.
      **/
-    class TreemapView:	public QGraphicsView
+    class TreemapView:    public QGraphicsView
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
-	/**
-	 * Constructor. Remember to set the directory tree with setDirTree()
-	 * and the selection model with setSelectionModel() after creating this
-	 * widget.
-	 **/
-	TreemapView( QWidget * parent = 0 );
+    /**
+     * Constructor. Remember to set the directory tree with setDirTree()
+     * and the selection model with setSelectionModel() after creating this
+     * widget.
+     **/
+    TreemapView( QWidget * parent = 0 );
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~TreemapView();
+    /**
+     * Destructor.
+     **/
+    virtual ~TreemapView();
 
-	/**
-	 * Set the directory tree to work on. Without this, this widget will
-	 * not display anything.
-	 **/
-	void setDirTree( DirTree * tree );
+    /**
+     * Set the directory tree to work on. Without this, this widget will
+     * not display anything.
+     **/
+    void setDirTree( DirTree * tree );
 
-	/**
-	 * Returns the minimum recommended size for this widget.
-	 * Reimplemented from QWidget.
-	 **/
-	virtual QSize minimumSizeHint() const { return QSize( 0, 0 ); }
+    /**
+     * Returns the minimum recommended size for this widget.
+     * Reimplemented from QWidget.
+     **/
+    virtual QSize minimumSizeHint() const { return QSize( 0, 0 ); }
 
-	/**
-	 * Returns this treemap view's current item tile or 0 if there is none.
-	 **/
-	TreemapTile * currentItem() const { return _currentItem; }
+    /**
+     * Returns this treemap view's current item tile or 0 if there is none.
+     **/
+    TreemapTile * currentItem() const { return _currentItem; }
 
-	/**
-	 * Returns this treemap view's root treemap tile or 0 if there is none.
-	 **/
-	TreemapTile * rootTile() const { return _rootTile; }
+    /**
+     * Returns this treemap view's root treemap tile or 0 if there is none.
+     **/
+    TreemapTile * rootTile() const { return _rootTile; }
 
-	/**
-	 * Returns this treemap view's @ref DirTree.
-	 **/
-	DirTree * tree() const { return _tree; }
+    /**
+     * Returns this treemap view's @ref DirTree.
+     **/
+    DirTree * tree() const { return _tree; }
 
-	/**
-	 * Set the selection model. This is important to synchronize current /
-	 * selected items between a DirTreeView and this TreemapView.
-	 **/
-	void setSelectionModel( SelectionModel * selectionModel );
+    /**
+     * Set the selection model. This is important to synchronize current /
+     * selected items between a DirTreeView and this TreemapView.
+     **/
+    void setSelectionModel( SelectionModel * selectionModel );
 
-	/**
-	 * Return this treemap view's SelectionModel.
-	 **/
-	SelectionModel * selectionModel() const { return _selectionModel; }
+    /**
+     * Return this treemap view's SelectionModel.
+     **/
+    SelectionModel * selectionModel() const { return _selectionModel; }
 
-	/**
-	 * Set the cleanup collection. If set, all cleanup actions from that
-	 * collection will be added to the item context menu.
-	 **/
-	void setCleanupCollection( CleanupCollection * collection )
-	    { _cleanupCollection = collection; }
+    /**
+     * Set the cleanup collection. If set, all cleanup actions from that
+     * collection will be added to the item context menu.
+     **/
+    void setCleanupCollection( CleanupCollection * collection )
+        { _cleanupCollection = collection; }
 
-	/**
-	 * Return the cleanup collection or 0 if it is not set.
-	 **/
-	CleanupCollection * cleanupCollection() const { return _cleanupCollection; }
+    /**
+     * Return the cleanup collection or 0 if it is not set.
+     **/
+    CleanupCollection * cleanupCollection() const { return _cleanupCollection; }
 
-	/**
-	 * Search the treemap for a tile that corresponds to the specified
-	 * FileInfo node. Returns 0 if there is none.
-	 *
-	 * Notice: This is an expensive operation since all treemap tiles need
-	 * to be searched.
-	 **/
-	TreemapTile * findTile( const FileInfo * node );
+    /**
+     * Search the treemap for a tile that corresponds to the specified
+     * FileInfo node. Returns 0 if there is none.
+     *
+     * Notice: This is an expensive operation since all treemap tiles need
+     * to be searched.
+     **/
+    TreemapTile * findTile( const FileInfo * node );
 
-	/**
-	 * Returns a suitable color for 'file' based on a set of internal rules
-	 * (according to filename extension, MIME type or permissions).
-	 **/
-	QColor tileColor( FileInfo * file );
+    /**
+     * Returns a suitable color for 'file' based on a set of internal rules
+     * (according to filename extension, MIME type or permissions).
+     **/
+    QColor tileColor( FileInfo * file );
 
-	/**
-	 * Return the MimeCategorizer (the class that maps filenames to treemap
-	 * colors) or 0 if it is not created yet. The MimeCategorizer is
-	 * created lazily when needed.
-	 **/
-	MimeCategorizer * mimeCategorizer() const { return _mimeCategorizer; }
+    /**
+     * Return the MimeCategorizer (the class that maps filenames to treemap
+     * colors) or 0 if it is not created yet. The MimeCategorizer is
+     * created lazily when needed.
+     **/
+    MimeCategorizer * mimeCategorizer() const { return _mimeCategorizer; }
 
-	/**
-	 * Set the MimeCategorizer (the class that maps filenames to treemap
-	 * colors).
-	 **/
-	void setMimeCategorizer( MimeCategorizer * categorizer );
+    /**
+     * Set the MimeCategorizer (the class that maps filenames to treemap
+     * colors).
+     **/
+    void setMimeCategorizer( MimeCategorizer * categorizer );
 
-	/**
-	 * Use a fixed color for all tiles. To undo this, set an invalid QColor
-	 * with the QColor default constructor.
-	 **/
-	void setFixedColor( const QColor & fixedColor );
+    /**
+     * Use a fixed color for all tiles. To undo this, set an invalid QColor
+     * with the QColor default constructor.
+     **/
+    void setFixedColor( const QColor & fixedColor );
 
 
     public slots:
 
-	/**
-	 * Update the selected items that have been selected in another view.
-	 **/
-	void updateSelection( const FileInfoSet & newSelection );
+    /**
+     * Update the selected items that have been selected in another view.
+     **/
+    void updateSelection( const FileInfoSet & newSelection );
 
-	/**
-	 * Update the current item that has been changed in another view.
-	 **/
-	void updateCurrentItem( FileInfo * currentItem );
+    /**
+     * Update the current item that has been changed in another view.
+     **/
+    void updateCurrentItem( FileInfo * currentItem );
 
-	/**
-	 * Make a treemap tile this treemap's current item.
-	 * 'tile' may be 0. In this case, only the previous selection is
-	 * deselected.
-	 **/
-	void setCurrentItem( TreemapTile * tile );
+    /**
+     * Make a treemap tile this treemap's current item.
+     * 'tile' may be 0. In this case, only the previous selection is
+     * deselected.
+     **/
+    void setCurrentItem( TreemapTile * tile );
 
-	/**
-	 * Search the treemap for a tile with the specified FileInfo node and
-	 * make that tile the current item if it is found. If nothing is found
-	 * or if 'node' is 0, the highlighting is removed from the previous
-	 * current item.
-	 **/
-	void setCurrentItem( FileInfo * node );
+    /**
+     * Search the treemap for a tile with the specified FileInfo node and
+     * make that tile the current item if it is found. If nothing is found
+     * or if 'node' is 0, the highlighting is removed from the previous
+     * current item.
+     **/
+    void setCurrentItem( FileInfo * node );
 
-	/**
-	 * Zoom in one level towards the currently selected treemap tile:
-	 * The entire treemap will be rebuilt with the near-topmost ancestor of
-	 * the selected tile as the new root.
-	 **/
-	void zoomIn();
+    /**
+     * Zoom in one level towards the currently selected treemap tile:
+     * The entire treemap will be rebuilt with the near-topmost ancestor of
+     * the selected tile as the new root.
+     **/
+    void zoomIn();
 
-	/**
-	 * Zoom out one level: The parent (if there is any) FileInfo node of
-	 * the current treemap root becomes the new root. This usually works
-	 * only after zoomIn().
-	 **/
-	void zoomOut();
+    /**
+     * Zoom out one level: The parent (if there is any) FileInfo node of
+     * the current treemap root becomes the new root. This usually works
+     * only after zoomIn().
+     **/
+    void zoomOut();
 
-	/**
-	 * Reset the zoom level: Zoom out as far as possible.
-	 **/
-	void resetZoom();
+    /**
+     * Reset the zoom level: Zoom out as far as possible.
+     **/
+    void resetZoom();
 
-	/**
-	 * Completely rebuild the entire treemap from the internal tree's root
-	 * on.
-	 **/
-	void rebuildTreemap();
+    /**
+     * Completely rebuild the entire treemap from the internal tree's root
+     * on.
+     **/
+    void rebuildTreemap();
 
-	/**
-	 * Clear the treemap contents.
-	 **/
-	void clear();
+    /**
+     * Clear the treemap contents.
+     **/
+    void clear();
 
-	/**
-	 * Disable this treemap view: Clear its contents, resize it to below
-	 * the update threshold and hide it.
-	 **/
-	void disable();
+    /**
+     * Disable this treemap view: Clear its contents, resize it to below
+     * the update threshold and hide it.
+     **/
+    void disable();
 
-	/**
-	 * Re-enable this treemap view after disabling it: Show it, resize it
-	 * to half the height of its parent widget and redisplay its content.
-	 **/
-	void enable();
+    /**
+     * Re-enable this treemap view after disabling it: Show it, resize it
+     * to half the height of its parent widget and redisplay its content.
+     **/
+    void enable();
 
-	/**
-	 * Notification that a dir tree node has been deleted.
-	 **/
-	void deleteNotify( FileInfo * node );
+    /**
+     * Notification that a dir tree node has been deleted.
+     **/
+    void deleteNotify( FileInfo * node );
 
-	/**
-	 * Sync the selected items and the current item to the selection model.
-	 **/
-	void sendSelection();
+    /**
+     * Sync the selected items and the current item to the selection model.
+     **/
+    void sendSelection();
 
         /**
          * Send a hoverEnter() signal for 'node'.
@@ -241,99 +241,99 @@ namespace QDirStat
          **/
         void sendHoverLeave( FileInfo * node );
 
-	/**
-	 * Read parameters from the settings file.
-	 **/
-	void readSettings();
+    /**
+     * Read parameters from the settings file.
+     **/
+    void readSettings();
 
-	/**
-	 * Write parameters to the settings file.
-	 *
-	 * Unlike other classes in this program, this is not done from the
-	 * corresponding settings dialog - because there is none. The settings
-	 * here are very obscure - strictly for experts; nothing to bother a
-	 * normal user with.
-	 *
-	 * Experts can edit them in the settings file, typically in
-	 * ~/.config/QDirStat/QDirStat.conf ; this class writes the settings to
-	 * that file in its destructor so those experts can find and edit them.
-	 *
-	 * If you misconfigured things and want to go back to the defaults,
-	 * simply delete that one setting or the section in the settings or the
-	 * complete settings file; missing settings are restored to the
-	 * defaults when the program exits the next time.
-	 **/
-	void writeSettings();
+    /**
+     * Write parameters to the settings file.
+     *
+     * Unlike other classes in this program, this is not done from the
+     * corresponding settings dialog - because there is none. The settings
+     * here are very obscure - strictly for experts; nothing to bother a
+     * normal user with.
+     *
+     * Experts can edit them in the settings file, typically in
+     * ~/.config/QDirStat/QDirStat.conf ; this class writes the settings to
+     * that file in its destructor so those experts can find and edit them.
+     *
+     * If you misconfigured things and want to go back to the defaults,
+     * simply delete that one setting or the section in the settings or the
+     * complete settings file; missing settings are restored to the
+     * defaults when the program exits the next time.
+     **/
+    void writeSettings();
 
     public:
 
-	/**
-	 * Rebuild the treemap with 'newRoot' as the new root and the specified
-	 * size. If 'newSize' is (0, 0), visibleSize() is used.
-	 **/
-	void rebuildTreemap( FileInfo *	    newRoot,
-			     const QSizeF & newSize = QSize() );
+    /**
+     * Rebuild the treemap with 'newRoot' as the new root and the specified
+     * size. If 'newSize' is (0, 0), visibleSize() is used.
+     **/
+    void rebuildTreemap( FileInfo *        newRoot,
+                 const QSizeF & newSize = QSize() );
 
-	/**
-	 * Schedule a rebuild of the treemap with 'newRoot'. If another rebuild
-	 * is scheduled before the timout is over, nothing will happen until
-	 * the last scheduled timeout has elapsed.
-	 *
-	 * The purpose of this is to avoid unnecessary rebuilds when the user
-	 * resizes the window or the treemap subwindow: Only the last rebuild
-	 * is really executed (when all the resizing has settled somehow).
-	 **/
-	void scheduleRebuildTreemap( FileInfo * newRoot );
+    /**
+     * Schedule a rebuild of the treemap with 'newRoot'. If another rebuild
+     * is scheduled before the timout is over, nothing will happen until
+     * the last scheduled timeout has elapsed.
+     *
+     * The purpose of this is to avoid unnecessary rebuilds when the user
+     * resizes the window or the treemap subwindow: Only the last rebuild
+     * is really executed (when all the resizing has settled somehow).
+     **/
+    void scheduleRebuildTreemap( FileInfo * newRoot );
 
-	/**
-	 * Returns the visible size of the viewport presuming no scrollbars are
-	 * needed - which makes a lot more sense than fiddling with scrollbars
-	 * since treemaps can be scaled to make scrollbars unnecessary.
-	 **/
-	QSize visibleSize();
+    /**
+     * Returns the visible size of the viewport presuming no scrollbars are
+     * needed - which makes a lot more sense than fiddling with scrollbars
+     * since treemaps can be scaled to make scrollbars unnecessary.
+     **/
+    QSize visibleSize();
 
-	/**
-	 * Returns the visible width of the viewport presuming no scrollbars
-	 * are needed.
-	 *
-	 * This uses visibleSize() which is a somewhat expensive operation, so
-	 * if you need both visibleWidth() and visibleHeight(), better call
-	 * visibleSize() once and access its width() and height() methods.
-	 **/
-	int visibleWidth() { return visibleSize().width(); }
+    /**
+     * Returns the visible width of the viewport presuming no scrollbars
+     * are needed.
+     *
+     * This uses visibleSize() which is a somewhat expensive operation, so
+     * if you need both visibleWidth() and visibleHeight(), better call
+     * visibleSize() once and access its width() and height() methods.
+     **/
+    int visibleWidth() { return visibleSize().width(); }
 
-	/**
-	 * Returns the visible height of the viewport presuming no scrollbars
-	 * are needed.
-	 *
-	 * This uses visibleSize() which is a somewhat expensive operation, so
-	 * if you need both visibleWidth() and visibleHeight(), better call
-	 * visibleSize() once and access its width() and height() methods.
-	 **/
-	int visibleHeight() { return visibleSize().height(); }
+    /**
+     * Returns the visible height of the viewport presuming no scrollbars
+     * are needed.
+     *
+     * This uses visibleSize() which is a somewhat expensive operation, so
+     * if you need both visibleWidth() and visibleHeight(), better call
+     * visibleSize() once and access its width() and height() methods.
+     **/
+    int visibleHeight() { return visibleSize().height(); }
 
-	/**
-	 * Returns true if it is possible to zoom in with the currently
-	 * selected tile, false if not.
-	 **/
-	bool canZoomIn() const;
+    /**
+     * Returns true if it is possible to zoom in with the currently
+     * selected tile, false if not.
+     **/
+    bool canZoomIn() const;
 
-	/**
-	 * Returns true if it is possible to zoom out with the currently
-	 * selected tile, false if not.
-	 **/
-	bool canZoomOut() const;
+    /**
+     * Returns true if it is possible to zoom out with the currently
+     * selected tile, false if not.
+     **/
+    bool canZoomOut() const;
 
-	/**
-	 * Returns 'true' if treemap tiles are to be squarified upon creation,
-	 * 'false' if not.
-	 **/
-	bool squarify() const { return _squarify; }
+    /**
+     * Returns 'true' if treemap tiles are to be squarified upon creation,
+     * 'false' if not.
+     **/
+    bool squarify() const { return _squarify; }
 
-	/**
-	 * Returns 'true' if cushion shading is to be used, 'false' if not.
-	 **/
-	bool doCushionShading() const { return _doCushionShading; }
+    /**
+     * Returns 'true' if cushion shading is to be used, 'false' if not.
+     **/
+    bool doCushionShading() const { return _doCushionShading; }
 
         /**
          * Returns 'true' if directories should be rendered with a gradient,
@@ -341,50 +341,50 @@ namespace QDirStat
          **/
         bool useDirGradient() const { return _useDirGradient; }
 
-	/**
-	 * Returns 'true' if cushion shaded treemap tiles are to be separated
-	 * by a grid, 'false' if not.
-	 **/
-	bool forceCushionGrid() const { return _forceCushionGrid; }
+    /**
+     * Returns 'true' if cushion shaded treemap tiles are to be separated
+     * by a grid, 'false' if not.
+     **/
+    bool forceCushionGrid() const { return _forceCushionGrid; }
 
-	/**
-	 * Returns 'true' if tile boundary lines should be drawn for cushion
-	 * treemaps, 'false'  if not.
-	 **/
-	bool ensureContrast() const { return _ensureContrast; }
+    /**
+     * Returns 'true' if tile boundary lines should be drawn for cushion
+     * treemaps, 'false'  if not.
+     **/
+    bool ensureContrast() const { return _ensureContrast; }
 
-	/**
-	 * Returns the minimum tile size in pixels. No treemap tiles less than
-	 * this in width or height are desired.
-	 **/
-	int minTileSize() const { return _minTileSize; }
+    /**
+     * Returns the minimum tile size in pixels. No treemap tiles less than
+     * this in width or height are desired.
+     **/
+    int minTileSize() const { return _minTileSize; }
 
-	/**
-	 * Returns the cushion grid color.
-	 **/
-	const QColor & cushionGridColor() const { return _cushionGridColor; }
+    /**
+     * Returns the cushion grid color.
+     **/
+    const QColor & cushionGridColor() const { return _cushionGridColor; }
 
-	/**
-	 * Return the frame color for selected items.
-	 **/
-	const QColor & selectedItemsColor() const { return _selectedItemsColor; }
+    /**
+     * Return the frame color for selected items.
+     **/
+    const QColor & selectedItemsColor() const { return _selectedItemsColor; }
 
-	/**
-	 * Returns the outline color to use if cushion shading is not used.
-	 **/
-	const QColor & outlineColor() const { return _outlineColor; }
+    /**
+     * Returns the outline color to use if cushion shading is not used.
+     **/
+    const QColor & outlineColor() const { return _outlineColor; }
 
-	/**
-	 * Returns the fill color for non-directory treemap tiles when cushion
-	 * shading is not used.
-	 **/
-	const QColor & fileFillColor() const { return _fileFillColor; }
+    /**
+     * Returns the fill color for non-directory treemap tiles when cushion
+     * shading is not used.
+     **/
+    const QColor & fileFillColor() const { return _fileFillColor; }
 
-	/**
-	 * Returns the fill color for directory (or "dotentry") treemap tiles
-	 * when cushion shading is not used.
-	 **/
-	const QColor & dirFillColor() const { return _dirFillColor; }
+    /**
+     * Returns the fill color for directory (or "dotentry") treemap tiles
+     * when cushion shading is not used.
+     **/
+    const QColor & dirFillColor() const { return _dirFillColor; }
 
         /**
          * Returns the start color for directory (or "dotentry") treemap tiles
@@ -399,63 +399,63 @@ namespace QDirStat
         const QColor & dirGradientEnd() const { return _dirGradientEnd; }
 
 
-	/**
-	 * Returns the intensity of ambient light for cushion shading
-	 * [0..255]
-	 **/
-	int ambientLight() const { return _ambientLight; }
+    /**
+     * Returns the intensity of ambient light for cushion shading
+     * [0..255]
+     **/
+    int ambientLight() const { return _ambientLight; }
 
-	/**
-	 * Returns the X coordinate of a directed light source for cushion
-	 * shading.
-	 **/
+    /**
+     * Returns the X coordinate of a directed light source for cushion
+     * shading.
+     **/
 
-	double lightX() const { return _lightX; }
+    double lightX() const { return _lightX; }
 
-	/**
-	 * Returns the Y coordinate of a directed light source for cushion
-	 * shading.
-	 **/
-	double lightY() const { return _lightY; }
+    /**
+     * Returns the Y coordinate of a directed light source for cushion
+     * shading.
+     **/
+    double lightY() const { return _lightY; }
 
-	/**
-	 * Returns the Z coordinate of a directed light source for cushion
-	 * shading.
-	 **/
-	double lightZ() const { return _lightZ; }
+    /**
+     * Returns the Z coordinate of a directed light source for cushion
+     * shading.
+     **/
+    double lightZ() const { return _lightZ; }
 
-	/**
-	 * Returns cushion ridge height degradation factor (0 .. 1.0) for each
-	 * level of subdivision.
-	 **/
-	double heightScaleFactor() const { return _heightScaleFactor; }
+    /**
+     * Returns cushion ridge height degradation factor (0 .. 1.0) for each
+     * level of subdivision.
+     **/
+    double heightScaleFactor() const { return _heightScaleFactor; }
 
 
     signals:
 
-	/**
-	 * Emitted when the currently selected item changes.
-	 * Caution: 'item' may be 0 when the selection is cleared.
-	 **/
-	void selectionChanged( FileInfo * item );
+    /**
+     * Emitted when the currently selected item changes.
+     * Caution: 'item' may be 0 when the selection is cleared.
+     **/
+    void selectionChanged( FileInfo * item );
 
-	/**
-	 * Emitted when the current item changes.
-	 **/
-	void currentItemChanged( FileInfo * newCurrent );
+    /**
+     * Emitted when the current item changes.
+     **/
+    void currentItemChanged( FileInfo * newCurrent );
 
-	/**
-	 * Emitted when the treemap changes, e.g. is rebuilt, zoomed in, or
-	 * zoomed out.
-	 **/
-	void treemapChanged();
+    /**
+     * Emitted when the treemap changes, e.g. is rebuilt, zoomed in, or
+     * zoomed out.
+     **/
+    void treemapChanged();
 
-	/**
-	 * Emitted when a context menu for this tile should be opened.
-	 * (usually on right click). 'pos' contains the click's mouse
-	 * coordinates.
-	 **/
-	void contextMenu( TreemapTile * tile, const QPoint & pos );
+    /**
+     * Emitted when a context menu for this tile should be opened.
+     * (usually on right click). 'pos' contains the click's mouse
+     * coordinates.
+     **/
+    void contextMenu( TreemapTile * tile, const QPoint & pos );
 
         /**
          * Emitted when the mouse cursor enters a hover over 'item'.
@@ -470,62 +470,62 @@ namespace QDirStat
 
     protected slots:
 
-	/**
-	 * Rebuild the treemap if no more pendung rebuilds are scheduled.
-	 **/
-	void rebuildTreemapDelayed();
+    /**
+     * Rebuild the treemap if no more pendung rebuilds are scheduled.
+     **/
+    void rebuildTreemapDelayed();
 
     protected:
 
-	/**
-	 * Resize the treemap view. Suppress the treemap contents if the size
-	 * falls below a minimum size, redisplay it if it grows above that
-	 * minimum size.
-	 *
-	 * Reimplemented from QFrame.
-	 **/
-	virtual void resizeEvent( QResizeEvent * event ) Q_DECL_OVERRIDE;
+    /**
+     * Resize the treemap view. Suppress the treemap contents if the size
+     * falls below a minimum size, redisplay it if it grows above that
+     * minimum size.
+     *
+     * Reimplemented from QFrame.
+     **/
+    virtual void resizeEvent( QResizeEvent * event ) Q_DECL_OVERRIDE;
 
 
-	// Data members
+    // Data members
 
-	DirTree		    * _tree;
-	SelectionModel	    * _selectionModel;
-	SelectionModelProxy * _selectionModelProxy;
-	CleanupCollection   * _cleanupCollection;
-	MimeCategorizer	    * _mimeCategorizer;
+    DirTree            * _tree;
+    SelectionModel        * _selectionModel;
+    SelectionModelProxy * _selectionModelProxy;
+    CleanupCollection   * _cleanupCollection;
+    MimeCategorizer        * _mimeCategorizer;
         DelayedRebuilder    * _rebuilder;
-	TreemapTile	    * _rootTile;
-	TreemapTile	    * _currentItem;
-	HighlightRect	    * _currentItemRect;
-	FileInfo	    * _newRoot;
-	QString		      _savedRootUrl;
+    TreemapTile        * _rootTile;
+    TreemapTile        * _currentItem;
+    HighlightRect        * _currentItemRect;
+    FileInfo        * _newRoot;
+    QString              _savedRootUrl;
 
-	bool   _squarify;
-	bool   _doCushionShading;
-	bool   _forceCushionGrid;
-	bool   _ensureContrast;
-	bool   _useFixedColor;
-	int    _minTileSize;
+    bool   _squarify;
+    bool   _doCushionShading;
+    bool   _forceCushionGrid;
+    bool   _ensureContrast;
+    bool   _useFixedColor;
+    int    _minTileSize;
         bool   _useDirGradient;
 
-	QColor _currentItemColor;
-	QColor _selectedItemsColor;
-	QColor _cushionGridColor;
-	QColor _outlineColor;
-	QColor _fileFillColor;
-	QColor _dirFillColor;
+    QColor _currentItemColor;
+    QColor _selectedItemsColor;
+    QColor _cushionGridColor;
+    QColor _outlineColor;
+    QColor _fileFillColor;
+    QColor _dirFillColor;
         QColor _dirGradientStart;
         QColor _dirGradientEnd;
-	QColor _fixedColor;
+    QColor _fixedColor;
 
-	int    _ambientLight;
+    int    _ambientLight;
 
-	double _lightX;
-	double _lightY;
-	double _lightZ;
+    double _lightX;
+    double _lightY;
+    double _lightZ;
 
-	double _heightScaleFactor;
+    double _heightScaleFactor;
 
     }; // class TreemapView
 
@@ -547,37 +547,37 @@ namespace QDirStat
     {
     public:
 
-	/**
-	 * Create a highlight rectangle for the entire scene. This is most
-	 * useful for the current item.
-	 **/
-	HighlightRect( QGraphicsScene * scene, const QColor & color, int lineWidth = 2 );
+    /**
+     * Create a highlight rectangle for the entire scene. This is most
+     * useful for the current item.
+     **/
+    HighlightRect( QGraphicsScene * scene, const QColor & color, int lineWidth = 2 );
 
-	/**
-	 * Create a highlight rectangle for one specific tile and highlight it
-	 * right away. This is most useful for selected items if more than one
-	 * item is selected. The z-height of this is lower than for the
-	 * scene-wide highlight rectangle.
-	 **/
-	HighlightRect( TreemapTile * tile, const QColor & color, int lineWidth = 2 );
+    /**
+     * Create a highlight rectangle for one specific tile and highlight it
+     * right away. This is most useful for selected items if more than one
+     * item is selected. The z-height of this is lower than for the
+     * scene-wide highlight rectangle.
+     **/
+    HighlightRect( TreemapTile * tile, const QColor & color, int lineWidth = 2 );
 
-	/**
-	 * Highlight the specified treemap tile: Resize this selection
-	 * rectangle to match this tile and move it to this tile's
-	 * position. Show the selection rectangle if it is currently
-	 * invisible.
-	 **/
-	virtual void highlight( TreemapTile * tile );
+    /**
+     * Highlight the specified treemap tile: Resize this selection
+     * rectangle to match this tile and move it to this tile's
+     * position. Show the selection rectangle if it is currently
+     * invisible.
+     **/
+    virtual void highlight( TreemapTile * tile );
 
-	/**
-	 * Set the pen style. Recommended: Qt::SolidLine or Qt::DotLine.
-	 **/
-	void setPenStyle( Qt::PenStyle style = Qt::SolidLine );
+    /**
+     * Set the pen style. Recommended: Qt::SolidLine or Qt::DotLine.
+     **/
+    void setPenStyle( Qt::PenStyle style = Qt::SolidLine );
 
-	/**
-	 * Set the pen style according to the 'selected' status of 'tile'.
-	 **/
-	void setPenStyle( TreemapTile * tile );
+    /**
+     * Set the pen style according to the 'selected' status of 'tile'.
+     **/
+    void setPenStyle( TreemapTile * tile );
 
     }; // class TreemapSelectionRect
 
@@ -589,11 +589,11 @@ namespace QDirStat
     class CurrentItemHighlighter: public HighlightRect
     {
     public:
-	CurrentItemHighlighter( QGraphicsScene * scene, const QColor & color, int lineWidth = 2 ):
-	    HighlightRect( scene, color, lineWidth )
-	    {}
+    CurrentItemHighlighter( QGraphicsScene * scene, const QColor & color, int lineWidth = 2 ):
+        HighlightRect( scene, color, lineWidth )
+        {}
 
-	virtual void highlight( TreemapTile * tile );
+    virtual void highlight( TreemapTile * tile );
     };
 
 
@@ -608,12 +608,12 @@ namespace QDirStat
     class SelectedItemHighlighter: public HighlightRect
     {
     public:
-	SelectedItemHighlighter( TreemapTile * tile, const QColor & color, int lineWidth = 2 ):
-	    HighlightRect( tile, color, lineWidth )
-	    {}
+    SelectedItemHighlighter( TreemapTile * tile, const QColor & color, int lineWidth = 2 ):
+        HighlightRect( tile, color, lineWidth )
+        {}
     };
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
 
 #endif // ifndef TreemapView_h

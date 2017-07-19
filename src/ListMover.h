@@ -33,8 +33,8 @@ namespace QDirStat
         
             if ( oldPos < _list.size() - 1 )
             {
-        	_list.removeAt( oldPos );
-        	_list.insert( oldPos + 1, item );
+            _list.removeAt( oldPos );
+            _list.insert( oldPos + 1, item );
             }
         }
         
@@ -45,8 +45,8 @@ namespace QDirStat
         
             if ( oldPos > 0 )
             {
-        	_list.removeAt( oldPos );
-        	_list.insert( 0, item );
+            _list.removeAt( oldPos );
+            _list.insert( 0, item );
             }
         }
         
@@ -57,8 +57,8 @@ namespace QDirStat
         
             if ( oldPos < _list.size() - 1 )
             {
-        	_list.removeAt( oldPos );
-        	_list.insert( _list.size(), item );
+            _list.removeAt( oldPos );
+            _list.insert( _list.size(), item );
            }
         }
         
@@ -70,4 +70,4 @@ namespace QDirStat
         
 }       // namespace QDirStat
 
-#endif	// ListMover_h
+#endif    // ListMover_h

@@ -1,9 +1,9 @@
 /*
  *   File name: FileSizeStats.cpp
- *   Summary:	Statistics classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Statistics classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -57,19 +57,19 @@ void FileSizeStats::collect( FileInfo * subtree )
 
     while ( *it )
     {
-	FileInfo * item = *it;
+    FileInfo * item = *it;
 
-	if ( item->hasChildren() )
-	{
-	    collect( item );
-	}
-	else if ( item->isFile() )
-	{
+    if ( item->hasChildren() )
+    {
+        collect( item );
+    }
+    else if ( item->isFile() )
+    {
             _data << item->size();
-	}
-	// Disregard symlinks, block devices and other special files
+    }
+    // Disregard symlinks, block devices and other special files
 
-	++it;
+    ++it;
     }
 }
 
@@ -102,20 +102,20 @@ void FileSizeStats::collect( FileInfo * subtree, const QString & suffix )
 
     while ( *it )
     {
-	FileInfo * item = *it;
+    FileInfo * item = *it;
 
-	if ( item->hasChildren() )
-	{
-	    collect( item, suffix );
-	}
-	else if ( item->isFile() )
-	{
+    if ( item->hasChildren() )
+    {
+        collect( item, suffix );
+    }
+    else if ( item->isFile() )
+    {
             if ( item->name().toLower().endsWith( suffix ) )
                 _data << item->size();
-	}
-	// Disregard symlinks, block devices and other special files
+    }
+    // Disregard symlinks, block devices and other special files
 
-	++it;
+    ++it;
     }
 }
 

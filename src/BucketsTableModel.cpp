@@ -1,9 +1,9 @@
 /*
  *   File name: BucketsTableModel.h
- *   Summary:	Data model for buckets table
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Data model for buckets table
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -54,12 +54,12 @@ int BucketsTableModel::columnCount( const QModelIndex & parent ) const
 QVariant BucketsTableModel::data( const QModelIndex & index, int role ) const
 {
     if ( ! index.isValid() )
-	return QVariant();
+    return QVariant();
 
     switch ( role )
     {
-	case Qt::DisplayRole:
-	    {
+    case Qt::DisplayRole:
+        {
                 int row = index.row();
 
                 if ( row < 0 || row >= _histogram->bucketCount() )
@@ -77,13 +77,13 @@ QVariant BucketsTableModel::data( const QModelIndex & index, int role ) const
                 }
 
                 return " " + result + " "; // Maintain some margin
-	    }
+        }
 
-	case Qt::TextAlignmentRole:
+    case Qt::TextAlignmentRole:
             return (int) Qt::AlignVCenter | Qt::AlignRight;
 
-	default:
-	    return QVariant();
+    default:
+        return QVariant();
     }
 
     /*NOTREACHED*/
@@ -91,22 +91,22 @@ QVariant BucketsTableModel::data( const QModelIndex & index, int role ) const
 }
 
 
-QVariant BucketsTableModel::headerData( int	        section,
+QVariant BucketsTableModel::headerData( int            section,
                                         Qt::Orientation orientation,
-                                        int	        role ) const
+                                        int            role ) const
 {
     switch ( role )
     {
-	case Qt::DisplayRole:
+    case Qt::DisplayRole:
             if ( orientation == Qt::Horizontal )
             {
                 QString result;
 
                 switch ( section )
                 {
-                    case StartCol:	result = tr( "Start"         ); break;
-                    case EndCol:	result = tr( "End"           ); break;
-                    case ValueCol:	result = tr( "Files"         ); break;
+                    case StartCol:    result = tr( "Start"         ); break;
+                    case EndCol:    result = tr( "End"           ); break;
+                    case ValueCol:    result = tr( "Files"         ); break;
 
                     default: return QVariant();
                 }
@@ -121,7 +121,7 @@ QVariant BucketsTableModel::headerData( int	        section,
                     return QVariant();
             }
 
-	case Qt::TextAlignmentRole:
+    case Qt::TextAlignmentRole:
             {
                 if ( orientation == Qt::Horizontal )
                     return (int) Qt::AlignVCenter | Qt::AlignHCenter;
@@ -129,8 +129,8 @@ QVariant BucketsTableModel::headerData( int	        section,
                     return (int) Qt::AlignVCenter | Qt::AlignRight;
             }
 
-	default:
-	    return QVariant();
+    default:
+        return QVariant();
     }
 }
 

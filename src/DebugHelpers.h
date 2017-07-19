@@ -1,9 +1,9 @@
 /*
  *   File name: DebugHelpers.h
- *   Summary:	Debugging helper functions for QDirstat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Debugging helper functions for QDirstat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef DebugHelpers_h
@@ -38,8 +38,8 @@ namespace Debug
      * directory name for the heading line. This mostly makes sense with an
      * unnamed directory like the DirTreeModel's pseudo root.
      **/
-    void dumpChildrenList( FileInfo	      * dir,
-			   const FileInfoList & children );
+    void dumpChildrenList( FileInfo          * dir,
+               const FileInfoList & children );
 
     /**
      * Recursively dump the model tree from 'index' on to the log.
@@ -47,8 +47,8 @@ namespace Debug
      * blanks).
      **/
     void dumpModelTree( const QAbstractItemModel * model,
-			const QModelIndex	 & index,
-			const QString		 & indent );
+            const QModelIndex     & index,
+            const QString         & indent );
 
     /**
      * Dump the exclude rules to the log.
@@ -61,6 +61,6 @@ namespace Debug
      **/
     QStringList modelTreeAncestors( const QModelIndex & index );
 
-}	// namespace
+}    // namespace
 
-#endif	// DebugHelpers_h
+#endif    // DebugHelpers_h

@@ -1,9 +1,9 @@
 /*
  *   File name: FileSizeStatsWindow.h
- *   Summary:	QDirStat file size statistics window
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat file size statistics window
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -32,35 +32,35 @@ namespace QDirStat
      **/
     class FileSizeStatsWindow: public QDialog
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Constructor.
-	 *
-	 * Notice that this widget will destroy itself upon window close.
-	 *
-	 * It is advised to use a QPointer for storing a pointer to an instance
-	 * of this class. The QPointer will keep track of this window
-	 * auto-deleting itself when closed.
-	 **/
-	FileSizeStatsWindow( QWidget  * parent );
+    /**
+     * Constructor.
+     *
+     * Notice that this widget will destroy itself upon window close.
+     *
+     * It is advised to use a QPointer for storing a pointer to an instance
+     * of this class. The QPointer will keep track of this window
+     * auto-deleting itself when closed.
+     **/
+    FileSizeStatsWindow( QWidget  * parent );
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~FileSizeStatsWindow();
+    /**
+     * Destructor.
+     **/
+    virtual ~FileSizeStatsWindow();
 
         /**
          * Populate with new content.
          **/
-	void populate( FileInfo * subtree, const QString & suffix = "" );
+    void populate( FileInfo * subtree, const QString & suffix = "" );
 
-	/**
-	 * Return the corresponding subtree.
-	 **/
-	FileInfo * subtree() const { return _subtree; }
+    /**
+     * Return the corresponding subtree.
+     **/
+    FileInfo * subtree() const { return _subtree; }
 
         /**
          * Return the filename suffix to filter the collected information.
@@ -89,13 +89,13 @@ namespace QDirStat
 
     public slots:
 
-	/**
-	 * Reject the dialog contents, i.e. the user clicked the "Cancel"
-	 * or WM_CLOSE button.
-	 *
-	 * Reimplemented from QDialog.
-	 **/
-	virtual void reject() Q_DECL_OVERRIDE;
+    /**
+     * Reject the dialog contents, i.e. the user clicked the "Cancel"
+     * or WM_CLOSE button.
+     *
+     * Reimplemented from QDialog.
+     **/
+    virtual void reject() Q_DECL_OVERRIDE;
 
     protected slots:
 
@@ -129,20 +129,20 @@ namespace QDirStat
 
     protected:
 
-	/**
-	 * Clear all data and widget contents.
-	 **/
-	void clear();
+    /**
+     * Clear all data and widget contents.
+     **/
+    void clear();
 
-	/**
-	 * Calculate the statistics from the tree.
-	 **/
-	void calc();
+    /**
+     * Calculate the statistics from the tree.
+     **/
+    void calc();
 
-	/**
-	 * One-time initialization of the widgets in this window.
-	 **/
-	void initWidgets();
+    /**
+     * One-time initialization of the widgets in this window.
+     **/
+    void initWidgets();
 
         /**
          * Update the values for the option widgets from the current ones from
@@ -215,14 +215,14 @@ namespace QDirStat
         void fillBuckets();
 
 
-	//
-	// Data members
-	//
+    //
+    // Data members
+    //
 
-	Ui::FileSizeStatsWindow *   _ui;
+    Ui::FileSizeStatsWindow *   _ui;
         FileInfo *                  _subtree;
         QString                     _suffix;
-	FileSizeStats *		    _stats;
+    FileSizeStats *            _stats;
         BucketsTableModel *         _bucketsTableModel;
 
         static QPointer<FileSizeStatsWindow> _sharedInstance;

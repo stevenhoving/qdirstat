@@ -1,9 +1,9 @@
 /*
  *   File name: Settings.h
- *   Summary:	Specialized settings classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Specialized settings classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef Settings_h
@@ -26,69 +26,69 @@ namespace QDirStat
      **/
     class Settings: public QSettings
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
-	/**
-	 * Create a settings object with the specified name. If 'name' is
-	 * empty, the application name is used, i.e. the settings are stored in
-	 * the main config file.
-	 **/
-	Settings( const QString & name = QString() );
+    /**
+     * Create a settings object with the specified name. If 'name' is
+     * empty, the application name is used, i.e. the settings are stored in
+     * the main config file.
+     **/
+    Settings( const QString & name = QString() );
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~Settings();
+    /**
+     * Destructor.
+     **/
+    virtual ~Settings();
 
-	/**
-	 * Name of this settings object. This returns an empty string for the
-	 * generic settings, i.e. the main config file.
-	 **/
-	const QString & name() const { return _name; }
+    /**
+     * Name of this settings object. This returns an empty string for the
+     * generic settings, i.e. the main config file.
+     **/
+    const QString & name() const { return _name; }
 
-	/**
-	 * Name of the group prefix of this settings object, e.g. "Cleanup_"
-	 * for a derived class that uses settings groups [Cleanup_01],
-	 * [Cleanup_02] etc.
-	 **/
-	const QString & groupPrefix() const { return _groupPrefix; }
+    /**
+     * Name of the group prefix of this settings object, e.g. "Cleanup_"
+     * for a derived class that uses settings groups [Cleanup_01],
+     * [Cleanup_02] etc.
+     **/
+    const QString & groupPrefix() const { return _groupPrefix; }
 
-	/**
-	 * Find all settings groups that start with 'groupPrefix'.
-	 **/
-	QStringList findGroups( const QString & groupPrefix );
+    /**
+     * Find all settings groups that start with 'groupPrefix'.
+     **/
+    QStringList findGroups( const QString & groupPrefix );
 
-	/**
-	 * Return true if this settings object has any settings group that
-	 * starts with 'groupPrefix'.
-	 **/
-	bool hasGroup( const QString & groupPrefix );
+    /**
+     * Return true if this settings object has any settings group that
+     * starts with 'groupPrefix'.
+     **/
+    bool hasGroup( const QString & groupPrefix );
 
-	/**
-	 * Remove all settings groups that start with 'groupPrefix'.
-	 **/
-	void removeGroups( const QString & groupPrefix );
+    /**
+     * Remove all settings groups that start with 'groupPrefix'.
+     **/
+    void removeGroups( const QString & groupPrefix );
 
-	/**
-	 * Go to the settings top level
-	 **/
-	void ensureToplevel();
+    /**
+     * Go to the settings top level
+     **/
+    void ensureToplevel();
 
 
     protected:
 
-	/**
-	 * Mmove all settings groups starting with 'groupPrefix' from settings
-	 * object 'from' to settings object 'to'.
-	 **/
-	void moveGroups( const QString & groupPrefix, Settings * from, Settings * to );
+    /**
+     * Mmove all settings groups starting with 'groupPrefix' from settings
+     * object 'from' to settings object 'to'.
+     **/
+    void moveGroups( const QString & groupPrefix, Settings * from, Settings * to );
 
 
-	// Data members
+    // Data members
 
-	QString _name;
-	QString _groupPrefix;
+    QString _name;
+    QString _groupPrefix;
     };
 
 
@@ -100,26 +100,26 @@ namespace QDirStat
      **/
     class CleanupSettings: public Settings
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Constructor.
-	 **/
-	CleanupSettings();
+    /**
+     * Constructor.
+     **/
+    CleanupSettings();
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~CleanupSettings();
+    /**
+     * Destructor.
+     **/
+    virtual ~CleanupSettings();
 
     protected:
-	/**
-	 * Migrate settings of the common settings (the main config file) to
-	 * this one.
-	 **/
-	void migrate();
+    /**
+     * Migrate settings of the common settings (the main config file) to
+     * this one.
+     **/
+    void migrate();
     };
 
 
@@ -131,26 +131,26 @@ namespace QDirStat
      **/
     class MimeCategorySettings: public Settings
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Constructor.
-	 **/
-	MimeCategorySettings();
+    /**
+     * Constructor.
+     **/
+    MimeCategorySettings();
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~MimeCategorySettings();
+    /**
+     * Destructor.
+     **/
+    virtual ~MimeCategorySettings();
 
     protected:
-	/**
-	 * Migrate settings of the common settings (the main config file) to
-	 * this one.
-	 **/
-	void migrate();
+    /**
+     * Migrate settings of the common settings (the main config file) to
+     * this one.
+     **/
+    void migrate();
     };
 
 
@@ -162,28 +162,28 @@ namespace QDirStat
      **/
     class ExcludeRuleSettings: public Settings
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Constructor.
-	 **/
-	ExcludeRuleSettings();
+    /**
+     * Constructor.
+     **/
+    ExcludeRuleSettings();
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~ExcludeRuleSettings();
+    /**
+     * Destructor.
+     **/
+    virtual ~ExcludeRuleSettings();
 
     protected:
-	/**
-	 * Migrate settings of the common settings (the main config file) to
-	 * this one.
-	 **/
-	void migrate();
+    /**
+     * Migrate settings of the common settings (the main config file) to
+     * this one.
+     **/
+    void migrate();
     };
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
-#endif	// Settings_h
+#endif    // Settings_h

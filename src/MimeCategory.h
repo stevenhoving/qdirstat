@@ -1,9 +1,9 @@
 /*
  *   File name: MimeCategory.h
- *   Summary:	Support classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Support classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef MimeCategory_h
@@ -43,135 +43,135 @@ namespace QDirStat
     class MimeCategory
     {
     public:
-	/**
-	 * Create a MimeCategory with the specified name and optional color.
-	 **/
-	MimeCategory( const QString & name,
+    /**
+     * Create a MimeCategory with the specified name and optional color.
+     **/
+    MimeCategory( const QString & name,
                       const QColor  & color = QColor() );
 
-	/**
-	 * Destructor.
-	 **/
-	~MimeCategory();
+    /**
+     * Destructor.
+     **/
+    ~MimeCategory();
 
-	/**
-	 * Set the color for this category.
-	 **/
-	void setColor( const QColor & color ) { _color = color; }
+    /**
+     * Set the color for this category.
+     **/
+    void setColor( const QColor & color ) { _color = color; }
 
-	/**
-	 * Return the color for this category.
-	 **/
-	QColor color() const { return _color; }
+    /**
+     * Return the color for this category.
+     **/
+    QColor color() const { return _color; }
 
-	/**
-	 * Return the name of this category.
-	 **/
-	QString name() const { return _name; }
+    /**
+     * Return the name of this category.
+     **/
+    QString name() const { return _name; }
 
-	/**
-	 * Set the name of this category.
-	 **/
-	void setName( const QString & newName ) { _name = newName; }
+    /**
+     * Set the name of this category.
+     **/
+    void setName( const QString & newName ) { _name = newName; }
 
-	/**
-	 * Add a filename suffix (extension) to this category.
-	 * A leading "*." or "*" is cut off.
-	 **/
-	void addSuffix( const QString &	    suffix,
-			Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive );
+    /**
+     * Add a filename suffix (extension) to this category.
+     * A leading "*." or "*" is cut off.
+     **/
+    void addSuffix( const QString &        suffix,
+            Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive );
 
-	/**
-	 * Add a filename pattern to this category. If the pattern starts with
-	 * "*." and does not contain any other wildcard characters, add it as a
-	 * suffix. Otherwise, this will become a QRegExp::Wildcard regexp.
-	 **/
-	void addPattern( const QString &     pattern,
-			 Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive );
+    /**
+     * Add a filename pattern to this category. If the pattern starts with
+     * "*." and does not contain any other wildcard characters, add it as a
+     * suffix. Otherwise, this will become a QRegExp::Wildcard regexp.
+     **/
+    void addPattern( const QString &     pattern,
+             Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive );
 
-	/**
-	 * Add a list of patterns. See addPattern() for details.
-	 **/
-	void addPatterns( const QStringList & patterns,
-			  Qt::CaseSensitivity caseSensitivity );
+    /**
+     * Add a list of patterns. See addPattern() for details.
+     **/
+    void addPatterns( const QStringList & patterns,
+              Qt::CaseSensitivity caseSensitivity );
 
         /**
          * Add a list of filename suffixes (extensions) to this category.
-	 * A leading "*." or "*" is cut off.
+     * A leading "*." or "*" is cut off.
          **/
-	void addSuffixes( const QStringList & suffixes,
+    void addSuffixes( const QStringList & suffixes,
                           Qt::CaseSensitivity caseSensitivity = Qt::CaseInsensitive );
         
-	/**
-	 * Clear any suffixes or patterns for this category.
-	 **/
-	void clear();
+    /**
+     * Clear any suffixes or patterns for this category.
+     **/
+    void clear();
 
-	/**
-	 * Return the list of case-insensitive suffixes for this category.
-	 * The suffixes do not contain any leading wildcard or dot,
-	 * i.e. it will be "tar.bz2", not ".tar.bz2" or "*.tar.bz2".
-	 **/
-	const QStringList & caseInsensitiveSuffixList() const
-	    { return _caseInsensitiveSuffixList; }
+    /**
+     * Return the list of case-insensitive suffixes for this category.
+     * The suffixes do not contain any leading wildcard or dot,
+     * i.e. it will be "tar.bz2", not ".tar.bz2" or "*.tar.bz2".
+     **/
+    const QStringList & caseInsensitiveSuffixList() const
+        { return _caseInsensitiveSuffixList; }
 
-	/**
-	 * Return the list of case-sensitive suffixes for this category.
-	 * The suffixes do not contain any leading wildcard or dot,
-	 * i.e. it will be "tar.bz2", not ".tar.bz2" or "*.tar.bz2".
-	 **/
-	const QStringList & caseSensitiveSuffixList() const
-	    { return _caseSensitiveSuffixList; }
+    /**
+     * Return the list of case-sensitive suffixes for this category.
+     * The suffixes do not contain any leading wildcard or dot,
+     * i.e. it will be "tar.bz2", not ".tar.bz2" or "*.tar.bz2".
+     **/
+    const QStringList & caseSensitiveSuffixList() const
+        { return _caseSensitiveSuffixList; }
 
-	/**
-	 * Return the list of patterns for this category that are not simple
-	 * suffix patterns.
-	 **/
-	const QRegExpList & patternList() const
-	    { return _patternList; }
+    /**
+     * Return the list of patterns for this category that are not simple
+     * suffix patterns.
+     **/
+    const QRegExpList & patternList() const
+        { return _patternList; }
 
-	/**
-	 * Return a sorted list of all either case sensitive or case
-	 * insensitive suffixes and patterns for this category in human
-	 * readable form, i.e. prepend suffixes with "*.":
-	 * "tar.bz2" -> "*.tar.bz2".
-	 *
-	 * This is useful for populating widgets.
-	 **/
-	QStringList humanReadablePatternList( Qt::CaseSensitivity caseSensitivity );
+    /**
+     * Return a sorted list of all either case sensitive or case
+     * insensitive suffixes and patterns for this category in human
+     * readable form, i.e. prepend suffixes with "*.":
+     * "tar.bz2" -> "*.tar.bz2".
+     *
+     * This is useful for populating widgets.
+     **/
+    QStringList humanReadablePatternList( Qt::CaseSensitivity caseSensitivity );
 
-	/**
-	 * Convert a suffix list into the commonly used human readable form,
-	 * i.e. prepend it with "*.": "tar.bz2" -> "*.tar.bz2".
-	 **/
-	static QStringList humanReadableSuffixList( const QStringList & suffixList );
+    /**
+     * Convert a suffix list into the commonly used human readable form,
+     * i.e. prepend it with "*.": "tar.bz2" -> "*.tar.bz2".
+     **/
+    static QStringList humanReadableSuffixList( const QStringList & suffixList );
 
-	/**
-	 * Filter out either case sensitive or case insensitive patterns from a
-	 * pattern list and convert them into human readable form.
-	 **/
-	static QStringList humanReadablePatternList( const QRegExpList & patternList,
-						     Qt::CaseSensitivity caseSensitivity );
+    /**
+     * Filter out either case sensitive or case insensitive patterns from a
+     * pattern list and convert them into human readable form.
+     **/
+    static QStringList humanReadablePatternList( const QRegExpList & patternList,
+                             Qt::CaseSensitivity caseSensitivity );
 
     protected:
 
-	/**
-	 * Return 'true' if 'pattern' is a simple suffix pattern, i.e. it
-	 * starts with "*." and does not contain any more wildcard characters.
-	 **/
-	bool isSuffixPattern( const QString & pattern );
+    /**
+     * Return 'true' if 'pattern' is a simple suffix pattern, i.e. it
+     * starts with "*." and does not contain any more wildcard characters.
+     **/
+    bool isSuffixPattern( const QString & pattern );
 
-	//
-	// Data members
-	//
+    //
+    // Data members
+    //
 
-	QString		_name;
-	QColor		_color;
-	QStringList	_caseInsensitiveSuffixList;
-	QStringList	_caseSensitiveSuffixList;
-	QRegExpList	_patternList;
+    QString        _name;
+    QColor        _color;
+    QStringList    _caseInsensitiveSuffixList;
+    QStringList    _caseSensitiveSuffixList;
+    QRegExpList    _patternList;
 
-    };	// class MimeCategory
+    };    // class MimeCategory
 
     
     typedef QList<MimeCategory *> MimeCategoryList;
@@ -187,10 +187,10 @@ namespace QDirStat
         else
             str << "<NULL MimeCategory *>";
 
-	return str;
+    return str;
     }
 
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
-#endif	// MimeCategory_h
+#endif    // MimeCategory_h

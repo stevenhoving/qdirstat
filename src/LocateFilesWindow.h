@@ -1,9 +1,9 @@
 /*
  *   File name: LocateFilesWindow.h
- *   Summary:	QDirStat "locate files" window
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat "locate files" window
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -42,26 +42,26 @@ namespace QDirStat
      **/
     class LocateFilesWindow: public QDialog
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Constructor.
-	 *
-	 * Notice that this widget will destroy itself upon window close.
-	 *
-	 * It is advised to use a QPointer for storing a pointer to an instance
-	 * of this class. The QPointer will keep track of this window
-	 * auto-deleting itself when closed.
-	 **/
-	LocateFilesWindow( SelectionModel * selectionModel,
-			   QWidget *	    parent );
+    /**
+     * Constructor.
+     *
+     * Notice that this widget will destroy itself upon window close.
+     *
+     * It is advised to use a QPointer for storing a pointer to an instance
+     * of this class. The QPointer will keep track of this window
+     * auto-deleting itself when closed.
+     **/
+    LocateFilesWindow( SelectionModel * selectionModel,
+               QWidget *        parent );
 
-	/**
-	 * Destructor.
-	 **/
-	virtual ~LocateFilesWindow();
+    /**
+     * Destructor.
+     **/
+    virtual ~LocateFilesWindow();
 
     public:
 
@@ -70,77 +70,77 @@ namespace QDirStat
          **/
         const Subtree & subtree() const { return _subtree; }
 
-	/**
-	 * Return the current search suffix (with leading '*.')
-	 **/
-	QString searchSuffix() const;
+    /**
+     * Return the current search suffix (with leading '*.')
+     **/
+    QString searchSuffix() const;
 
 
     public slots:
 
-	/**
-	 * Populate the window: Locate files with 'suffix' in 'subtree'.
-	 *
-	 * This clears the old search results first, then searches the subtree
-	 * and populates the search result list with the directories where
-	 * matching files were found.
-	 **/
-	void populate( const QString & suffix, FileInfo * subtree = 0 );
+    /**
+     * Populate the window: Locate files with 'suffix' in 'subtree'.
+     *
+     * This clears the old search results first, then searches the subtree
+     * and populates the search result list with the directories where
+     * matching files were found.
+     **/
+    void populate( const QString & suffix, FileInfo * subtree = 0 );
 
-	/**
-	 * Refresh (reload) all data.
-	 **/
-	void refresh();
+    /**
+     * Refresh (reload) all data.
+     **/
+    void refresh();
 
-	/**
-	 * Reject the dialog contents, i.e. the user clicked the "Cancel" or
-	 * WM_CLOSE button. This not only closes the dialog, it also deletes
-	 * it.
-	 *
-	 * Reimplemented from QDialog.
-	 **/
-	virtual void reject() Q_DECL_OVERRIDE;
+    /**
+     * Reject the dialog contents, i.e. the user clicked the "Cancel" or
+     * WM_CLOSE button. This not only closes the dialog, it also deletes
+     * it.
+     *
+     * Reimplemented from QDialog.
+     **/
+    virtual void reject() Q_DECL_OVERRIDE;
 
     protected slots:
 
-	/**
-	 * Select one of the search results in the main window's tree and
-	 * treemap widgets via their SelectionModel.
-	 **/
-	void selectResult( QTreeWidgetItem * item );
+    /**
+     * Select one of the search results in the main window's tree and
+     * treemap widgets via their SelectionModel.
+     **/
+    void selectResult( QTreeWidgetItem * item );
 
     protected:
 
-	/**
-	 * Clear all data and widget contents.
-	 **/
-	void clear();
+    /**
+     * Clear all data and widget contents.
+     **/
+    void clear();
 
-	/**
-	 * One-time initialization of the widgets in this window.
-	 **/
-	void initWidgets();
+    /**
+     * One-time initialization of the widgets in this window.
+     **/
+    void initWidgets();
 
-	/**
-	 * Recursively locate directories that contain files matching the
-	 * search suffix and create a search result item for each one.
-	 **/
-	void locate( FileInfo * dir );
+    /**
+     * Recursively locate directories that contain files matching the
+     * search suffix and create a search result item for each one.
+     **/
+    void locate( FileInfo * dir );
 
-	/**
-	 * Return all direct file children matching the current search suffix.
-	 **/
-	FileInfoSet matchingFiles( FileInfo * dir );
+    /**
+     * Return all direct file children matching the current search suffix.
+     **/
+    FileInfoSet matchingFiles( FileInfo * dir );
 
 
-	//
-	// Data members
-	//
+    //
+    // Data members
+    //
 
-	Ui::LocateFilesWindow * _ui;
+    Ui::LocateFilesWindow * _ui;
         Subtree                 _subtree;
-	QString			_searchSuffix;
-	SelectionModel *	_selectionModel;
+    QString            _searchSuffix;
+    SelectionModel *    _selectionModel;
     };
 
 
@@ -149,10 +149,10 @@ namespace QDirStat
      **/
     enum SuffixSearchResultColumns
     {
-	SSR_CountCol = 0,
-	SSR_TotalSizeCol,
-	SSR_PathCol,
-	SSR_ColumnCount
+    SSR_CountCol = 0,
+    SSR_TotalSizeCol,
+    SSR_PathCol,
+    SSR_ColumnCount
     };
 
 
@@ -178,30 +178,30 @@ namespace QDirStat
     {
     public:
 
-	/**
-	 * Constructor.
-	 **/
-	SuffixSearchResultItem( const QString & path,
-				int		count,
-				FileSize	totalSize );
-	//
-	// Getters
-	//
+    /**
+     * Constructor.
+     **/
+    SuffixSearchResultItem( const QString & path,
+                int        count,
+                FileSize    totalSize );
+    //
+    // Getters
+    //
 
-	QString	 path()	      const { return _path; }
-	int	 count()      const { return _count; }
-	FileSize totalSize()  const { return _totalSize; }
+    QString     path()          const { return _path; }
+    int     count()      const { return _count; }
+    FileSize totalSize()  const { return _totalSize; }
 
-	/**
-	 * Less-than operator for sorting.
-	 **/
-	virtual bool operator<(const QTreeWidgetItem & other) const Q_DECL_OVERRIDE;
+    /**
+     * Less-than operator for sorting.
+     **/
+    virtual bool operator<(const QTreeWidgetItem & other) const Q_DECL_OVERRIDE;
 
     protected:
 
-	QString		_path;
-	int		_count;
-	FileSize	_totalSize;
+    QString        _path;
+    int        _count;
+    FileSize    _totalSize;
     };
 
 } // namespace QDirStat

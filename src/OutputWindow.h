@@ -1,9 +1,9 @@
 /*
  *   File name: OutputWindow.h
- *   Summary:	Terminal-like window to watch output of an external process
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Terminal-like window to watch output of an external process
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef OutputWindow_h
@@ -116,7 +116,7 @@ public:
      * set the default show timeout (in milliseconds).
      **/
     void setDefaultShowTimeout( int newTimeoutMillisec )
-	{ _defaultShowTimeout = newTimeoutMillisec; }
+    { _defaultShowTimeout = newTimeoutMillisec; }
 
     /**
      * Return the text color for commands in the terminal area.
@@ -127,7 +127,7 @@ public:
      * Set the text color for commands in the terminal area.
      **/
     void setCommandTextColor( const QColor & newColor )
-	{ _commandTextColor = newColor; }
+    { _commandTextColor = newColor; }
 
     /**
      * Return the text color for stdout output in the terminal area.
@@ -138,7 +138,7 @@ public:
      * Set the text color for stdout output in the terminal area.
      **/
     void setStdoutColor( const QColor & newColor )
-	{ _stdoutColor = newColor; }
+    { _stdoutColor = newColor; }
 
     /**
      * Return the text color for stderr output in the terminal area.
@@ -149,7 +149,7 @@ public:
      * Set the text color for stderr output in the terminal area.
      **/
     void setStderrColor( const QColor & newColor )
-	{ _stderrColor = newColor; }
+    { _stderrColor = newColor; }
 
 #if 0
     /**
@@ -336,33 +336,33 @@ protected:
     //
 
     Ui::OutputWindow  * _ui;
-    QList<Process *>	_processList;
-    bool		_showOnStderr;
-    bool		_noMoreProcesses;
-    bool		_closed;
-    bool		_killedAll;
-    int			_errorCount;
-    QString		_lastWorkingDir;
-    QColor		_terminalBackground;
-    QColor		_commandTextColor;
-    QColor		_stdoutColor;
-    QColor		_stderrColor;
-    QFont		_terminalDefaultFont;
-    int			_defaultShowTimeout;
+    QList<Process *>    _processList;
+    bool        _showOnStderr;
+    bool        _noMoreProcesses;
+    bool        _closed;
+    bool        _killedAll;
+    int            _errorCount;
+    QString        _lastWorkingDir;
+    QColor        _terminalBackground;
+    QColor        _commandTextColor;
+    QColor        _stdoutColor;
+    QColor        _stderrColor;
+    QFont        _terminalDefaultFont;
+    int            _defaultShowTimeout;
 
-};	// class OutputWindow
+};    // class OutputWindow
 
 
 inline QTextStream & operator<< ( QTextStream & stream, Process * process )
 {
     if ( process )
-	stream << OutputWindow::command( process );
+    stream << OutputWindow::command( process );
     else
-	stream << "<NULL QProcess>";
+    stream << "<NULL QProcess>";
 
     return stream;
 }
 
 
 
-#endif	// OutputWindow_h
+#endif    // OutputWindow_h

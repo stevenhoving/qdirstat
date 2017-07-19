@@ -1,9 +1,9 @@
 /*
  *   File name: Settings.cpp
- *   Summary:	Specialized settings classes for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Specialized settings classes for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -19,7 +19,7 @@ using namespace QDirStat;
 
 Settings::Settings( const QString & name ):
     QSettings( QCoreApplication::organizationName(),
-	       name.isEmpty()? QCoreApplication::applicationName() : name ),
+           name.isEmpty()? QCoreApplication::applicationName() : name ),
     _name( name )
 {
 
@@ -34,8 +34,8 @@ Settings::~Settings()
 
 void Settings::ensureToplevel()
 {
-    while ( ! group().isEmpty() )	// ensure using toplevel settings
-	endGroup();
+    while ( ! group().isEmpty() )    // ensure using toplevel settings
+    endGroup();
 }
 
 
@@ -46,8 +46,8 @@ QStringList Settings::findGroups( const QString & groupPrefix )
 
     foreach ( const QString & group, childGroups() )
     {
-	if ( group.startsWith( groupPrefix ) )
-	    result << group;
+    if ( group.startsWith( groupPrefix ) )
+        result << group;
     }
 
     return result;
@@ -60,8 +60,8 @@ bool Settings::hasGroup( const QString & groupPrefix )
 
     foreach ( const QString & group, childGroups() )
     {
-	if ( group.startsWith( groupPrefix ) )
-	    return true;
+    if ( group.startsWith( groupPrefix ) )
+        return true;
     }
 
     return false;
@@ -74,15 +74,15 @@ void Settings::removeGroups( const QString & groupPrefix )
 
     foreach ( const QString & group, childGroups() )
     {
-	if ( group.startsWith( groupPrefix ) )
-	    remove( group );
+    if ( group.startsWith( groupPrefix ) )
+        remove( group );
     }
 }
 
 
 void Settings::moveGroups( const QString & groupPrefix,
-			   Settings * from,
-			   Settings * to )
+               Settings * from,
+               Settings * to )
 {
     CHECK_PTR( from );
     CHECK_PTR( to   );
@@ -90,35 +90,35 @@ void Settings::moveGroups( const QString & groupPrefix,
 
     if ( ! hasGroup( groupPrefix ) )
     {
-	logInfo() << "Migrating " << groupPrefix << "* to " << to->name() << endl;
-	QStringList groups = from->findGroups( groupPrefix );
+    logInfo() << "Migrating " << groupPrefix << "* to " << to->name() << endl;
+    QStringList groups = from->findGroups( groupPrefix );
 
-	foreach ( const QString & group, groups )
-	{
-	    // logVerbose() << "  Migrating " << group << endl;
+    foreach ( const QString & group, groups )
+    {
+        // logVerbose() << "  Migrating " << group << endl;
 
-	    from->beginGroup( group );
-	    to->beginGroup( group );
+        from->beginGroup( group );
+        to->beginGroup( group );
 
-	    QStringList keys = from->allKeys();
+        QStringList keys = from->allKeys();
 
-	    foreach( const QString & key, keys )
-	    {
-		// logVerbose() << "	Copying " << key << endl;
-		to->setValue( key, from->value( key ) );
-	    }
+        foreach( const QString & key, keys )
+        {
+        // logVerbose() << "    Copying " << key << endl;
+        to->setValue( key, from->value( key ) );
+        }
 
-	    to->endGroup();
-	    from->endGroup();
-	}
+        to->endGroup();
+        from->endGroup();
+    }
     }
     else
     {
 #if 0
-	logVerbose() << "Target settings " << to->name()
-		     << " have group " << groupPrefix
-		     << " - nothing to migrate"
-		     << endl;
+    logVerbose() << "Target settings " << to->name()
+             << " have group " << groupPrefix
+             << " - nothing to migrate"
+             << endl;
 #endif
     }
 

@@ -1,9 +1,9 @@
 /*
  *   File name: CleanupCollection.cpp
- *   Summary:	QDirStat classes to reclaim disk space
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat classes to reclaim disk space
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -28,7 +28,7 @@ using namespace QDirStat;
 
 
 CleanupCollection::CleanupCollection( SelectionModel * selectionModel,
-				      QObject	     * parent ):
+                      QObject         * parent ):
     QObject( parent ),
     _selectionModel( selectionModel ),
     _listMover( _cleanupList )
@@ -41,12 +41,12 @@ CleanupCollection::CleanupCollection( SelectionModel * selectionModel,
     (void) Cleanup::desktopSpecificApps();
 
     if ( _cleanupList.isEmpty() )
-	addStdCleanups();
+    addStdCleanups();
 
     updateActions();
 
     connect( selectionModel, SIGNAL( selectionChanged() ),
-	     this,	     SLOT  ( updateActions()	) );
+         this,         SLOT  ( updateActions()    ) );
 }
 
 
@@ -63,7 +63,7 @@ void CleanupCollection::add( Cleanup * cleanup )
     _cleanupList << cleanup;
 
     connect( cleanup, SIGNAL( triggered() ),
-	     this,    SLOT  ( execute()	  ) );
+         this,    SLOT  ( execute()      ) );
 
     updateMenusAndToolBars();
 }
@@ -75,8 +75,8 @@ void CleanupCollection::remove( Cleanup * cleanup )
 
     if ( index == -1 )
     {
-	logError() << "No such cleanup: " << cleanup << endl;
-	return;
+    logError() << "No such cleanup: " << cleanup << endl;
+    return;
     }
 
     _cleanupList.removeAt( index );
@@ -91,7 +91,7 @@ void CleanupCollection::addStdCleanups()
 {
     foreach ( Cleanup * cleanup, StdCleanup::stdCleanups( this ) )
     {
-	add( cleanup );
+    add( cleanup );
     }
 }
 
@@ -101,7 +101,7 @@ int CleanupCollection::indexOf( Cleanup * cleanup ) const
     int index = _cleanupList.indexOf( cleanup );
 
     if ( index == -1 )
-	logError() << "Cleanup " << cleanup << " is not in this collection" << endl;
+    logError() << "Cleanup " << cleanup << " is not in this collection" << endl;
 
     return index;
 }
@@ -110,9 +110,9 @@ int CleanupCollection::indexOf( Cleanup * cleanup ) const
 Cleanup * CleanupCollection::at( int index ) const
 {
     if ( index >= 0 && index < _cleanupList.size() )
-	return _cleanupList.at( index );
+    return _cleanupList.at( index );
     else
-	return 0;
+    return 0;
 }
 
 
@@ -137,34 +137,34 @@ void CleanupCollection::updateActions()
 {
     FileInfoSet sel = _selectionModel->selectedItems();
 
-    bool dirSelected	  = sel.containsDir();
-    bool fileSelected	  = sel.containsFile();
+    bool dirSelected      = sel.containsDir();
+    bool fileSelected      = sel.containsFile();
     bool dotEntrySelected = sel.containsDotEntry();
-    bool busy		  = sel.containsBusyItem();
-    bool treeBusy	  = sel.treeIsBusy();
+    bool busy          = sel.containsBusyItem();
+    bool treeBusy      = sel.treeIsBusy();
 
     foreach ( Cleanup * cleanup, _cleanupList )
     {
-	if ( ! cleanup->active() || sel.isEmpty() )
-	    cleanup->setEnabled( false );
-	else
-	{
-	    bool enabled = ! busy;
+    if ( ! cleanup->active() || sel.isEmpty() )
+        cleanup->setEnabled( false );
+    else
+    {
+        bool enabled = ! busy;
 
-	    if ( treeBusy && cleanup->refreshPolicy() != Cleanup::NoRefresh )
-		enabled = false;
+        if ( treeBusy && cleanup->refreshPolicy() != Cleanup::NoRefresh )
+        enabled = false;
 
-	    if ( dirSelected && ! cleanup->worksForDir() )
-		enabled = false;
+        if ( dirSelected && ! cleanup->worksForDir() )
+        enabled = false;
 
-	    if ( dotEntrySelected && ! cleanup->worksForDotEntry() )
-		enabled = false;
+        if ( dotEntrySelected && ! cleanup->worksForDotEntry() )
+        enabled = false;
 
-	    if ( fileSelected && ! cleanup->worksForFile() )
-		enabled = false;
+        if ( fileSelected && ! cleanup->worksForFile() )
+        enabled = false;
 
-	    cleanup->setEnabled( enabled );
-	}
+        cleanup->setEnabled( enabled );
+    }
     }
 }
 
@@ -175,21 +175,21 @@ void CleanupCollection::updateMenus()
 
     foreach ( QMenu * menu, _menus )
     {
-	if ( menu )
-	{
-	    // Remove all Cleanups from this menu
+    if ( menu )
+    {
+        // Remove all Cleanups from this menu
 
-	    foreach ( QAction * action, menu->actions() )
-	    {
-		Cleanup * cleanup = dynamic_cast<Cleanup *>( action );
+        foreach ( QAction * action, menu->actions() )
+        {
+        Cleanup * cleanup = dynamic_cast<Cleanup *>( action );
 
-		if ( cleanup )
-		    menu->removeAction( cleanup );
-	    }
+        if ( cleanup )
+            menu->removeAction( cleanup );
+        }
 
-	    // Add the current cleanups in the current order
-	    addToMenu( menu );
-	}
+        // Add the current cleanups in the current order
+        addToMenu( menu );
+    }
     }
 }
 
@@ -200,21 +200,21 @@ void CleanupCollection::updateToolBars()
 
     foreach ( QToolBar * toolBar, _toolBars )
     {
-	if ( toolBar )
-	{
-	    // Remove all Cleanups from this tool bar
+    if ( toolBar )
+    {
+        // Remove all Cleanups from this tool bar
 
-	    foreach ( QAction * action, toolBar->actions() )
-	    {
-		Cleanup * cleanup = dynamic_cast<Cleanup *>( action );
+        foreach ( QAction * action, toolBar->actions() )
+        {
+        Cleanup * cleanup = dynamic_cast<Cleanup *>( action );
 
-		if ( cleanup )
-		    toolBar->removeAction( cleanup );
-	    }
+        if ( cleanup )
+            toolBar->removeAction( cleanup );
+        }
 
-	    // Add the current cleanups in the current order
-	    addToToolBar( toolBar );
-	}
+        // Add the current cleanups in the current order
+        addToToolBar( toolBar );
+    }
     }
 }
 
@@ -225,23 +225,23 @@ void CleanupCollection::execute()
 
     if ( ! cleanup )
     {
-	logError() << "Wrong sender type: "
-		   << sender()->metaObject()->className() << endl;
-	return;
+    logError() << "Wrong sender type: "
+           << sender()->metaObject()->className() << endl;
+    return;
     }
 
     FileInfoSet selection = _selectionModel->selectedItems();
 
     if ( selection.isEmpty() )
     {
-	logWarning() << "Nothing selected" << endl;
-	return;
+    logWarning() << "Nothing selected" << endl;
+    return;
     }
 
     if ( cleanup->askForConfirmation() && ! confirmation( cleanup, selection ) )
     {
-	logDebug() << "User declined confirmation" << endl;
-	return;
+    logDebug() << "User declined confirmation" << endl;
+    return;
     }
 
     emit startingCleanup( cleanup->cleanTitle() );
@@ -252,51 +252,51 @@ void CleanupCollection::execute()
 
     switch ( cleanup->outputWindowPolicy() )
     {
-	case Cleanup::ShowAlways:
-	    outputWindow->show();
-	    break;
+    case Cleanup::ShowAlways:
+        outputWindow->show();
+        break;
 
-	case Cleanup::ShowAfterTimeout:
-	    outputWindow->showAfterTimeout( cleanup->outputWindowTimeout() );
-	    break;
+    case Cleanup::ShowAfterTimeout:
+        outputWindow->showAfterTimeout( cleanup->outputWindowTimeout() );
+        break;
 
-	case Cleanup::ShowIfErrorOutput: // showOnStderr is default
-	    break;
+    case Cleanup::ShowIfErrorOutput: // showOnStderr is default
+        break;
 
-	case Cleanup::ShowNever:
-	    outputWindow->setShowOnStderr( false );
-	    break;
+    case Cleanup::ShowNever:
+        outputWindow->setShowOnStderr( false );
+        break;
     }
 
     if ( cleanup->refreshPolicy() == Cleanup::RefreshThis ||
-	 cleanup->refreshPolicy() == Cleanup::RefreshParent )
+     cleanup->refreshPolicy() == Cleanup::RefreshParent )
     {
-	FileInfoSet refreshSet =
-	    cleanup->refreshPolicy() == Cleanup::RefreshParent ?
-	    Refresher::parents( selection ) : selection;
+    FileInfoSet refreshSet =
+        cleanup->refreshPolicy() == Cleanup::RefreshParent ?
+        Refresher::parents( selection ) : selection;
 
-	_selectionModel->prepareRefresh( refreshSet );
-	Refresher * refresher = new Refresher( refreshSet, this );
-	CHECK_NEW( refresher );
+    _selectionModel->prepareRefresh( refreshSet );
+    Refresher * refresher = new Refresher( refreshSet, this );
+    CHECK_NEW( refresher );
 
-	connect( outputWindow, SIGNAL( lastProcessFinished( int ) ),
-		 refresher,    SLOT  ( refresh()		) );
+    connect( outputWindow, SIGNAL( lastProcessFinished( int ) ),
+         refresher,    SLOT  ( refresh()        ) );
     }
 
     connect( outputWindow, SIGNAL( lastProcessFinished( int ) ),
-	     this,	   SIGNAL( cleanupFinished    ( int ) ) );
+         this,       SIGNAL( cleanupFinished    ( int ) ) );
 
     foreach ( FileInfo * item, selection )
     {
-	if ( cleanup->worksFor( item ) )
-	{
-	    cleanup->execute( item, outputWindow );
-	}
-	else
-	{
-	    logWarning() << "Cleanup " << cleanup
-			 << " does not work for " << item << endl;
-	}
+    if ( cleanup->worksFor( item ) )
+    {
+        cleanup->execute( item, outputWindow );
+    }
+    else
+    {
+        logWarning() << "Cleanup " << cleanup
+             << " does not work for " << item << endl;
+    }
     }
 
     outputWindow->noMoreProcesses();
@@ -310,81 +310,81 @@ bool CleanupCollection::confirmation( Cleanup * cleanup, const FileInfoSet & ite
 
     if ( items.size() == 1 ) // The most common case
     {
-	FileInfo * item = items.first();
+    FileInfo * item = items.first();
 
-	if ( item->isDir() || item->isDotEntry() )
-	    msg += tr( "<h3>%1</h3>for <b>directory</b> %2" ).arg( title ).arg( item->url() );
-	else
-	    msg += tr( "<h3>%1</h3>for file %2" ).arg( title ).arg( item->url() );
+    if ( item->isDir() || item->isDotEntry() )
+        msg += tr( "<h3>%1</h3>for <b>directory</b> %2" ).arg( title ).arg( item->url() );
+    else
+        msg += tr( "<h3>%1</h3>for file %2" ).arg( title ).arg( item->url() );
 
-	msg += "<br>";
+    msg += "<br>";
     }
     else // Multiple items selected
     {
 
-	QStringList urls;
-	bool isMixed = items.containsDir() && items.containsFile();
+    QStringList urls;
+    bool isMixed = items.containsDir() && items.containsFile();
 
-	if ( isMixed )
-	{
-	    QStringList dirs	= filteredUrls( items, true, false,    // dibs, nonDirs
-						true );		       // extraHighlight
-	    QStringList nonDirs = filteredUrls( items, false, true  ); // dirs, nonDirs
+    if ( isMixed )
+    {
+        QStringList dirs    = filteredUrls( items, true, false,    // dibs, nonDirs
+                        true );               // extraHighlight
+        QStringList nonDirs = filteredUrls( items, false, true  ); // dirs, nonDirs
 
-	    dirs    = dirs.mid	 ( 0, MAX_URLS_IN_CONFIRMATION_POPUP );
-	    nonDirs = nonDirs.mid( 0, MAX_URLS_IN_CONFIRMATION_POPUP );
+        dirs    = dirs.mid     ( 0, MAX_URLS_IN_CONFIRMATION_POPUP );
+        nonDirs = nonDirs.mid( 0, MAX_URLS_IN_CONFIRMATION_POPUP );
 
-	    urls << dirs << "" << nonDirs;
-	}
-	else // ! isMixed
-	{
-	    // Build a list of the first couple of selected items (7 max)
+        urls << dirs << "" << nonDirs;
+    }
+    else // ! isMixed
+    {
+        // Build a list of the first couple of selected items (7 max)
 
-	    urls = filteredUrls( items, true, true ); // dirs, nonDirs
-	    urls = urls.mid( 0, MAX_URLS_IN_CONFIRMATION_POPUP );
-	}
+        urls = filteredUrls( items, true, true ); // dirs, nonDirs
+        urls = urls.mid( 0, MAX_URLS_IN_CONFIRMATION_POPUP );
+    }
 
-	if ( urls.size() < items.size() ) // Only displaying part of the items?
-	{
-	    urls << "...";
-	    urls << tr( "<i>(%1 items total)</i>" ).arg( items.size() );
-	}
+    if ( urls.size() < items.size() ) // Only displaying part of the items?
+    {
+        urls << "...";
+        urls << tr( "<i>(%1 items total)</i>" ).arg( items.size() );
+    }
 
-	msg += tr( "<h3>%1</h3> for:<br>\n%2<br>" ).arg( title ).arg( urls.join( "<br>" ) );
+    msg += tr( "<h3>%1</h3> for:<br>\n%2<br>" ).arg( title ).arg( urls.join( "<br>" ) );
     }
 
     int ret = QMessageBox::question( qApp->activeWindow(),
-				     tr( "Please Confirm" ), // title
-				     msg,		     // text
-				     QMessageBox::Yes | QMessageBox::No );
+                     tr( "Please Confirm" ), // title
+                     msg,             // text
+                     QMessageBox::Yes | QMessageBox::No );
     return ret == QMessageBox::Yes;
 }
 
 
 QStringList CleanupCollection::filteredUrls( const FileInfoSet & items,
-					     bool		 dirs,
-					     bool		 nonDirs,
-					     bool		 extraHighlight ) const
+                         bool         dirs,
+                         bool         nonDirs,
+                         bool         extraHighlight ) const
 {
     QStringList urls;
 
     for ( FileInfoSet::const_iterator it = items.begin(); it != items.end(); ++it )
     {
-	if ( ( dirs    &&   (*it)->isDir() ) ||
-	     ( nonDirs && ! (*it)->isDir() )   )
-	{
-	    QString name = (*it)->url();
+    if ( ( dirs    &&   (*it)->isDir() ) ||
+         ( nonDirs && ! (*it)->isDir() )   )
+    {
+        QString name = (*it)->url();
 
-	    if ( (*it)->isDir() )
-	    {
-		if ( extraHighlight )
-		    urls << tr( "<b>Directory <font color=blue>%1</font></b>" ).arg( name );
-		else
-		    urls << tr( "<b>Directory</b> %1" ).arg( name );
-	    }
-	    else
-		urls << name;
-	}
+        if ( (*it)->isDir() )
+        {
+        if ( extraHighlight )
+            urls << tr( "<b>Directory <font color=blue>%1</font></b>" ).arg( name );
+        else
+            urls << tr( "<b>Directory</b> %1" ).arg( name );
+        }
+        else
+        urls << name;
+    }
     }
 
     return urls;
@@ -397,12 +397,12 @@ void CleanupCollection::addToMenu( QMenu * menu, bool keepUpdated )
 
     foreach ( Cleanup * cleanup, _cleanupList )
     {
-	if ( cleanup->active() )
-	    menu->addAction( cleanup );
+    if ( cleanup->active() )
+        menu->addAction( cleanup );
     }
 
     if ( keepUpdated && ! _menus.contains( menu ) )
-	_menus << menu;
+    _menus << menu;
 }
 
 
@@ -412,18 +412,18 @@ void CleanupCollection::addToToolBar( QToolBar * toolBar, bool keepUpdated )
 
     foreach ( Cleanup * cleanup, _cleanupList )
     {
-	if ( cleanup->active() &&
-	     ! cleanup->icon().isNull() )
-	{
-	    // Add only cleanups that have an icon to avoid overcrowding the
-	    // toolbar with actions that only have a text.
+    if ( cleanup->active() &&
+         ! cleanup->icon().isNull() )
+    {
+        // Add only cleanups that have an icon to avoid overcrowding the
+        // toolbar with actions that only have a text.
 
-	    toolBar->addAction( cleanup );
-	}
+        toolBar->addAction( cleanup );
+    }
     }
 
     if ( keepUpdated && ! _toolBars.contains( toolBar ) )
-	_toolBars << toolBar;
+    _toolBars << toolBar;
 }
 
 
@@ -462,73 +462,73 @@ void CleanupCollection::readSettings()
 
     if ( ! cleanupGroups.isEmpty() ) // Keep defaults (StdCleanups) if settings empty
     {
-	clear();
+    clear();
 
-	// Read all settings groups [Cleanup_xx] that were found
+    // Read all settings groups [Cleanup_xx] that were found
 
-	foreach ( const QString & groupName, cleanupGroups )
-	{
-	    settings.beginGroup( groupName );
+    foreach ( const QString & groupName, cleanupGroups )
+    {
+        settings.beginGroup( groupName );
 
-	    // Read one cleanup
+        // Read one cleanup
 
-	    QString command  = settings.value( "Command" ).toString();
-	    QString title    = settings.value( "Title"	 ).toString();
-	    QString iconName = settings.value( "Icon"	 ).toString();
-	    QString hotkey   = settings.value( "Hotkey"	 ).toString();
-	    QString shell    = settings.value( "Shell"	 ).toString();
+        QString command  = settings.value( "Command" ).toString();
+        QString title    = settings.value( "Title"     ).toString();
+        QString iconName = settings.value( "Icon"     ).toString();
+        QString hotkey   = settings.value( "Hotkey"     ).toString();
+        QString shell    = settings.value( "Shell"     ).toString();
 
-	    bool active		       = settings.value( "Active"		, true	).toBool();
-	    bool worksForDir	       = settings.value( "WorksForDir"		, true	).toBool();
-	    bool worksForFile	       = settings.value( "WorksForFile"		, true	).toBool();
-	    bool worksForDotEntry      = settings.value( "WorksForDotEntry"	, true	).toBool();
-	    bool recurse	       = settings.value( "Recurse"		, false ).toBool();
-	    bool askForConfirmation    = settings.value( "AskForConfirmation"	, false ).toBool();
-	    bool outputWindowAutoClose = settings.value( "OutputWindowAutoClose", false ).toBool();
-	    int	 outputWindowTimeout   = settings.value( "OutputWindowTimeout"	, 0	).toInt();
+        bool active               = settings.value( "Active"        , true    ).toBool();
+        bool worksForDir           = settings.value( "WorksForDir"        , true    ).toBool();
+        bool worksForFile           = settings.value( "WorksForFile"        , true    ).toBool();
+        bool worksForDotEntry      = settings.value( "WorksForDotEntry"    , true    ).toBool();
+        bool recurse           = settings.value( "Recurse"        , false ).toBool();
+        bool askForConfirmation    = settings.value( "AskForConfirmation"    , false ).toBool();
+        bool outputWindowAutoClose = settings.value( "OutputWindowAutoClose", false ).toBool();
+        int     outputWindowTimeout   = settings.value( "OutputWindowTimeout"    , 0    ).toInt();
 
-	    int refreshPolicy	    = readEnumEntry( settings, "RefreshPolicy",
-						     Cleanup::NoRefresh,
-						     Cleanup::refreshPolicyMapping() );
+        int refreshPolicy        = readEnumEntry( settings, "RefreshPolicy",
+                             Cleanup::NoRefresh,
+                             Cleanup::refreshPolicyMapping() );
 
-	    int outputWindowPolicy  = readEnumEntry( settings, "OutputWindowPolicy",
-						     Cleanup::ShowAfterTimeout,
-						     Cleanup::outputWindowPolicyMapping() );
-	    if ( ! command.isEmpty() &&
-		 ! title.isEmpty()     )
-	    {
-		Cleanup * cleanup = new Cleanup( command, title, this );
-		CHECK_NEW( cleanup );
-		add( cleanup );
+        int outputWindowPolicy  = readEnumEntry( settings, "OutputWindowPolicy",
+                             Cleanup::ShowAfterTimeout,
+                             Cleanup::outputWindowPolicyMapping() );
+        if ( ! command.isEmpty() &&
+         ! title.isEmpty()     )
+        {
+        Cleanup * cleanup = new Cleanup( command, title, this );
+        CHECK_NEW( cleanup );
+        add( cleanup );
 
-		cleanup->setActive	    ( active	       );
-		cleanup->setWorksForDir	    ( worksForDir      );
-		cleanup->setWorksForFile    ( worksForFile     );
-		cleanup->setWorksForDotEntry( worksForDotEntry );
-		cleanup->setRecurse	    ( recurse	       );
-		cleanup->setShell	    ( shell	       );
-		cleanup->setAskForConfirmation	 ( askForConfirmation	 );
-		cleanup->setOutputWindowAutoClose( outputWindowAutoClose );
-		cleanup->setOutputWindowTimeout	 ( outputWindowTimeout	 );
-		cleanup->setRefreshPolicy     ( static_cast<Cleanup::RefreshPolicy>( refreshPolicy ) );
-		cleanup->setOutputWindowPolicy( static_cast<Cleanup::OutputWindowPolicy>( outputWindowPolicy ) );
+        cleanup->setActive        ( active           );
+        cleanup->setWorksForDir        ( worksForDir      );
+        cleanup->setWorksForFile    ( worksForFile     );
+        cleanup->setWorksForDotEntry( worksForDotEntry );
+        cleanup->setRecurse        ( recurse           );
+        cleanup->setShell        ( shell           );
+        cleanup->setAskForConfirmation     ( askForConfirmation     );
+        cleanup->setOutputWindowAutoClose( outputWindowAutoClose );
+        cleanup->setOutputWindowTimeout     ( outputWindowTimeout     );
+        cleanup->setRefreshPolicy     ( static_cast<Cleanup::RefreshPolicy>( refreshPolicy ) );
+        cleanup->setOutputWindowPolicy( static_cast<Cleanup::OutputWindowPolicy>( outputWindowPolicy ) );
 
-		if ( ! iconName.isEmpty() )
-		    cleanup->setIcon( iconName );
+        if ( ! iconName.isEmpty() )
+            cleanup->setIcon( iconName );
 
-		if ( ! hotkey.isEmpty() )
-		    cleanup->setShortcut( hotkey );
+        if ( ! hotkey.isEmpty() )
+            cleanup->setShortcut( hotkey );
 
-		// if ( ! shell.isEmpty() )
-		//    logDebug() << "Using custom shell " << shell << " for " << cleanup << endl;
-	    }
-	    else
-	    {
-		logError() << "Need at least Command and Title for a cleanup" << endl;
-	    }
+        // if ( ! shell.isEmpty() )
+        //    logDebug() << "Using custom shell " << shell << " for " << cleanup << endl;
+        }
+        else
+        {
+        logError() << "Need at least Command and Title for a cleanup" << endl;
+        }
 
-	    settings.endGroup(); // [Cleanup_01], [Cleanup_02], ...
-	}
+        settings.endGroup(); // [Cleanup_01], [Cleanup_02], ...
+    }
     }
 }
 
@@ -555,43 +555,43 @@ void CleanupCollection::writeSettings()
 
     for ( int i=0; i < _cleanupList.size(); ++i )
     {
-	QString groupName;
-	groupName.sprintf( "Cleanup_%02d", i+1 );
-	settings.beginGroup( groupName );
+    QString groupName;
+    groupName.sprintf( "Cleanup_%02d", i+1 );
+    settings.beginGroup( groupName );
 
-	Cleanup * cleanup = _cleanupList.at(i);
+    Cleanup * cleanup = _cleanupList.at(i);
 
-	settings.setValue( "Command"		  , cleanup->command()		     );
-	settings.setValue( "Title"		  , cleanup->title()		     );
-	settings.setValue( "Active"		  , cleanup->active()		     );
-	settings.setValue( "WorksForDir"	  , cleanup->worksForDir()	     );
-	settings.setValue( "WorksForFile"	  , cleanup->worksForFile()	     );
-	settings.setValue( "WorksForDotEntry"	  , cleanup->worksForDotEntry()	     );
-	settings.setValue( "Recurse"		  , cleanup->recurse()		     );
-	settings.setValue( "AskForConfirmation"	  , cleanup->askForConfirmation()    );
-	settings.setValue( "OutputWindowAutoClose", cleanup->outputWindowAutoClose() );
+    settings.setValue( "Command"          , cleanup->command()             );
+    settings.setValue( "Title"          , cleanup->title()             );
+    settings.setValue( "Active"          , cleanup->active()             );
+    settings.setValue( "WorksForDir"      , cleanup->worksForDir()         );
+    settings.setValue( "WorksForFile"      , cleanup->worksForFile()         );
+    settings.setValue( "WorksForDotEntry"      , cleanup->worksForDotEntry()         );
+    settings.setValue( "Recurse"          , cleanup->recurse()             );
+    settings.setValue( "AskForConfirmation"      , cleanup->askForConfirmation()    );
+    settings.setValue( "OutputWindowAutoClose", cleanup->outputWindowAutoClose() );
 
-	if ( cleanup->outputWindowTimeout() > 0 )
-	    settings.setValue( "OutputWindowTimeout"  , cleanup->outputWindowTimeout()	 );
+    if ( cleanup->outputWindowTimeout() > 0 )
+        settings.setValue( "OutputWindowTimeout"  , cleanup->outputWindowTimeout()     );
 
-	writeEnumEntry( settings, "RefreshPolicy",
-			cleanup->refreshPolicy(),
-			Cleanup::refreshPolicyMapping() );
+    writeEnumEntry( settings, "RefreshPolicy",
+            cleanup->refreshPolicy(),
+            Cleanup::refreshPolicyMapping() );
 
-	writeEnumEntry( settings, "OutputWindowPolicy",
-			cleanup->outputWindowPolicy(),
-			Cleanup::outputWindowPolicyMapping() );
+    writeEnumEntry( settings, "OutputWindowPolicy",
+            cleanup->outputWindowPolicy(),
+            Cleanup::outputWindowPolicyMapping() );
 
-	if ( ! cleanup->shell().isEmpty() )
-	     settings.setValue( "Shell", cleanup->shell() );
+    if ( ! cleanup->shell().isEmpty() )
+         settings.setValue( "Shell", cleanup->shell() );
 
-	if ( ! cleanup->iconName().isEmpty() )
-	    settings.setValue( "Icon", cleanup->iconName() );
+    if ( ! cleanup->iconName().isEmpty() )
+        settings.setValue( "Icon", cleanup->iconName() );
 
-	if ( ! cleanup->shortcut().isEmpty() )
-	    settings.setValue( "Hotkey" , cleanup->shortcut().toString() );
+    if ( ! cleanup->shortcut().isEmpty() )
+        settings.setValue( "Hotkey" , cleanup->shortcut().toString() );
 
-	settings.endGroup(); // [Cleanup_01], [Cleanup_02], ...
+    settings.endGroup(); // [Cleanup_01], [Cleanup_02], ...
     }
 }
 

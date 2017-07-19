@@ -1,9 +1,9 @@
 /*
  *   File name: DirTreeView.h
- *   Summary:	Tree view widget for directory tree
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Tree view widget for directory tree
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 #ifndef DirTreeView_h
@@ -37,78 +37,78 @@ namespace QDirStat
      **/
     class DirTreeView: public QTreeView
     {
-	Q_OBJECT
+    Q_OBJECT
 
     public:
 
-	/**
-	 * Constructor
-	 **/
-	DirTreeView( QWidget * parent = 0 );
+    /**
+     * Constructor
+     **/
+    DirTreeView( QWidget * parent = 0 );
 
-	/**
-	 * Destructor
-	 **/
-	virtual ~DirTreeView();
+    /**
+     * Destructor
+     **/
+    virtual ~DirTreeView();
 
-	/**
-	 * Set the cleanup collection. If set, all cleanup actions from that
-	 * collection will be added to the item context menu.
-	 **/
-	void setCleanupCollection( CleanupCollection * collection )
-	    { _cleanupCollection = collection; }
+    /**
+     * Set the cleanup collection. If set, all cleanup actions from that
+     * collection will be added to the item context menu.
+     **/
+    void setCleanupCollection( CleanupCollection * collection )
+        { _cleanupCollection = collection; }
 
-	/**
-	 * Return the cleanup collection or 0 if it is not set.
-	 **/
-	CleanupCollection * cleanupCollection() const { return _cleanupCollection; }
+    /**
+     * Return the cleanup collection or 0 if it is not set.
+     **/
+    CleanupCollection * cleanupCollection() const { return _cleanupCollection; }
 
-	/**
-	 * Return the list of items that are currently expanded.
-	 *
-	 * This is well-known in the base class, but due to poor design that
-	 * information is not accessible in derived classes. Well, I got
-	 * creative.
-	 *
-	 * This method being public is more to spite the "masterminds" who in
-	 * their infinite wisdom considered this information not worthy of
-	 * being exported to the public because "it doesn't kneed to
-	 * know". WTF?
-	 **/
-	QModelIndexList expandedIndexes() const;
+    /**
+     * Return the list of items that are currently expanded.
+     *
+     * This is well-known in the base class, but due to poor design that
+     * information is not accessible in derived classes. Well, I got
+     * creative.
+     *
+     * This method being public is more to spite the "masterminds" who in
+     * their infinite wisdom considered this information not worthy of
+     * being exported to the public because "it doesn't kneed to
+     * know". WTF?
+     **/
+    QModelIndexList expandedIndexes() const;
 
     public slots:
-	/**
-	 * Close (collapse) all branches except the one that 'branch' is in.
-	 **/
-	void closeAllExcept( const QModelIndex & branch );
+    /**
+     * Close (collapse) all branches except the one that 'branch' is in.
+     **/
+    void closeAllExcept( const QModelIndex & branch );
 
     protected slots:
 
-	/**
-	 * Post a context menu for the item at 'pos'.
-	 **/
-	void contextMenu( const QPoint & pos );
+    /**
+     * Post a context menu for the item at 'pos'.
+     **/
+    void contextMenu( const QPoint & pos );
 
     protected:
 
-	/**
-	 * Change the current item. Overwritten from QTreeView to make sure
-	 * the branch of the new current item is expanded and scrolled to
-	 * the visible area.
-	 **/
-	virtual void currentChanged( const QModelIndex & current,
-				     const QModelIndex & oldCurrent ) Q_DECL_OVERRIDE;
+    /**
+     * Change the current item. Overwritten from QTreeView to make sure
+     * the branch of the new current item is expanded and scrolled to
+     * the visible area.
+     **/
+    virtual void currentChanged( const QModelIndex & current,
+                     const QModelIndex & oldCurrent ) Q_DECL_OVERRIDE;
 
-	// Data members
+    // Data members
 
-	PercentBarDelegate * _percentBarDelegate;
+    PercentBarDelegate * _percentBarDelegate;
         HeaderTweaker      * _headerTweaker;
-	CleanupCollection  * _cleanupCollection;
+    CleanupCollection  * _cleanupCollection;
 
-    };	// class DirTreeView
+    };    // class DirTreeView
 
-}	// namespace QDirStat
+}    // namespace QDirStat
 
 
-#endif	// DirTreeView_h
+#endif    // DirTreeView_h

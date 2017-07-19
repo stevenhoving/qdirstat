@@ -1,9 +1,9 @@
 /*
  *   File name: Exception.cpp
- *   Summary:	Exception classes for QDirstat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Exception classes for QDirstat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -13,8 +13,8 @@
 
 
 void Exception::setSrcLocation( const QString &srcFile,
-				int	       srcLine,
-				const QString &srcFunction ) const
+                int           srcLine,
+                const QString &srcFunction ) const
 {
     // This is why those member variables are 'mutable':
     // We need to be able to set the source location from RETHROW even after
@@ -23,38 +23,38 @@ void Exception::setSrcLocation( const QString &srcFile,
     // This is not 100% elegant, but it keeps in line with usual conventions -
     // conventions like "catch exception objects as const reference".
 
-    _srcFile	 = srcFile;
-    _srcLine	 = srcLine;
+    _srcFile     = srcFile;
+    _srcLine     = srcLine;
     _srcFunction = srcFunction;
 }
 
 
 QString SysCallFailedException::errMsg( const QString & sysCall,
-					const QString & resourceName ) const
+                    const QString & resourceName ) const
 {
     QString msg;
 
     if ( errno != 0 )
     {
-	msg = QObject::tr( "%1( \"%2\" ) failed: %3" )
-	    .arg( sysCall )
-	    .arg( resourceName )
-	    .arg( formatErrno() );
+    msg = QObject::tr( "%1( \"%2\" ) failed: %3" )
+        .arg( sysCall )
+        .arg( resourceName )
+        .arg( formatErrno() );
     }
     else
     {
-	msg = QObject::tr( "%1( \"%2\" ) failed" )
-	    .arg( sysCall )
-	    .arg( resourceName );
+    msg = QObject::tr( "%1( \"%2\" ) failed" )
+        .arg( sysCall )
+        .arg( resourceName );
     }
 
     return msg;
 }
 
 
-QString IndexOutOfRangeException::errMsg( int	invalidIndex,
-                                          int	validMin,
-                                          int	validMax,
+QString IndexOutOfRangeException::errMsg( int    invalidIndex,
+                                          int    validMin,
+                                          int    validMax,
                                           const QString & prefix ) const
 {
     QString msg = prefix;

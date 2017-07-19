@@ -1,9 +1,9 @@
 /*
  *   File name: Trash.h
- *   Summary:	Implemementation of the XDG Trash spec for QDirStat
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Implemementation of the XDG Trash spec for QDirStat
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -104,11 +104,11 @@ protected:
 
     static Trash       * _instance;
 
-    dev_t		_homeDevice;
-    TrashDir	      * _homeTrashDir;
-    TrashDirMap		_trashDirs;
+    dev_t        _homeDevice;
+    TrashDir          * _homeTrashDir;
+    TrashDirMap        _trashDirs;
 
-};	// class Trash
+};    // class Trash
 
 
 /**
@@ -189,8 +189,8 @@ protected:
      * Return 'true' if success, 'false' if error (and doThrow is 'false').
      **/
     static bool ensureDirExists( const QString & dir,
-				 mode_t		 mode,
-				 bool		 doThrow = false );
+                 mode_t         mode,
+                 bool         doThrow = false );
 
     //
     // Data members
@@ -201,4 +201,4 @@ protected:
 };
 
 
-#endif	// Trash_h
+#endif    // Trash_h

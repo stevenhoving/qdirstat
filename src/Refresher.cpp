@@ -1,9 +1,9 @@
 /*
  *   File name: Refresher.h
- *   Summary:	Helper class to refresh a number of subtrees
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Helper class to refresh a number of subtrees
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -28,7 +28,7 @@ Refresher::Refresher( const FileInfoSet items, QObject * parent ):
     // from there might result in a segfault.
 
     if ( ! _items.isEmpty() )
-	_tree = _items.first()->tree();
+    _tree = _items.first()->tree();
 }
 
 
@@ -36,13 +36,13 @@ void Refresher::refresh()
 {
     if ( ! _items.isEmpty() && _tree )
     {
-	logDebug() << "Refreshing " << _items.size() << " items" << endl;
+    logDebug() << "Refreshing " << _items.size() << " items" << endl;
 
-	_tree->refresh( _items );
+    _tree->refresh( _items );
     }
     else
     {
-	logWarning() << "No items to refresh" << endl;
+    logWarning() << "No items to refresh" << endl;
     }
 
     this->deleteLater();
@@ -55,7 +55,7 @@ FileInfoSet Refresher::parents( const FileInfoSet children )
 
     foreach ( FileInfo * child, children )
     {
-	if ( child && child->parent() )
+    if ( child && child->parent() )
         {
             FileInfo * parent = child->parent();
 

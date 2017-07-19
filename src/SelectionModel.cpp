@@ -1,9 +1,9 @@
 /*
  *   File name: SelectionModel.cpp
- *   Summary:	Handling of selected items
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Handling of selected items
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -14,7 +14,7 @@
 #include "Exception.h"
 #include "Logger.h"
 
-#define VERBOSE_SELECTION	0
+#define VERBOSE_SELECTION    0
 
 using namespace QDirStat;
 
@@ -27,17 +27,17 @@ SelectionModel::SelectionModel( DirTreeModel * dirTreeModel, QObject * parent ):
     _selectedItemsDirty(false),
     _verbose(false)
 {
-    connect( this, SIGNAL( currentChanged	  ( QModelIndex, QModelIndex ) ),
-	     this, SLOT	 ( propagateCurrentChanged( QModelIndex, QModelIndex ) ) );
+    connect( this, SIGNAL( currentChanged      ( QModelIndex, QModelIndex ) ),
+         this, SLOT     ( propagateCurrentChanged( QModelIndex, QModelIndex ) ) );
 
-    connect( this, SIGNAL( selectionChanged	    ( QItemSelection, QItemSelection  ) ),
-	     this, SLOT	 ( propagateSelectionChanged( QItemSelection, QItemSelection  ) ) );
+    connect( this, SIGNAL( selectionChanged        ( QItemSelection, QItemSelection  ) ),
+         this, SLOT     ( propagateSelectionChanged( QItemSelection, QItemSelection  ) ) );
 
     connect( dirTreeModel->tree(), SIGNAL( deletingChild      ( FileInfo * ) ),
-	     this,		   SLOT	 ( deletingChildNotify( FileInfo * ) ) );
+         this,           SLOT     ( deletingChildNotify( FileInfo * ) ) );
 
     connect( dirTreeModel->tree(), SIGNAL( clearing() ),
-	     this,		   SLOT	 ( clear()    ) );
+         this,           SLOT     ( clear()    ) );
 }
 
 
@@ -62,23 +62,23 @@ FileInfoSet SelectionModel::selectedItems()
 {
     if ( _selectedItemsDirty )
     {
-	// Build set of selected items from the selected model indexes
+    // Build set of selected items from the selected model indexes
 
-	_selectedItems.clear();
+    _selectedItems.clear();
 
-	foreach ( const QModelIndex index, selectedIndexes() )
-	{
-	    if ( index.isValid() )
-	    {
-		FileInfo * item = static_cast<FileInfo *>( index.internalPointer() );
-		CHECK_MAGIC( item );
+    foreach ( const QModelIndex index, selectedIndexes() )
+    {
+        if ( index.isValid() )
+        {
+        FileInfo * item = static_cast<FileInfo *>( index.internalPointer() );
+        CHECK_MAGIC( item );
 
-		// logDebug() << "Adding " << item << " col " << index.column() << " to selected items" << endl;
-		_selectedItems << item;
-	    }
-	}
+        // logDebug() << "Adding " << item << " col " << index.column() << " to selected items" << endl;
+        _selectedItems << item;
+        }
+    }
 
-	_selectedItemsDirty = false;
+    _selectedItemsDirty = false;
     }
 
     return _selectedItems;
@@ -86,22 +86,22 @@ FileInfoSet SelectionModel::selectedItems()
 
 
 void SelectionModel::propagateCurrentChanged( const QModelIndex & newCurrentIndex,
-					      const QModelIndex & oldCurrentIndex )
+                          const QModelIndex & oldCurrentIndex )
 {
     _currentItem = 0;
 
     if ( newCurrentIndex.isValid() )
     {
-	_currentItem = static_cast<FileInfo *>( newCurrentIndex.internalPointer() );
-	CHECK_MAGIC( _currentItem );
+    _currentItem = static_cast<FileInfo *>( newCurrentIndex.internalPointer() );
+    CHECK_MAGIC( _currentItem );
     }
 
     FileInfo * oldCurrentItem = 0;
 
     if ( oldCurrentIndex.isValid() )
     {
-	oldCurrentItem = static_cast<FileInfo *>( oldCurrentIndex.internalPointer() );
-	CHECK_MAGIC( oldCurrentItem );
+    oldCurrentItem = static_cast<FileInfo *>( oldCurrentIndex.internalPointer() );
+    CHECK_MAGIC( oldCurrentItem );
     }
 
     emit currentItemChanged( _currentItem, oldCurrentItem );
@@ -109,7 +109,7 @@ void SelectionModel::propagateCurrentChanged( const QModelIndex & newCurrentInde
 
 
 void SelectionModel::propagateSelectionChanged( const QItemSelection & selected,
-						const QItemSelection & deselected )
+                        const QItemSelection & deselected )
 {
     Q_UNUSED( selected );
     Q_UNUSED( deselected );
@@ -123,7 +123,7 @@ void SelectionModel::propagateSelectionChanged( const QItemSelection & selected,
 void SelectionModel::selectItem( FileInfo * item )
 {
     extendSelection( item,
-		     true ); // clear
+             true ); // clear
 }
 
 
@@ -131,23 +131,23 @@ void SelectionModel::extendSelection( FileInfo * item, bool clear )
 {
     if ( item )
     {
-	QModelIndex index = _dirTreeModel->modelIndex( item, 0 );
+    QModelIndex index = _dirTreeModel->modelIndex( item, 0 );
 
-	if ( index.isValid() )
-	{
-	    logDebug() << "Selecting " << item << endl;
-	    SelectionFlags flags = Select | Rows;
+    if ( index.isValid() )
+    {
+        logDebug() << "Selecting " << item << endl;
+        SelectionFlags flags = Select | Rows;
 
-	    if ( clear )
-		flags |= Clear;
+        if ( clear )
+        flags |= Clear;
 
-	    select( index, flags ); // emits selectionChanged()
-	}
+        select( index, flags ); // emits selectionChanged()
+    }
     }
     else
     {
-	if ( clear )
-	    clearSelection(); // emits selectionChanged()
+    if ( clear )
+        clearSelection(); // emits selectionChanged()
     }
 }
 
@@ -155,16 +155,16 @@ void SelectionModel::extendSelection( FileInfo * item, bool clear )
 void SelectionModel::setSelectedItems( const FileInfoSet & selectedItems )
 {
     if ( _verbose )
-	logDebug() << "Selecting " << selectedItems.size() << " items" << endl;
+    logDebug() << "Selecting " << selectedItems.size() << " items" << endl;
 
     QItemSelection sel;
 
     foreach ( FileInfo * item, selectedItems )
     {
-	QModelIndex index = _dirTreeModel->modelIndex( item, 0 );
+    QModelIndex index = _dirTreeModel->modelIndex( item, 0 );
 
-	if ( index.isValid() )
-	     sel.merge( QItemSelection( index, index ), Select );
+    if ( index.isValid() )
+         sel.merge( QItemSelection( index, index ), Select );
     }
 
     select( sel, Clear | Select | Rows );
@@ -174,7 +174,7 @@ void SelectionModel::setSelectedItems( const FileInfoSet & selectedItems )
 void SelectionModel::setCurrentItem( FileInfo * item, bool select )
 {
     if ( _verbose )
-	logDebug() << item << " select: " << select << endl;
+    logDebug() << item << " select: " << select << endl;
 
     if ( select )
         clear();
@@ -183,26 +183,26 @@ void SelectionModel::setCurrentItem( FileInfo * item, bool select )
 
     if ( item )
     {
-	QModelIndex index = _dirTreeModel->modelIndex( item, 0 );
+    QModelIndex index = _dirTreeModel->modelIndex( item, 0 );
 
-	if ( index.isValid() )
-	{
-	    if ( _verbose )
-		logDebug() << "Setting current to " << index << endl;
+    if ( index.isValid() )
+    {
+        if ( _verbose )
+        logDebug() << "Setting current to " << index << endl;
 
-	    setCurrentIndex( index, select ? ( Current | Select | Rows ) : Current );
-	}
-	else
-	{
-	    logError() << "NOT FOUND in dir tree: " << item << endl;
-	}
+        setCurrentIndex( index, select ? ( Current | Select | Rows ) : Current );
+    }
+    else
+    {
+        logError() << "NOT FOUND in dir tree: " << item << endl;
+    }
     }
     else
     {
 #if (QT_VERSION < QT_VERSION_CHECK( 5, 0, 0 ))
-	setCurrentIndex( QModelIndex(), Current );
+    setCurrentIndex( QModelIndex(), Current );
 #else
-	clearCurrentIndex();
+    clearCurrentIndex();
 #endif
     }
 }
@@ -225,22 +225,22 @@ void SelectionModel::prepareRefresh( const FileInfoSet & refreshSet )
 
     if ( current )
     {
-	dir = current->isDirInfo() ? current->toDirInfo() : current->parent();
+    dir = current->isDirInfo() ? current->toDirInfo() : current->parent();
 
-	if ( dir && dir->isDotEntry() )
-	    dir = dir->parent();
+    if ( dir && dir->isDotEntry() )
+        dir = dir->parent();
 
-	// Go one directory up from the current item as long as there is an
-	// ancestor (but not that item itself) in the refreshSet.
+    // Go one directory up from the current item as long as there is an
+    // ancestor (but not that item itself) in the refreshSet.
 
-	while ( dir && refreshSet.containsAncestorOf( dir ) )
-	{
-	    dir = dir->parent();
-	}
+    while ( dir && refreshSet.containsAncestorOf( dir ) )
+    {
+        dir = dir->parent();
+    }
     }
 
     if ( _verbose )
-	logDebug() << "Selecting " << dir << endl;
+    logDebug() << "Selecting " << dir << endl;
 
     setCurrentItem( dir, true );
     setCurrentBranch( dir );
@@ -253,7 +253,7 @@ void SelectionModel::deletingChildNotify( FileInfo * deletedChild )
     _selectedItems.clear();
 
     if ( _currentItem->isInSubtree( deletedChild ) )
-	setCurrentItem( 0 );
+    setCurrentItem( 0 );
 }
 
 
@@ -264,7 +264,7 @@ void SelectionModel::dumpSelectedItems()
 
     foreach ( FileInfo * item, selectedItems() )
     {
-	logDebug() << "	 Selected: " << item << endl;
+    logDebug() << "     Selected: " << item << endl;
     }
 
     logNewline();
@@ -279,24 +279,24 @@ SelectionModelProxy::SelectionModelProxy( SelectionModel * master, QObject * par
     QObject( parent )
 {
     connect( master, SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
-	     this,   SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ) );
+         this,   SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ) );
 
     connect( master, SIGNAL( currentChanged( QModelIndex, QModelIndex ) ),
-	     this,   SIGNAL( currentChanged( QModelIndex, QModelIndex ) ) );
+         this,   SIGNAL( currentChanged( QModelIndex, QModelIndex ) ) );
 
     connect( master, SIGNAL( currentColumnChanged( QModelIndex, QModelIndex ) ),
-	     this,   SIGNAL( currentColumnChanged( QModelIndex, QModelIndex ) ) );
+         this,   SIGNAL( currentColumnChanged( QModelIndex, QModelIndex ) ) );
 
-    connect( master, SIGNAL( currentRowChanged	 ( QModelIndex, QModelIndex ) ),
-	     this,   SIGNAL( currentRowChanged	 ( QModelIndex, QModelIndex ) ) );
+    connect( master, SIGNAL( currentRowChanged     ( QModelIndex, QModelIndex ) ),
+         this,   SIGNAL( currentRowChanged     ( QModelIndex, QModelIndex ) ) );
 
     connect( master, SIGNAL( selectionChanged() ),
-	     this,   SIGNAL( selectionChanged() ) );
+         this,   SIGNAL( selectionChanged() ) );
 
     connect( master, SIGNAL( selectionChanged( FileInfoSet ) ),
-	     this,   SIGNAL( selectionChanged( FileInfoSet ) ) );
+         this,   SIGNAL( selectionChanged( FileInfoSet ) ) );
 
     connect( master, SIGNAL( currentItemChanged( FileInfo *, FileInfo * ) ),
-	     this,   SIGNAL( currentItemChanged( FileInfo *, FileInfo * ) ) );
+         this,   SIGNAL( currentItemChanged( FileInfo *, FileInfo * ) ) );
 }
 

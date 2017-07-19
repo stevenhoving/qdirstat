@@ -1,9 +1,9 @@
 /*
  *   File name: HistogramOverflowPanel.cpp
- *   Summary:	Overflow panel drawing for file size histogram
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    Overflow panel drawing for file size histogram
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -20,19 +20,19 @@ using namespace QDirStat;
 void HistogramView::addOverflowPanel()
 {
     if ( ! needOverflowPanel() )
-	return;
+    return;
 
     // Panel for the overflow area
 
     QRectF histPanelRect = _histogramPanel->boundingRect().normalized();
 
     QRectF rect( histPanelRect.topRight().x() + _overflowSpacing,
-		 histPanelRect.topRight().y(),
-		 _overflowWidth + _overflowLeftBorder + _overflowRightBorder,
-		 histPanelRect.height() );
+         histPanelRect.topRight().y(),
+         _overflowWidth + _overflowLeftBorder + _overflowRightBorder,
+         histPanelRect.height() );
 
     QGraphicsRectItem * cutoffPanel =
-	scene()->addRect( rect, QPen( Qt::NoPen ), _panelBackground );
+    scene()->addRect( rect, QPen( Qt::NoPen ), _panelBackground );
 
 
     // Headline
@@ -78,16 +78,16 @@ void HistogramView::addOverflowPanel()
 
     int cutoff = _startPercentile + 100 - _endPercentile;
     nextPos = addPie( pieRect,
-		      100 - cutoff, cutoff,
-		      _barBrush, _overflowSliceBrush );
+              100 - cutoff, cutoff,
+              _barBrush, _overflowSliceBrush );
 
     // Caption for the upper pie chart
 
     lines.clear();
     lines << tr( "%1% of all files" ).arg( cutoff );
     lines << ( missingFiles == 1 ?
-	       tr( "1 file total" ) :
-	       tr( "%1 files total" ).arg( missingFiles ) );
+           tr( "1 file total" ) :
+           tr( "%1 files total" ).arg( missingFiles ) );
     lines << "";
     nextPos = addText( nextPos, lines );
 
@@ -107,15 +107,15 @@ void HistogramView::addOverflowPanel()
 
     if ( cutoffDiskSpace > histogramDiskSpace )
     {
-	nextPos = addPie( pieRect,
-			  cutoffDiskSpace, histogramDiskSpace,
-			  _overflowSliceBrush, _barBrush );
+    nextPos = addPie( pieRect,
+              cutoffDiskSpace, histogramDiskSpace,
+              _overflowSliceBrush, _barBrush );
     }
     else
     {
-	nextPos = addPie( pieRect,
-			  histogramDiskSpace, cutoffDiskSpace,
-			  _barBrush, _overflowSliceBrush );
+    nextPos = addPie( pieRect,
+              histogramDiskSpace, cutoffDiskSpace,
+              _barBrush, _overflowSliceBrush );
     }
 
 
@@ -132,21 +132,21 @@ void HistogramView::addOverflowPanel()
 
     if ( nextPos.y() > cutoffPanel->rect().bottom() )
     {
-	QRectF rect( cutoffPanel->rect() );
-	rect.setBottomLeft( QPointF( rect.x(), nextPos.y()  ) );
-	cutoffPanel->setRect( rect );
+    QRectF rect( cutoffPanel->rect() );
+    rect.setBottomLeft( QPointF( rect.x(), nextPos.y()  ) );
+    cutoffPanel->setRect( rect );
     }
 }
 
 
 QPointF HistogramView::addPie( const QRectF & rect,
-			       qreal	      val1,
-			       qreal	      val2,
-			       const QBrush & brush1,
-			       const QBrush & brush2 )
+                   qreal          val1,
+                   qreal          val2,
+                   const QBrush & brush1,
+                   const QBrush & brush2 )
 {
     if ( val1 + val2 == 0.0 )
-	return rect.topLeft();
+    return rect.topLeft();
 
     const qreal FullCircle = 360.0 * 16.0; // Qt uses 1/16 degrees
     qreal angle1 = val1 / ( val1 + val2 ) * FullCircle;

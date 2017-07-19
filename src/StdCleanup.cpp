@@ -1,9 +1,9 @@
 /*
  *   File name: StdCleanup.cpp
- *   Summary:	QDirStat classes to reclaim disk space
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat classes to reclaim disk space
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -20,21 +20,21 @@ CleanupList StdCleanup::stdCleanups( QObject * parent )
     CleanupList cleanups;
 
     cleanups << openFileManagerHere( parent )
-	     << openTerminalHere   ( parent )
-	     << compressSubtree	   ( parent )
-	     << makeClean	   ( parent )
-	     << gitClean	   ( parent )
-	     << deleteJunk	   ( parent )
-	     << hardDelete	   ( parent )
-	     << clearDirContents   ( parent )
+         << openTerminalHere   ( parent )
+         << compressSubtree       ( parent )
+         << makeClean       ( parent )
+         << gitClean       ( parent )
+         << deleteJunk       ( parent )
+         << hardDelete       ( parent )
+         << clearDirContents   ( parent )
 #if USE_DEBUG_ACTIONS
-	     << echoargs	   ( parent )
-	     << echoargsMixed	   ( parent )
-	     << segfaulter	   ( parent )
-	     << commandNotFound	   ( parent )
-	     << sleepy		   ( parent )
+         << echoargs       ( parent )
+         << echoargsMixed       ( parent )
+         << segfaulter       ( parent )
+         << commandNotFound       ( parent )
+         << sleepy           ( parent )
 #endif
-	;
+    ;
 
     return cleanups;
 }
@@ -44,11 +44,11 @@ CleanupList StdCleanup::stdCleanups( QObject * parent )
 Cleanup * StdCleanup::openFileManagerHere( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "%filemanager %d &",
-				    QObject::tr( "Open &File Manager Here" ),
-				    parent );
+                    QObject::tr( "Open &File Manager Here" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true );
-    cleanup->setWorksForFile	( true );
+    cleanup->setWorksForDir    ( true );
+    cleanup->setWorksForFile    ( true );
     cleanup->setWorksForDotEntry( true );
     cleanup->setRefreshPolicy( Cleanup::NoRefresh );
     cleanup->setIcon( ":/icons/file-manager.png" );
@@ -62,11 +62,11 @@ Cleanup * StdCleanup::openFileManagerHere( QObject * parent )
 Cleanup * StdCleanup::openTerminalHere( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "%terminal",
-				    QObject::tr( "Open &Terminal Here" ),
-				    parent );
+                    QObject::tr( "Open &Terminal Here" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true );
-    cleanup->setWorksForFile	( true );
+    cleanup->setWorksForDir    ( true );
+    cleanup->setWorksForFile    ( true );
     cleanup->setWorksForDotEntry( true );
     cleanup->setRefreshPolicy( Cleanup::NoRefresh );
     cleanup->setIcon( ":/icons/terminal.png" );
@@ -80,11 +80,11 @@ Cleanup * StdCleanup::openTerminalHere( QObject * parent )
 Cleanup * StdCleanup::compressSubtree( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "cd ..; tar cjvf %n.tar.bz2 %n && rm -rf %n",
-				    QObject::tr( "&Compress" ),
-				    parent );
+                    QObject::tr( "&Compress" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( false );
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( false );
     cleanup->setWorksForDotEntry( false );
     cleanup->setRefreshPolicy( Cleanup::RefreshParent );
 
@@ -95,12 +95,12 @@ Cleanup * StdCleanup::compressSubtree( QObject * parent )
 Cleanup * StdCleanup::makeClean( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "make clean",
-				    QObject::tr( "&make clean" ),
-				    parent );
+                    QObject::tr( "&make clean" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( false );
-    cleanup->setWorksForDotEntry( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( false );
+    cleanup->setWorksForDotEntry( true    );
     cleanup->setRefreshPolicy( Cleanup::RefreshThis );
 
     return cleanup;
@@ -110,12 +110,12 @@ Cleanup * StdCleanup::makeClean( QObject * parent )
 Cleanup * StdCleanup::gitClean( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "git clean -dfx",
-				    QObject::tr( "&git clean" ),
-				    parent );
+                    QObject::tr( "&git clean" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( false );
-    cleanup->setWorksForDotEntry( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( false );
+    cleanup->setWorksForDotEntry( true    );
     cleanup->setAskForConfirmation( true );
     cleanup->setRefreshPolicy( Cleanup::RefreshThis );
     cleanup->setOutputWindowPolicy( Cleanup::ShowAlways );
@@ -127,12 +127,12 @@ Cleanup * StdCleanup::gitClean( QObject * parent )
 Cleanup * StdCleanup::deleteJunk( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "rm -f *.o *~ *.bak *.auto core",
-				    QObject::tr( "Delete &Junk Files" ),
-				    parent );
+                    QObject::tr( "Delete &Junk Files" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( false );
-    cleanup->setWorksForDotEntry( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( false );
+    cleanup->setWorksForDotEntry( true    );
     cleanup->setRefreshPolicy( Cleanup::RefreshThis );
     cleanup->setRecurse( true );
     cleanup->setShell( "/bin/bash" );
@@ -144,11 +144,11 @@ Cleanup * StdCleanup::deleteJunk( QObject * parent )
 Cleanup * StdCleanup::hardDelete( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "rm -rf %p",
-				    QObject::tr( "&Delete (no way to undelete!)" ),
-				    parent );
+                    QObject::tr( "&Delete (no way to undelete!)" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( true    );
     cleanup->setWorksForDotEntry( false );
     cleanup->setAskForConfirmation( true );
     cleanup->setRefreshPolicy( Cleanup::RefreshParent );
@@ -162,11 +162,11 @@ Cleanup * StdCleanup::hardDelete( QObject * parent )
 Cleanup * StdCleanup::clearDirContents( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "rm -rf %d/*",
-				    QObject::tr( "Clear Directory C&ontents" ),
-				    parent );
+                    QObject::tr( "Clear Directory C&ontents" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( false );
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( false );
     cleanup->setWorksForDotEntry( false );
     cleanup->setAskForConfirmation( true );
     cleanup->setRefreshPolicy( Cleanup::RefreshThis );
@@ -180,11 +180,11 @@ Cleanup * StdCleanup::clearDirContents( QObject * parent )
 Cleanup * StdCleanup::echoargs( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "echoargs %p",
-				    QObject::tr( "echoargs" ),
-				    parent );
+                    QObject::tr( "echoargs" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( true    );
     cleanup->setWorksForDotEntry( true );
     cleanup->setAskForConfirmation( false );
     cleanup->setRefreshPolicy( Cleanup::NoRefresh );
@@ -196,11 +196,11 @@ Cleanup * StdCleanup::echoargs( QObject * parent )
 Cleanup * StdCleanup::echoargsMixed( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "echoargs_mixed %n one two three four",
-				    QObject::tr( "Output on stdout and stderr" ),
-				    parent );
+                    QObject::tr( "Output on stdout and stderr" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( true    );
     cleanup->setWorksForDotEntry( true );
     cleanup->setAskForConfirmation( true );
     cleanup->setRefreshPolicy( Cleanup::NoRefresh );
@@ -212,11 +212,11 @@ Cleanup * StdCleanup::echoargsMixed( QObject * parent )
 Cleanup * StdCleanup::segfaulter( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "segfaulter",
-				    QObject::tr( "Segfaulter" ),
-				    parent );
+                    QObject::tr( "Segfaulter" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( true    );
     cleanup->setWorksForDotEntry( true );
     cleanup->setRefreshPolicy( Cleanup::NoRefresh );
 
@@ -227,11 +227,11 @@ Cleanup * StdCleanup::segfaulter( QObject * parent )
 Cleanup * StdCleanup::commandNotFound( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "wrglbrmpf",
-				    QObject::tr( "Nonexistent command" ),
-				    parent );
+                    QObject::tr( "Nonexistent command" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( true    );
     cleanup->setWorksForDotEntry( true );
     cleanup->setRefreshPolicy( Cleanup::NoRefresh );
 
@@ -242,11 +242,11 @@ Cleanup * StdCleanup::commandNotFound( QObject * parent )
 Cleanup * StdCleanup::sleepy( QObject * parent )
 {
     Cleanup *cleanup = new Cleanup( "sleep 1; echoargs %p",
-				    QObject::tr( "Sleepy echoargs" ),
-				    parent );
+                    QObject::tr( "Sleepy echoargs" ),
+                    parent );
     CHECK_NEW( cleanup );
-    cleanup->setWorksForDir	( true	);
-    cleanup->setWorksForFile	( true	);
+    cleanup->setWorksForDir    ( true    );
+    cleanup->setWorksForFile    ( true    );
     cleanup->setWorksForDotEntry( true );
     cleanup->setRefreshPolicy( Cleanup::NoRefresh );
 

@@ -1,9 +1,9 @@
 /*
  *   File name: ConfigDialog.cpp
- *   Summary:	QDirStat configuration dialog classes
- *   License:	GPL V2 - See file LICENSE for details.
+ *   Summary:    QDirStat configuration dialog classes
+ *   License:    GPL V2 - See file LICENSE for details.
  *
- *   Author:	Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+ *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
 
@@ -36,47 +36,47 @@ ConfigDialog::ConfigDialog( QWidget * parent ):
     CHECK_NEW( _excludeRulesConfigPage );
     _ui->pagesTabWidget->addTab( _excludeRulesConfigPage, tr( "Exclude Rules" ) );
 
-    connect( _ui->applyButton,	 SIGNAL( clicked() ),
-	     this,		 SLOT  ( apply()   ) );
+    connect( _ui->applyButton,     SIGNAL( clicked() ),
+         this,         SLOT  ( apply()   ) );
 
     //
     // Connect cleanup config page
     //
 
-    connect( this,		 SIGNAL( reinit() ),
-	     _cleanupConfigPage, SLOT  ( setup()  ) );
+    connect( this,         SIGNAL( reinit() ),
+         _cleanupConfigPage, SLOT  ( setup()  ) );
 
-    connect( this,		 SIGNAL( applyChanges() ),
-	     _cleanupConfigPage, SLOT  ( applyChanges() ) );
+    connect( this,         SIGNAL( applyChanges() ),
+         _cleanupConfigPage, SLOT  ( applyChanges() ) );
 
-    connect( this,		 SIGNAL( discardChanges() ),
-	     _cleanupConfigPage, SLOT  ( discardChanges() ) );
+    connect( this,         SIGNAL( discardChanges() ),
+         _cleanupConfigPage, SLOT  ( discardChanges() ) );
 
     //
     // Connect mime category config page
     //
 
-    connect( this,		      SIGNAL( reinit() ),
-	     _mimeCategoryConfigPage, SLOT  ( setup()  ) );
+    connect( this,              SIGNAL( reinit() ),
+         _mimeCategoryConfigPage, SLOT  ( setup()  ) );
 
-    connect( this,		      SIGNAL( applyChanges() ),
-	     _mimeCategoryConfigPage, SLOT  ( applyChanges() ) );
+    connect( this,              SIGNAL( applyChanges() ),
+         _mimeCategoryConfigPage, SLOT  ( applyChanges() ) );
 
-    connect( this,		      SIGNAL( discardChanges() ),
-	     _mimeCategoryConfigPage, SLOT  ( discardChanges() ) );
+    connect( this,              SIGNAL( discardChanges() ),
+         _mimeCategoryConfigPage, SLOT  ( discardChanges() ) );
     
     //
     // Connect exclude rules config page
     //
 
-    connect( this,		      SIGNAL( reinit() ),
-	     _excludeRulesConfigPage, SLOT  ( setup()  ) );
+    connect( this,              SIGNAL( reinit() ),
+         _excludeRulesConfigPage, SLOT  ( setup()  ) );
 
-    connect( this,		      SIGNAL( applyChanges() ),
-	     _excludeRulesConfigPage, SLOT  ( applyChanges() ) );
+    connect( this,              SIGNAL( applyChanges() ),
+         _excludeRulesConfigPage, SLOT  ( applyChanges() ) );
 
-    connect( this,		      SIGNAL( discardChanges() ),
-	     _excludeRulesConfigPage, SLOT  ( discardChanges() ) );
+    connect( this,              SIGNAL( discardChanges() ),
+         _excludeRulesConfigPage, SLOT  ( discardChanges() ) );
 }
 
 
