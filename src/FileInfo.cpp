@@ -9,7 +9,9 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif //  WIN32
 
 #include <QDateTime>
 
@@ -77,7 +79,9 @@ FileInfo::FileInfo( const QString & filenameWithoutPath,
     else
     {
     _size        = statInfo->st_size;
+#ifndef WIN32
     _blocks        = statInfo->st_blocks;
+#endif // WIN32
     _isSparseFile    = isFile()
         && _blocks >= 0                // if file system can report blocks
         && allocatedSize() + FRAGMENT_SIZE < _size; // allow for intelligent fragment handling

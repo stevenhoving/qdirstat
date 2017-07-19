@@ -6,8 +6,9 @@
  *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
-
+#ifndef WIN32
 #include <sys/errno.h>
+#endif
 
 #include "Exception.h"
 

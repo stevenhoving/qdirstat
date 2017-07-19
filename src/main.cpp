@@ -6,10 +6,13 @@
  *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
-
+#ifndef WIN32
 #include <unistd.h>    // getuid()
+#endif // WIN32
+
 #include <sys/types.h>    // uid_t
 #include <iostream>    // cerr
+#include "Platform.h"
 
 #include <QApplication>
 #include "MainWindow.h"

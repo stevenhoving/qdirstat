@@ -8,7 +8,7 @@
 
 
 #include <time.h>    // time()
-#include <stdlib.h>    // random(), srandom()
+#include <stdlib.h>    // rand(), srand()
 #include <QMessageBox>
 #include <QColorDialog>
 
@@ -293,8 +293,8 @@ void MimeCategoryConfigPage::populateTreemapView()
     QList<DirInfo *> dirs;
     dirs << topDir << dir1 << dir2 << dir21;
 
-    srandom( (unsigned) time(0) ); // Seed random number generator
-    int         fileCount = random() % 30 + 12;
+    srand( (unsigned) time(0) ); // Seed random number generator
+    int         fileCount = rand() % 30 + 12;
     FileSize maxSize   = 100*1024*1024;    // 100 MB
 
 
@@ -304,11 +304,11 @@ void MimeCategoryConfigPage::populateTreemapView()
     {
     // Pick a random directory as parent
 
-    int dirNo = random() % dirs.size();
+    int dirNo = rand() % dirs.size();
     DirInfo * parent = dirs.at( dirNo );
 
     // Select a random file size
-    FileSize fileSize = random() % maxSize;
+    FileSize fileSize = rand() % maxSize;
 
     // Create a FileInfo item and add it to the parent
     FileInfo * file = new FileInfo( _dirTree, parent,

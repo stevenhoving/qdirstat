@@ -6,10 +6,12 @@
  *   Author:    Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
  */
 
-
+#ifndef WIN32
 #include <unistd.h>
+#endif //  WIN32
 #include "Logger.h"
 #include "DirSaver.h"
+#include "Platform.h"
 
 
 DirSaver::DirSaver( const QString & newPath )

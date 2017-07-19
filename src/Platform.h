@@ -30,6 +30,19 @@
 #  endif
 #endif
 
+#define X_OK 00
+#define R_OK 04
+
+#include <io.h>
+#include <direct.h>
+#include <process.h>
+
+#define strcasecmp  stricmp
+#define lstat        ::_stat
+#define stat        _stat64i32
+#define chdir       _chdir
+#define getpid      _getpid
+
 using mode_t = unsigned int;
 using nlink_t = unsigned int;
 

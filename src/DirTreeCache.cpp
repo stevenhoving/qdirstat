@@ -337,11 +337,13 @@ void CacheReader::addItem()
 
     if        ( strcasecmp( type, "F"       ) == 0 )    mode = S_IFREG;
     else if ( strcasecmp( type, "D"       ) == 0 )    mode = S_IFDIR;
+    else if (strcasecmp(type, "CharDev") == 0)    mode = S_IFCHR;
+#ifndef WIN32
     else if ( strcasecmp( type, "L"       ) == 0 )    mode = S_IFLNK;
     else if ( strcasecmp( type, "BlockDev" ) == 0 )    mode = S_IFBLK;
-    else if ( strcasecmp( type, "CharDev"  ) == 0 )    mode = S_IFCHR;
     else if ( strcasecmp( type, "FIFO"       ) == 0 )    mode = S_IFIFO;
     else if ( strcasecmp( type, "Socket"   ) == 0 )    mode = S_IFSOCK;
+#endif // WIN32
 
 
     // Path

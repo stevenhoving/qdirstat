@@ -10,9 +10,13 @@
 #ifndef Trash_h
 #define Trash_h
 
+#include "Platform.h"
+
 #include <sys/stat.h>
 #include <sys/types.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include <QObject>
 #include <QMap>
 

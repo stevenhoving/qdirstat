@@ -9,6 +9,7 @@
 
 #define DONT_DEPRECATE_STRERROR
 #include "Logger.h"
+#include "Platform.h"
 
 #include <QFile>
 #include <QDir>
@@ -22,9 +23,12 @@
 
 #include <stdio.h>    // stderr, fprintf()
 #include <stdlib.h>    // abort(), mkdtemp()
+#ifndef WIN32
 #include <unistd.h>    // getpid()
-#include <errno.h>
 #include <pwd.h>    // getpwuid()
+#endif // WIN32
+
+#include <errno.h>
 #include <sys/types.h>    // pid_t, getpwuid()
 
 
@@ -362,12 +366,13 @@ QString Logger::userName()
     // - There might not be a controlling terminal at all.
     // - The user owning the controlling terminal may or may not be the one
     //     starting this program.
-
+#ifndef WIN32
     struct passwd * pw = getpwuid( getuid() );
 
     if ( pw )
     return pw->pw_name;
     else
+#endif // WIN32
     return QString::number( getuid() );
 }
 
@@ -392,7 +397,14 @@ QString Logger::createLogDir( const QString & rawLogDir )
            << " is not owned by " << userName() << endl;
 
     QByteArray nameTemplate( QString( logDir + "-XXXXXX" ).toUtf8() );
+#ifndef WIN32
     char * result = mkdtemp( nameTemplate.data() );
+#else
+    char randomPath[1014];
+    GetTempPathA(sizeof(randomPath), (LPSTR)randomPath);
+    CreateDirectoryA(randomPath, nullptr);
+    char * result = randomPath;
+#endif // WIN32
 
     if ( result )
     {
