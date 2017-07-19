@@ -294,7 +294,7 @@ QTextStream & operator<<( QTextStream & str, const QSize   & size );
  **/
 QString formatErrno();
 
-#ifndef DONT_DEPRECATE_STRERROR
+#if !defined(DONT_DEPRECATE_STRERROR) && !defined(WIN32)
     // Use formatErrno() instead which deals with UTF-8 issues
     char * strerror(int) __attribute__ ((deprecated));
 #endif
