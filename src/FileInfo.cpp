@@ -193,9 +193,15 @@ QString FileInfo::url() const
 
     if ( isDotEntry() )    // don't append "/." for dot entries
         return parentUrl;
-
+#ifndef WIN32
     if ( ! parentUrl.endsWith( "/" ) && ! _name.startsWith( "/" ) )
         parentUrl += "/";
+#else
+    // \todo replace this hack with something more elegant.
+    bool isDrive = _name.size() > 1 && _name.at(1) == ':';
+    if (!parentUrl.endsWith("/") && !isDrive)
+        parentUrl += "/";
+#endif
 
     return parentUrl + _name;
     }
