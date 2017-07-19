@@ -15,6 +15,25 @@
 
 #pragma comment(lib, "Advapi32.lib")
 
+#define _CRT_INTERNAL_NONSTDC_NAMES 1
+#include <sys/stat.h>
+
+#if defined __WIN32__ || defined _WIN32 || defined _Windows
+#  if !defined S_ISDIR
+#    define S_ISDIR(m) (((m) & _S_IFDIR) == _S_IFDIR)
+#    define S_ISREG(m) (((m) & _S_IFREG) == _S_IFREG)
+#    define S_ISCHR(m) (((m) & _S_IFCHR) == _S_IFCHR)
+#    define S_ISFIFO(m) (((m) & _S_IFIFO) == _S_IFIFO)
+#    define S_ISLNK(m) (false)
+#    define S_ISBLK(m) (false)
+#    define S_ISSOCK(m) (false)
+#  endif
+#endif
+
+using mode_t = unsigned int;
+using nlink_t = unsigned int;
+
+
 struct heap_delete
 {
     typedef LPVOID pointer;

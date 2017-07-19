@@ -19,6 +19,7 @@
 #include <QList>
 
 #include "Logger.h"
+#include "Platform.h"
 
 
 namespace QDirStat
