@@ -1,2 +1,9 @@
 Makefile
 .qmake.stash
+
+# msvc (and yea I know it should be part of my global gitignore)
+Debug
+Release
+*.suo
+*.VC.opendb
+*.VC.db
