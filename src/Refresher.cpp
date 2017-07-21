@@ -15,10 +15,10 @@
 using namespace QDirStat;
 
 
-Refresher::Refresher( const FileInfoSet items, QObject * parent ):
-    QObject( parent ),
-    _items( items ),
-    _tree( 0 )
+Refresher::Refresher(const FileInfoSet items, QObject * parent) :
+    QObject(parent),
+    _items(items),
+    _tree(0)
 {
     // logDebug() << "Creating refresher for " <<  _items.size() << " items" << endl;
 
@@ -27,42 +27,42 @@ Refresher::Refresher( const FileInfoSet items, QObject * parent ):
     // invalid already, so any attempt to dereference them to obtain the tree
     // from there might result in a segfault.
 
-    if ( ! _items.isEmpty() )
-    _tree = _items.first()->tree();
+    if (!_items.isEmpty())
+        _tree = _items.first()->tree();
 }
 
 
 void Refresher::refresh()
 {
-    if ( ! _items.isEmpty() && _tree )
+    if (!_items.isEmpty() && _tree)
     {
-    logDebug() << "Refreshing " << _items.size() << " items" << endl;
+        logDebug() << "Refreshing " << _items.size() << " items" << endl;
 
-    _tree->refresh( _items );
+        _tree->refresh(_items);
     }
     else
     {
-    logWarning() << "No items to refresh" << endl;
+        logWarning() << "No items to refresh" << endl;
     }
 
     this->deleteLater();
 }
 
 
-FileInfoSet Refresher::parents( const FileInfoSet children )
+FileInfoSet Refresher::parents(const FileInfoSet children)
 {
     FileInfoSet parents;
 
-    foreach ( FileInfo * child, children )
+    foreach(FileInfo * child, children)
     {
-    if ( child && child->parent() )
+        if (child && child->parent())
         {
             FileInfo * parent = child->parent();
 
-            if ( parent->isDotEntry() )
+            if (parent->isDotEntry())
                 parent = parent->parent();
 
-            if ( parent )
+            if (parent)
                 parents << parent;
         }
     }

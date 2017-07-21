@@ -23,25 +23,25 @@
 using namespace QDirStat;
 
 
-DirTreeView::DirTreeView( QWidget * parent ):
-    QTreeView( parent ),
+DirTreeView::DirTreeView(QWidget * parent) :
+    QTreeView(parent),
     _cleanupCollection(0)
 {
-    _percentBarDelegate = new PercentBarDelegate( this );
-    CHECK_NEW( _percentBarDelegate );
-    setItemDelegate( _percentBarDelegate );
+    _percentBarDelegate = new PercentBarDelegate(this);
+    CHECK_NEW(_percentBarDelegate);
+    setItemDelegate(_percentBarDelegate);
 
-    setRootIsDecorated( true );
-    setSortingEnabled( true );
-    setSelectionMode( ExtendedSelection );
-    setContextMenuPolicy( Qt::CustomContextMenu );
-    setTextElideMode( Qt::ElideMiddle );
+    setRootIsDecorated(true);
+    setSortingEnabled(true);
+    setSelectionMode(ExtendedSelection);
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    setTextElideMode(Qt::ElideMiddle);
 
-    _headerTweaker = new HeaderTweaker( header(), this );
-    CHECK_NEW( _headerTweaker );
+    _headerTweaker = new HeaderTweaker(header(), this);
+    CHECK_NEW(_headerTweaker);
 
-    connect( this , SIGNAL( customContextMenuRequested( const QPoint & ) ),
-         this,  SLOT  ( contextMenu              ( const QPoint & ) ) );
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+        this, SLOT(contextMenu(const QPoint &)));
 }
 
 
@@ -52,23 +52,23 @@ DirTreeView::~DirTreeView()
 }
 
 
-void DirTreeView::currentChanged( const QModelIndex & current,
-                  const QModelIndex & oldCurrent )
+void DirTreeView::currentChanged(const QModelIndex & current,
+    const QModelIndex & oldCurrent)
 {
     // logDebug() << "Setting new current to " << current << endl;
-    QTreeView::currentChanged( current, oldCurrent );
-    scrollTo( current );
+    QTreeView::currentChanged(current, oldCurrent);
+    scrollTo(current);
 }
 
 
-void DirTreeView::contextMenu( const QPoint & pos )
+void DirTreeView::contextMenu(const QPoint & pos)
 {
-    QModelIndex index = indexAt( pos );
+    QModelIndex index = indexAt(pos);
 
-    if ( ! index.isValid() )
+    if (!index.isValid())
     {
-    // logDebug() << "No item at this position" << endl;
-    return;
+        // logDebug() << "No item at this position" << endl;
+        return;
     }
 
     QMenu menu;
@@ -80,21 +80,21 @@ void DirTreeView::contextMenu( const QPoint & pos )
         << "actionReadExcludedDirectory"
         << "actionContinueReadingAtMountPoint"
         << "---"
-            << "actionFileSizeStats"
-            << "actionFileTypeStats"
+        << "actionFileSizeStats"
+        << "actionFileTypeStats"
         << "---"
         << "actionMoveToTrash"
-    ;
+        ;
 
-    ActionManager::instance()->addActions( &menu, actions );
+    ActionManager::instance()->addActions(&menu, actions);
 
-    if ( _cleanupCollection && ! _cleanupCollection->isEmpty() )
+    if (_cleanupCollection && !_cleanupCollection->isEmpty())
     {
-    menu.addSeparator();
-    _cleanupCollection->addToMenu( &menu );
+        menu.addSeparator();
+        _cleanupCollection->addToMenu(&menu);
     }
 
-    menu.exec( mapToGlobal( pos ) );
+    menu.exec(mapToGlobal(pos));
 }
 
 
@@ -102,28 +102,28 @@ QModelIndexList DirTreeView::expandedIndexes() const
 {
     QModelIndexList expandedList;
 
-    if ( ! model() )
-    return QModelIndexList();
+    if (!model())
+        return QModelIndexList();
 
-    DirTreeModel * dirTreeModel = dynamic_cast<DirTreeModel *>( model() );
+    DirTreeModel * dirTreeModel = dynamic_cast<DirTreeModel *>(model());
 
-    if ( ! dirTreeModel )
+    if (!dirTreeModel)
     {
-    logError() << "Wrong model type to get this information" << endl;
-    return QModelIndexList();
+        logError() << "Wrong model type to get this information" << endl;
+        return QModelIndexList();
     }
 
-    foreach ( const QModelIndex & index, dirTreeModel->persistentIndexList() )
+    foreach(const QModelIndex & index, dirTreeModel->persistentIndexList())
     {
-    if ( isExpanded( index ) )
-        expandedList << index;
+        if (isExpanded(index))
+            expandedList << index;
     }
 
     return expandedList;
 }
 
 
-void DirTreeView::closeAllExcept( const QModelIndex & branch )
+void DirTreeView::closeAllExcept(const QModelIndex & branch)
 {
     QModelIndexList branchesToClose = expandedIndexes();
 
@@ -131,21 +131,21 @@ void DirTreeView::closeAllExcept( const QModelIndex & branch )
 
     QModelIndex index = branch;
 
-    while ( index.isValid() )
+    while (index.isValid())
     {
-    // logDebug() << "Not closing " << index << endl;
-    branchesToClose.removeAll( index );
-    index = index.parent();
+        // logDebug() << "Not closing " << index << endl;
+        branchesToClose.removeAll(index);
+        index = index.parent();
     }
 
     // Close all items in branchesToClose
 
-    foreach ( index, branchesToClose )
+    foreach(index, branchesToClose)
     {
-    // logDebug() << "Closing " << index << endl;
-    collapse( index );
+        // logDebug() << "Closing " << index << endl;
+        collapse(index);
     }
 
-    scrollTo( currentIndex() );
+    scrollTo(currentIndex());
 }
 

@@ -21,32 +21,32 @@
 using namespace QDirStat;
 
 
-LocateFilesWindow::LocateFilesWindow( SelectionModel * selectionModel,
-                      QWidget *           parent ):
-    QDialog( parent ),
-    _ui( new Ui::LocateFilesWindow ),
-    _selectionModel( selectionModel )
+LocateFilesWindow::LocateFilesWindow(SelectionModel * selectionModel,
+    QWidget *           parent) :
+    QDialog(parent),
+    _ui(new Ui::LocateFilesWindow),
+    _selectionModel(selectionModel)
 {
     // logDebug() << "init" << endl;
 
-    CHECK_NEW( _ui );
-    _ui->setupUi( this );
+    CHECK_NEW(_ui);
+    _ui->setupUi(this);
     initWidgets();
-    readWindowSettings( this, "LocateFilesWindow" );
+    readWindowSettings(this, "LocateFilesWindow");
 
-    connect( _ui->refreshButton, SIGNAL( clicked() ),
-         this,         SLOT  ( refresh() ) );
+    connect(_ui->refreshButton, SIGNAL(clicked()),
+        this, SLOT(refresh()));
 
-    connect( _ui->treeWidget,     SIGNAL( currentItemChanged( QTreeWidgetItem *,
-                                 QTreeWidgetItem * ) ),
-         this,         SLOT  ( selectResult       ( QTreeWidgetItem * ) ) );
+    connect(_ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *,
+        QTreeWidgetItem *)),
+        this, SLOT(selectResult(QTreeWidgetItem *)));
 }
 
 
 LocateFilesWindow::~LocateFilesWindow()
 {
     // logDebug() << "destroying" << endl;
-    writeWindowSettings( this, "LocateFilesWindow" );
+    writeWindowSettings(this, "LocateFilesWindow");
 }
 
 
@@ -59,23 +59,23 @@ void LocateFilesWindow::clear()
 
 void LocateFilesWindow::refresh()
 {
-    populate( searchSuffix(), _subtree() );
+    populate(searchSuffix(), _subtree());
 }
 
 
 void LocateFilesWindow::initWidgets()
 {
     QFont font = _ui->heading->font();
-    font.setBold( true );
-    _ui->heading->setFont( font );
+    font.setBold(true);
+    _ui->heading->setFont(font);
 
-    _ui->treeWidget->setColumnCount( SSR_ColumnCount );
-    _ui->treeWidget->setHeaderLabels( QStringList()
-                      << tr( "Number" )
-                      << tr( "Total Size" )
-                      << tr( "Directory" ) );
-    _ui->treeWidget->header()->setStretchLastSection( false );
-    HeaderTweaker::resizeToContents( _ui->treeWidget->header() );
+    _ui->treeWidget->setColumnCount(SSR_ColumnCount);
+    _ui->treeWidget->setHeaderLabels(QStringList()
+        << tr("Number")
+        << tr("Total Size")
+        << tr("Directory"));
+    _ui->treeWidget->header()->setStretchLastSection(false);
+    HeaderTweaker::resizeToContents(_ui->treeWidget->header());
 }
 
 
@@ -87,37 +87,37 @@ void LocateFilesWindow::reject()
 
 QString LocateFilesWindow::searchSuffix() const
 {
-    return QString( "*" ) + _searchSuffix;
+    return QString("*") + _searchSuffix;
 }
 
 
-void LocateFilesWindow::populate( const QString & suffix, FileInfo * newSubtree )
+void LocateFilesWindow::populate(const QString & suffix, FileInfo * newSubtree)
 {
     clear();
 
     _searchSuffix = suffix;
-    _subtree      = newSubtree;
+    _subtree = newSubtree;
 
-    if ( _searchSuffix.startsWith( '*' ) )
-    _searchSuffix.remove( 0, 1 ); // Remove the leading '*'
+    if (_searchSuffix.startsWith('*'))
+        _searchSuffix.remove(0, 1); // Remove the leading '*'
 
-    if ( ! _searchSuffix.startsWith( '.' ) )
-    _searchSuffix.prepend( '.' );
+    if (!_searchSuffix.startsWith('.'))
+        _searchSuffix.prepend('.');
 
-    _ui->heading->setText( tr( "Directories with %1 Files below %2" )
-                           .arg( searchSuffix() )
-                           .arg( _subtree.url() ) );
+    _ui->heading->setText(tr("Directories with %1 Files below %2")
+        .arg(searchSuffix())
+        .arg(_subtree.url()));
 
     logDebug() << "Locating all files ending with \""
-           << _searchSuffix << "\" below " << _subtree.url() << endl;
+        << _searchSuffix << "\" below " << _subtree.url() << endl;
 
     // For better Performance: Disable sorting while inserting many items
-    _ui->treeWidget->setSortingEnabled( false );
+    _ui->treeWidget->setSortingEnabled(false);
 
-    locate( newSubtree ? newSubtree : _subtree() );
+    locate(newSubtree ? newSubtree : _subtree());
 
-    _ui->treeWidget->setSortingEnabled( true );
-    _ui->treeWidget->sortByColumn( SSR_PathCol, Qt::AscendingOrder );
+    _ui->treeWidget->setSortingEnabled(true);
+    _ui->treeWidget->sortByColumn(SSR_PathCol, Qt::AscendingOrder);
     logDebug() << _ui->treeWidget->topLevelItemCount() << " directories" << endl;
 
     // Make sure something is selected, even if this window is not the active
@@ -138,31 +138,31 @@ void LocateFilesWindow::populate( const QString & suffix, FileInfo * newSubtree 
     //
     // So let's make sure the topmost item is always selected.
 
-    _ui->treeWidget->setCurrentItem( _ui->treeWidget->topLevelItem( 0 ) );
+    _ui->treeWidget->setCurrentItem(_ui->treeWidget->topLevelItem(0));
 }
 
 
-void LocateFilesWindow::locate( FileInfo * dir )
+void LocateFilesWindow::locate(FileInfo * dir)
 {
-    if ( ! dir )
-    return;
+    if (!dir)
+        return;
 
-    FileInfoSet matches = matchingFiles( dir );
+    FileInfoSet matches = matchingFiles(dir);
 
-    if ( ! matches.isEmpty() )
+    if (!matches.isEmpty())
     {
-    // Create a search result for this path
+        // Create a search result for this path
 
-    FileSize totalSize = 0LL;
+        FileSize totalSize = 0LL;
 
-    foreach ( FileInfo * file, matches )
-        totalSize += file->size();
+        foreach(FileInfo * file, matches)
+            totalSize += file->size();
 
-    SuffixSearchResultItem * searchResultItem =
-        new SuffixSearchResultItem( dir->url(), matches.size(), totalSize );
-    CHECK_NEW( searchResultItem );
+        SuffixSearchResultItem * searchResultItem =
+            new SuffixSearchResultItem(dir->url(), matches.size(), totalSize);
+        CHECK_NEW(searchResultItem);
 
-    _ui->treeWidget->addTopLevelItem( searchResultItem );
+        _ui->treeWidget->addTopLevelItem(searchResultItem);
     }
 
 
@@ -170,12 +170,12 @@ void LocateFilesWindow::locate( FileInfo * dir )
 
     FileInfo* child = dir->firstChild();
 
-    while ( child )
+    while (child)
     {
-    if ( child->isDir() )
-        locate( child );
+        if (child->isDir())
+            locate(child);
 
-    child = child->next();
+        child = child->next();
     }
 
     // Notice that unlike in FileTypeStats, there is no need to recurse through
@@ -183,54 +183,54 @@ void LocateFilesWindow::locate( FileInfo * dir )
 }
 
 
-FileInfoSet LocateFilesWindow::matchingFiles( FileInfo * item )
+FileInfoSet LocateFilesWindow::matchingFiles(FileInfo * item)
 {
     FileInfoSet result;
 
-    if ( ! item || ! item->isDirInfo() )
-    return result;
+    if (!item || !item->isDirInfo())
+        return result;
 
     DirInfo * dir = item->toDirInfo();
 
-    if ( dir->dotEntry() )
-    dir = dir->dotEntry();
+    if (dir->dotEntry())
+        dir = dir->dotEntry();
 
     FileInfo * child = dir->firstChild();
 
-    while ( child )
+    while (child)
     {
-    if ( child->isFile() &&
-         child->name().endsWith( _searchSuffix, Qt::CaseInsensitive ) )
-    {
-        result << child;
-    }
+        if (child->isFile() &&
+            child->name().endsWith(_searchSuffix, Qt::CaseInsensitive))
+        {
+            result << child;
+        }
 
-    child = child->next();
+        child = child->next();
     }
 
     return result;
 }
 
 
-void LocateFilesWindow::selectResult( QTreeWidgetItem * item )
+void LocateFilesWindow::selectResult(QTreeWidgetItem * item)
 {
-    if ( ! item )
-    return;
+    if (!item)
+        return;
 
     SuffixSearchResultItem * searchResult =
-    dynamic_cast<SuffixSearchResultItem *>( item );
-    CHECK_DYNAMIC_CAST( searchResult, "SuffixSearchResultItem" );
-    CHECK_PTR( _subtree.tree() );
+        dynamic_cast<SuffixSearchResultItem *>(item);
+    CHECK_DYNAMIC_CAST(searchResult, "SuffixSearchResultItem");
+    CHECK_PTR(_subtree.tree());
 
-    FileInfo * dir = _subtree.tree()->locate( searchResult->path() );
-    FileInfoSet matches = matchingFiles( dir );
+    FileInfo * dir = _subtree.tree()->locate(searchResult->path());
+    FileInfoSet matches = matchingFiles(dir);
 
     // logDebug() << "Selecting " << searchResult->path() << " with " << matches.size() << " matches" << endl;
 
-    if ( ! matches.isEmpty() )
-    _selectionModel->setCurrentItem( matches.first(), true );
+    if (!matches.isEmpty())
+        _selectionModel->setCurrentItem(matches.first(), true);
 
-    _selectionModel->setSelectedItems( matches );
+    _selectionModel->setSelectedItems(matches);
 }
 
 
@@ -238,21 +238,21 @@ void LocateFilesWindow::selectResult( QTreeWidgetItem * item )
 
 
 
-SuffixSearchResultItem::SuffixSearchResultItem( const QString & path,
-                        int        count,
-                        FileSize    totalSize ):
-    QTreeWidgetItem( QTreeWidgetItem::UserType ),
-    _path( path ),
-    _count( count ),
-    _totalSize( totalSize )
+SuffixSearchResultItem::SuffixSearchResultItem(const QString & path,
+    int        count,
+    FileSize    totalSize) :
+    QTreeWidgetItem(QTreeWidgetItem::UserType),
+    _path(path),
+    _count(count),
+    _totalSize(totalSize)
 {
-    setText( SSR_CountCol,    QString( "%1" ).arg( count ) );
-    setText( SSR_TotalSizeCol,    formatSize( totalSize ) );
-    setText( SSR_PathCol,    path );
+    setText(SSR_CountCol, QString("%1").arg(count));
+    setText(SSR_TotalSizeCol, formatSize(totalSize));
+    setText(SSR_PathCol, path);
 
-    setTextAlignment( SSR_CountCol,     Qt::AlignRight );
-    setTextAlignment( SSR_TotalSizeCol,     Qt::AlignRight );
-    setTextAlignment( SSR_PathCol,     Qt::AlignLeft    );
+    setTextAlignment(SSR_CountCol, Qt::AlignRight);
+    setTextAlignment(SSR_TotalSizeCol, Qt::AlignRight);
+    setTextAlignment(SSR_PathCol, Qt::AlignLeft);
 }
 
 
@@ -261,16 +261,16 @@ bool SuffixSearchResultItem::operator<(const QTreeWidgetItem & rawOther) const
     // Since this is a reference, the dynamic_cast will throw a std::bad_cast
     // exception if it fails. Not catching this here since this is a genuine
     // error which should not be silently ignored.
-    const SuffixSearchResultItem & other = dynamic_cast<const SuffixSearchResultItem &>( rawOther );
+    const SuffixSearchResultItem & other = dynamic_cast<const SuffixSearchResultItem &>(rawOther);
 
     int col = treeWidget() ? treeWidget()->sortColumn() : SSR_PathCol;
 
-    switch ( col )
+    switch (col)
     {
-    case SSR_PathCol:      return path()       < other.path();
-    case SSR_CountCol:     return count()       < other.count();
-    case SSR_TotalSizeCol: return totalSize()  < other.totalSize();
-    default:           return QTreeWidgetItem::operator<( rawOther );
+    case SSR_PathCol:      return path() < other.path();
+    case SSR_CountCol:     return count() < other.count();
+    case SSR_TotalSizeCol: return totalSize() < other.totalSize();
+    default:           return QTreeWidgetItem::operator<(rawOther);
     }
 }
 

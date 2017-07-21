@@ -681,10 +681,10 @@ QColor TreemapView::tileColor(FileInfo * file)
             // TO DO
             return Qt::blue;
         }
-        }
+    }
 
     return Qt::white;
-    }
+}
 
 
 void TreemapView::sendHoverEnter(FileInfo * node)

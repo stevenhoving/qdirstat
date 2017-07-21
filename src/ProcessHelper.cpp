@@ -13,8 +13,8 @@
 using namespace QDirStat;
 
 
-Process::Process( QObject *parent ):
-    QProcess( parent )
+Process::Process(QObject *parent) :
+    QProcess(parent)
 {
     // NOP
 }
@@ -24,7 +24,7 @@ Process::Process( QObject *parent ):
 
 void Process::start()
 {
-    QProcess::start( _prog, _arglist );
+    QProcess::start(_prog, _arglist);
 }
 
 #endif    // Qt < 5.1.0

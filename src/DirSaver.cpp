@@ -14,10 +14,10 @@
 #include "Platform.h"
 
 
-DirSaver::DirSaver( const QString & newPath )
+DirSaver::DirSaver(const QString & newPath)
 {
     _oldWorkingDir = QDir::currentPath();
-    cd( newPath );
+    cd(newPath);
 }
 
 
@@ -27,20 +27,20 @@ DirSaver::~DirSaver()
 }
 
 
-void DirSaver::cd( const QString & newPath )
+void DirSaver::cd(const QString & newPath)
 {
-    if ( newPath.isEmpty() )
+    if (newPath.isEmpty())
     {
-    logWarning() << "Empty path" << endl;
-    return;
+        logWarning() << "Empty path" << endl;
+        return;
     }
 
-    chdir( newPath.toUtf8() );
+    chdir(newPath.toUtf8());
 }
 
 
 void DirSaver::restore()
 {
-    cd( _oldWorkingDir );
+    cd(_oldWorkingDir);
 }
 

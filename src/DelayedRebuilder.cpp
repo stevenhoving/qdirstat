@@ -17,11 +17,11 @@
 using namespace QDirStat;
 
 
-DelayedRebuilder::DelayedRebuilder( QObject * parent ):
-    QObject( parent ),
-    _firstRebuild( true ),
+DelayedRebuilder::DelayedRebuilder(QObject * parent) :
+    QObject(parent),
+    _firstRebuild(true),
     _pendingRebuildCount(0),
-    _delayMillisec( DefaultRebuildDelayMillisec )
+    _delayMillisec(DefaultRebuildDelayMillisec)
 {
 
 }
@@ -36,16 +36,16 @@ DelayedRebuilder::~DelayedRebuilder()
 void DelayedRebuilder::scheduleRebuild()
 {
     ++_pendingRebuildCount;
-    QTimer::singleShot( _delayMillisec, this, SLOT( rebuildDelayed() ) );
+    QTimer::singleShot(_delayMillisec, this, SLOT(rebuildDelayed()));
 }
 
 
 void DelayedRebuilder::rebuildDelayed()
 {
-    if ( --_pendingRebuildCount > 0 ) // Yet another rebuild scheduled (by timer)?
+    if (--_pendingRebuildCount > 0) // Yet another rebuild scheduled (by timer)?
         return;                       // -> do nothing, it will be in vain anyway
 
     _pendingRebuildCount = 0;
-    _firstRebuild       = false;
+    _firstRebuild = false;
     emit rebuild();
 }

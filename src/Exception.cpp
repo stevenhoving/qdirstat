@@ -13,9 +13,9 @@
 #include "Exception.h"
 
 
-void Exception::setSrcLocation( const QString &srcFile,
-                int           srcLine,
-                const QString &srcFunction ) const
+void Exception::setSrcLocation(const QString &srcFile,
+    int           srcLine,
+    const QString &srcFunction) const
 {
     // This is why those member variables are 'mutable':
     // We need to be able to set the source location from RETHROW even after
@@ -24,47 +24,47 @@ void Exception::setSrcLocation( const QString &srcFile,
     // This is not 100% elegant, but it keeps in line with usual conventions -
     // conventions like "catch exception objects as const reference".
 
-    _srcFile     = srcFile;
-    _srcLine     = srcLine;
+    _srcFile = srcFile;
+    _srcLine = srcLine;
     _srcFunction = srcFunction;
 }
 
 
-QString SysCallFailedException::errMsg( const QString & sysCall,
-                    const QString & resourceName ) const
+QString SysCallFailedException::errMsg(const QString & sysCall,
+    const QString & resourceName) const
 {
     QString msg;
 
-    if ( errno != 0 )
+    if (errno != 0)
     {
-    msg = QObject::tr( "%1( \"%2\" ) failed: %3" )
-        .arg( sysCall )
-        .arg( resourceName )
-        .arg( formatErrno() );
+        msg = QObject::tr("%1( \"%2\" ) failed: %3")
+            .arg(sysCall)
+            .arg(resourceName)
+            .arg(formatErrno());
     }
     else
     {
-    msg = QObject::tr( "%1( \"%2\" ) failed" )
-        .arg( sysCall )
-        .arg( resourceName );
+        msg = QObject::tr("%1( \"%2\" ) failed")
+            .arg(sysCall)
+            .arg(resourceName);
     }
 
     return msg;
 }
 
 
-QString IndexOutOfRangeException::errMsg( int    invalidIndex,
-                                          int    validMin,
-                                          int    validMax,
-                                          const QString & prefix ) const
+QString IndexOutOfRangeException::errMsg(int    invalidIndex,
+    int    validMin,
+    int    validMax,
+    const QString & prefix) const
 {
     QString msg = prefix;
 
-    if ( msg.isEmpty() )
+    if (msg.isEmpty())
         msg = "Index out of range";
 
-    msg += QString( ": %1 valid: %2..%3" ).arg( invalidIndex )
-        .arg( validMin ).arg( validMax );
+    msg += QString(": %1 valid: %2..%3").arg(invalidIndex)
+        .arg(validMin).arg(validMax);
 
     return msg;
 }

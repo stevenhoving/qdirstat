@@ -17,10 +17,10 @@
 using namespace QDirStat;
 
 
-Settings::Settings( const QString & name ):
-    QSettings( QCoreApplication::organizationName(),
-           name.isEmpty()? QCoreApplication::applicationName() : name ),
-    _name( name )
+Settings::Settings(const QString & name) :
+    QSettings(QCoreApplication::organizationName(),
+        name.isEmpty() ? QCoreApplication::applicationName() : name),
+    _name(name)
 {
 
 }
@@ -34,102 +34,102 @@ Settings::~Settings()
 
 void Settings::ensureToplevel()
 {
-    while ( ! group().isEmpty() )    // ensure using toplevel settings
-    endGroup();
+    while (!group().isEmpty())    // ensure using toplevel settings
+        endGroup();
 }
 
 
-QStringList Settings::findGroups( const QString & groupPrefix )
+QStringList Settings::findGroups(const QString & groupPrefix)
 {
     QStringList result;;
     ensureToplevel();
 
-    foreach ( const QString & group, childGroups() )
+    foreach(const QString & group, childGroups())
     {
-    if ( group.startsWith( groupPrefix ) )
-        result << group;
+        if (group.startsWith(groupPrefix))
+            result << group;
     }
 
     return result;
 }
 
 
-bool Settings::hasGroup( const QString & groupPrefix )
+bool Settings::hasGroup(const QString & groupPrefix)
 {
     ensureToplevel();
 
-    foreach ( const QString & group, childGroups() )
+    foreach(const QString & group, childGroups())
     {
-    if ( group.startsWith( groupPrefix ) )
-        return true;
+        if (group.startsWith(groupPrefix))
+            return true;
     }
 
     return false;
 }
 
 
-void Settings::removeGroups( const QString & groupPrefix )
+void Settings::removeGroups(const QString & groupPrefix)
 {
     ensureToplevel();
 
-    foreach ( const QString & group, childGroups() )
+    foreach(const QString & group, childGroups())
     {
-    if ( group.startsWith( groupPrefix ) )
-        remove( group );
+        if (group.startsWith(groupPrefix))
+            remove(group);
     }
 }
 
 
-void Settings::moveGroups( const QString & groupPrefix,
-               Settings * from,
-               Settings * to )
+void Settings::moveGroups(const QString & groupPrefix,
+    Settings * from,
+    Settings * to)
 {
-    CHECK_PTR( from );
-    CHECK_PTR( to   );
+    CHECK_PTR(from);
+    CHECK_PTR(to);
 
 
-    if ( ! hasGroup( groupPrefix ) )
+    if (!hasGroup(groupPrefix))
     {
-    logInfo() << "Migrating " << groupPrefix << "* to " << to->name() << endl;
-    QStringList groups = from->findGroups( groupPrefix );
+        logInfo() << "Migrating " << groupPrefix << "* to " << to->name() << endl;
+        QStringList groups = from->findGroups(groupPrefix);
 
-    foreach ( const QString & group, groups )
-    {
-        // logVerbose() << "  Migrating " << group << endl;
-
-        from->beginGroup( group );
-        to->beginGroup( group );
-
-        QStringList keys = from->allKeys();
-
-        foreach( const QString & key, keys )
+        foreach(const QString & group, groups)
         {
-        // logVerbose() << "    Copying " << key << endl;
-        to->setValue( key, from->value( key ) );
-        }
+            // logVerbose() << "  Migrating " << group << endl;
 
-        to->endGroup();
-        from->endGroup();
-    }
+            from->beginGroup(group);
+            to->beginGroup(group);
+
+            QStringList keys = from->allKeys();
+
+            foreach(const QString & key, keys)
+            {
+                // logVerbose() << "    Copying " << key << endl;
+                to->setValue(key, from->value(key));
+            }
+
+            to->endGroup();
+            from->endGroup();
+        }
     }
     else
     {
 #if 0
-    logVerbose() << "Target settings " << to->name()
-             << " have group " << groupPrefix
-             << " - nothing to migrate"
-             << endl;
+        logVerbose() << "Target settings " << to->name()
+            << " have group " << groupPrefix
+            << " - nothing to migrate"
+            << endl;
 #endif
     }
 
-    from->removeGroups( groupPrefix );
+    from->removeGroups(groupPrefix);
 }
 
 
 
 
-CleanupSettings::CleanupSettings():
-    Settings( QCoreApplication::applicationName() + "-cleanup" )
+CleanupSettings::CleanupSettings() :
+    Settings(QCoreApplication::applicationName() + "-cleanup")
 {
     _groupPrefix = "Cleanup_";
     migrate();
@@ -145,14 +145,14 @@ CleanupSettings::~CleanupSettings()
 void CleanupSettings::migrate()
 {
     Settings commonSettings;
-    moveGroups( _groupPrefix, &commonSettings, this );
+    moveGroups(_groupPrefix, &commonSettings, this);
 }
 
 
 
 
-MimeCategorySettings::MimeCategorySettings():
-    Settings( QCoreApplication::applicationName() + "-mime" )
+MimeCategorySettings::MimeCategorySettings() :
+    Settings(QCoreApplication::applicationName() + "-mime")
 {
     _groupPrefix = "MimeCategory_";
     migrate();
@@ -168,14 +168,14 @@ MimeCategorySettings::~MimeCategorySettings()
 void MimeCategorySettings::migrate()
 {
     Settings commonSettings;
-    moveGroups( _groupPrefix, &commonSettings, this );
+    moveGroups(_groupPrefix, &commonSettings, this);
 }
 
 
 
 
-ExcludeRuleSettings::ExcludeRuleSettings():
-    Settings( QCoreApplication::applicationName() + "-exclude" )
+ExcludeRuleSettings::ExcludeRuleSettings() :
+    Settings(QCoreApplication::applicationName() + "-exclude")
 {
     _groupPrefix = "ExcludeRule_";
     migrate();
@@ -191,5 +191,5 @@ ExcludeRuleSettings::~ExcludeRuleSettings()
 void ExcludeRuleSettings::migrate()
 {
     Settings commonSettings;
-    moveGroups( _groupPrefix, &commonSettings, this );
+    moveGroups(_groupPrefix, &commonSettings, this);
 }

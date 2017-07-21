@@ -16,7 +16,7 @@ FileInfo * Subtree::subtree()
 {
     FileInfo * dir = locate();
 
-    if ( ! dir && _useRootFallback && _tree )
+    if (!dir && _useRootFallback && _tree)
         dir = _tree->root();
 
     return dir;
@@ -25,19 +25,19 @@ FileInfo * Subtree::subtree()
 
 QString Subtree::url() const
 {
-    if ( _url == "<root>" && _tree )
+    if (_url == "<root>" && _tree)
         return _tree->url();
     else
         return _url;
 }
 
 
-void Subtree::set( FileInfo * subtree )
+void Subtree::set(FileInfo * subtree)
 {
-    if ( subtree )
+    if (subtree)
     {
         _tree = subtree->tree();
-        _url  = subtree->debugUrl();
+        _url = subtree->debugUrl();
     }
     else
     {
@@ -48,21 +48,21 @@ void Subtree::set( FileInfo * subtree )
 
 FileInfo * Subtree::locate()
 {
-    if ( ! _tree || _url.isEmpty() )
+    if (!_tree || _url.isEmpty())
         return 0;
 
-    return _tree->locate( _url,
-                          true ); // findDotEntries;
+    return _tree->locate(_url,
+        true); // findDotEntries;
 }
 
 
-void Subtree::clone( const Subtree & other )
+void Subtree::clone(const Subtree & other)
 {
-    if ( &other == this )
+    if (&other == this)
         return;
 
     _tree = other.tree();
-    _url  = other.url();
+    _url = other.url();
 
     _useRootFallback = other.useRootFallback();
 }

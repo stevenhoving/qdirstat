@@ -18,74 +18,74 @@
 using namespace QDirStat;
 
 
-HistogramBar::HistogramBar( HistogramView * parent,
-                int            number,
-                const QRectF &  rect,
-                qreal        fillHeight ):
-    QGraphicsRectItem( rect ),
-    _parentView( parent ),
-    _number( number )
+HistogramBar::HistogramBar(HistogramView * parent,
+    int            number,
+    const QRectF &  rect,
+    qreal        fillHeight) :
+    QGraphicsRectItem(rect),
+    _parentView(parent),
+    _number(number)
 {
-    setPen( Qt::NoPen );
+    setPen(Qt::NoPen);
 
     // Setting NoPen so this rectangle remains invisible: This full-height
     // rectangle is just for clicking. For the bar content, we create a visible
     // separate child item with the correct height.
 
     QRectF childRect = rect;
-    childRect.setHeight( -fillHeight );
+    childRect.setHeight(-fillHeight);
 
-    QGraphicsRectItem * filledRect = new QGraphicsRectItem( childRect, this );
-    CHECK_NEW( filledRect );
+    QGraphicsRectItem * filledRect = new QGraphicsRectItem(childRect, this);
+    CHECK_NEW(filledRect);
 
-    filledRect->setPen( _parentView->barPen() );
-    filledRect->setBrush( _parentView->barBrush() );
+    filledRect->setPen(_parentView->barPen());
+    filledRect->setBrush(_parentView->barBrush());
 
     // setFlags( ItemIsSelectable );
-    _parentView->scene()->addItem( this );
+    _parentView->scene()->addItem(this);
 
-    _startVal = _parentView->bucketStart( _number );
-    _endVal   = _parentView->bucketEnd  ( _number );
+    _startVal = _parentView->bucketStart(_number);
+    _endVal = _parentView->bucketEnd(_number);
 
-    QString tooltip = QObject::tr( "Bucket #%1:\n%2 Files\n%3 .. %4" )
-    .arg( _number + 1 )
-    .arg( _parentView->bucket( _number ) )
-    .arg( formatSize( _startVal ) )
-    .arg( formatSize( _endVal ) );
+    QString tooltip = QObject::tr("Bucket #%1:\n%2 Files\n%3 .. %4")
+        .arg(_number + 1)
+        .arg(_parentView->bucket(_number))
+        .arg(formatSize(_startVal))
+        .arg(formatSize(_endVal));
 
-    setToolTip( tooltip );
-    filledRect->setToolTip( tooltip );
+    setToolTip(tooltip);
+    filledRect->setToolTip(tooltip);
 
-    setZValue( HistogramView::InvisibleBarLayer );
-    filledRect->setZValue( HistogramView::BarLayer );
+    setZValue(HistogramView::InvisibleBarLayer);
+    filledRect->setZValue(HistogramView::BarLayer);
 }
 
 
-void HistogramBar::mousePressEvent( QGraphicsSceneMouseEvent * event )
+void HistogramBar::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
-    switch ( event->button() )
+    switch (event->button())
     {
     case Qt::LeftButton:
-        {
-        QGraphicsRectItem::mousePressEvent( event );
+    {
+        QGraphicsRectItem::mousePressEvent(event);
 
 #if 0
-                // FIXME: This does not work. Why?
+        // FIXME: This does not work. Why?
 
-                QPointF pos( event->scenePos() );
-                QToolTip::showText( QPoint( pos.x(), pos.y() ), toolTip(), _parentView );
+        QPointF pos(event->scenePos());
+        QToolTip::showText(QPoint(pos.x(), pos.y()), toolTip(), _parentView);
 #endif
 
         logDebug() << "Histogram bar #" << _number
-               << ": " << _parentView->bucket( _number ) << " items;"
-               << " range: " << formatSize( _startVal )
-               << " .. " << formatSize( _endVal )
-               << endl;
-        }
-        break;
+            << ": " << _parentView->bucket(_number) << " items;"
+            << " range: " << formatSize(_startVal)
+            << " .. " << formatSize(_endVal)
+            << endl;
+    }
+    break;
 
     default:
-        QGraphicsRectItem::mousePressEvent( event );
+        QGraphicsRectItem::mousePressEvent(event);
         break;
     }
 }
@@ -93,66 +93,66 @@ void HistogramBar::mousePressEvent( QGraphicsSceneMouseEvent * event )
 
 
 
-PercentileMarker::PercentileMarker( HistogramView * parent,
-                    int            percentileIndex,
-                    const QString & name,
-                    const QLineF &  zeroLine,
-                    const QPen &    pen ):
-    QGraphicsLineItem( translatedLine( zeroLine, percentileIndex, parent ) ),
-    _parentView( parent ),
-    _name( name ),
-    _percentileIndex( percentileIndex )
+PercentileMarker::PercentileMarker(HistogramView * parent,
+    int            percentileIndex,
+    const QString & name,
+    const QLineF &  zeroLine,
+    const QPen &    pen) :
+    QGraphicsLineItem(translatedLine(zeroLine, percentileIndex, parent)),
+    _parentView(parent),
+    _name(name),
+    _percentileIndex(percentileIndex)
 {
-    if ( _name.isEmpty() )
+    if (_name.isEmpty())
     {
-    _name = QObject::tr( "Percentile P%1" ).arg( _percentileIndex );
-    setZValue( HistogramView::MarkerLayer );
+        _name = QObject::tr("Percentile P%1").arg(_percentileIndex);
+        setZValue(HistogramView::MarkerLayer);
     }
     else
     {
-    setZValue( HistogramView::SpecialMarkerLayer );
+        setZValue(HistogramView::SpecialMarkerLayer);
     }
 
-    setToolTip( _name + "\n" +
-        formatSize( _parentView->percentile( percentileIndex ) ) );
+    setToolTip(_name + "\n" +
+        formatSize(_parentView->percentile(percentileIndex)));
 
-    setPen( pen );
+    setPen(pen);
     // setFlags( ItemIsSelectable );
-    _parentView->scene()->addItem( this );
+    _parentView->scene()->addItem(this);
 }
 
 
-QLineF PercentileMarker::translatedLine( const QLineF &     zeroLine,
-                     int         percentileIndex,
-                     HistogramView * parent ) const
+QLineF PercentileMarker::translatedLine(const QLineF &     zeroLine,
+    int         percentileIndex,
+    HistogramView * parent) const
 {
-    qreal value = parent->percentile( percentileIndex );
-    qreal x    = parent->scaleValue( value );
+    qreal value = parent->percentile(percentileIndex);
+    qreal x = parent->scaleValue(value);
 
-    return zeroLine.translated( x, 0 );
+    return zeroLine.translated(x, 0);
 }
 
 
 qreal PercentileMarker::value() const
 {
-    return _parentView->percentile( _percentileIndex );
+    return _parentView->percentile(_percentileIndex);
 }
 
 
-void PercentileMarker::mousePressEvent( QGraphicsSceneMouseEvent * event )
+void PercentileMarker::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
-    switch ( event->button() )
+    switch (event->button())
     {
     case Qt::LeftButton:
-        QGraphicsLineItem::mousePressEvent( event );
+        QGraphicsLineItem::mousePressEvent(event);
         logDebug() << "Percentile marker #" << _percentileIndex
-               << ": " << _name
-               << ": " << formatSize( _parentView->percentile( _percentileIndex ) )
-               << endl;
+            << ": " << _name
+            << ": " << formatSize(_parentView->percentile(_percentileIndex))
+            << endl;
         break;
 
     default:
-        QGraphicsLineItem::mousePressEvent( event );
+        QGraphicsLineItem::mousePressEvent(event);
         break;
     }
 }

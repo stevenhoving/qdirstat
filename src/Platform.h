@@ -2,7 +2,7 @@
 
 /* \todo add stackoverflow link to source */
 
-#ifdef WIN32
+#if defined __WIN32__ || defined _WIN32 || defined WIN32 || defined _Windows
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -18,16 +18,14 @@
 #define _CRT_INTERNAL_NONSTDC_NAMES 1
 #include <sys/stat.h>
 
-#if defined __WIN32__ || defined _WIN32 || defined _Windows
-#  if !defined S_ISDIR
-#    define S_ISDIR(m) (((m) & _S_IFDIR) == _S_IFDIR)
-#    define S_ISREG(m) (((m) & _S_IFREG) == _S_IFREG)
-#    define S_ISCHR(m) (((m) & _S_IFCHR) == _S_IFCHR)
-#    define S_ISFIFO(m) (((m) & _S_IFIFO) == _S_IFIFO)
-#    define S_ISLNK(m) (false)
-#    define S_ISBLK(m) (false)
-#    define S_ISSOCK(m) (false)
-#  endif
+#if !defined S_ISDIR
+#  define S_ISDIR(m) (((m) & _S_IFDIR) == _S_IFDIR)
+#  define S_ISREG(m) (((m) & _S_IFREG) == _S_IFREG)
+#  define S_ISCHR(m) (((m) & _S_IFCHR) == _S_IFCHR)
+#  define S_ISFIFO(m) (((m) & _S_IFIFO) == _S_IFIFO)
+#  define S_ISLNK(m) (false)
+#  define S_ISBLK(m) (false)
+#  define S_ISSOCK(m) (false)
 #endif
 
 #define X_OK 00
@@ -152,6 +150,7 @@ uid_t GetUID(HANDLE token)
     ::LocalFree(stringSid);
     return ret;
 }
+
 static
 uid_t getuid()
 {
@@ -168,6 +167,7 @@ uid_t getuid()
     uid_t ret = GetUID(token);
     return ret;
 }
+
 static
 uid_t geteuid()
 {
